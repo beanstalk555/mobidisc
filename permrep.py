@@ -1,0 +1,1 @@
+# data structure for storing a multiloop as a permutation representation
