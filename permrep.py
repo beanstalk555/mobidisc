@@ -55,4 +55,4 @@ class Multiloop:
         return areas
 
     def __str__(self):
-        return str(self.areas)
+        return f"Vertices:\n{self.sig}\nAreas:\n{self.areas}"
