@@ -1,43 +1,37 @@
 # data structure for storing a multiloop as a permutation representation
-class Multiloop:
-    def __init__(self, sig_raw=None):
-        if sig_raw is None:
-            sig_raw = []
-        self.sig = self.create_vertex_perm(sig_raw)
-        self.eps = self.create_edge_perm(sig_raw)
-        self.areas = self.generate_area()
+class Permutation:
+    def __init__(self, cycles):
+        self.perm = self.create_perm(cycles)
 
-    def create_vertex_perm(self, loops):
+    def create_perm(self, cycles):
         vertex_perm = dict()
-        for loop in loops:
-            prev = loop[-1]
-            for i in range(len(loop) - 1):
-                vertex_perm[loop[i]] = {"prev": prev, "next": loop[i + 1]}
-                prev = loop[i]
+        for cycle in cycles:
+            prev = cycle[-1]
+            for i in range(len(cycle) - 1):
+                vertex_perm[cycle[i]] = {"prev": prev, "next": cycle[i + 1]}
+                prev = cycle[i]
             else:
-                vertex_perm[loop[-1]] = {"prev": prev, "next": loop[0]}
+                vertex_perm[cycle[-1]] = {"prev": prev, "next": cycle[0]}
         return vertex_perm
 
-    def create_edge_perm(self, loops):
-        edge_perm = dict()
-        for loop in loops:
-            for half_edge in loop:
-                if half_edge > 0:
-                    edge_perm[half_edge] = -half_edge
-                    edge_perm[-half_edge] = half_edge
-        return edge_perm
+    def apply(self, half_edge):
+        return self.perm[half_edge]["next"]
 
-    def sig_func(self, half_edge):
-        return self.sig[half_edge]["next"]
+    def inv(self, half_edge):
+        return self.perm[half_edge]["prev"]
 
-    def sig_inv_func(self, half_edge):
-        return self.sig[half_edge]["prev"]
+    def __iter__(self):
+        return iter(self.perm)
 
-    def eps_func(self, half_edge):
-        return self.eps[half_edge]
+    def __str__(self):
+        return str(self.perm)
 
-    def siginv_eps_func(self, half_edge):
-        return self.sig_inv_func(-half_edge)
+
+class Multiloop:
+    def __init__(self, sig: Permutation, eps: Permutation):
+        self.sig = sig
+        self.eps = eps
+        self.areas = self.generate_area()
 
     def generate_area(self):
         visited = set()
@@ -50,7 +44,7 @@ class Multiloop:
             while current not in visited:
                 this_area.append(current)
                 visited.add(current)
-                current = self.siginv_eps_func(current)
+                current = self.sig.inv(self.eps.apply(current))
             areas.append(this_area)
         return areas
 
