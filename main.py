@@ -1,16 +1,7 @@
 import permrep as perm
 
-
-def create_epsilon(loops):
-    edge_perm = []
-    for loop in loops:
-        for half_edge in loop:
-            if half_edge > 0:
-                edge_perm.append([half_edge, -half_edge])
-    return edge_perm
-
-
 if __name__ == "__main__":
+    #Vertex permutation
     loop = [
         [9, 2, -10, -3],
         [8, 3, -5, -4],
