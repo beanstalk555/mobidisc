@@ -12,7 +12,9 @@ def generate(n: int) -> "Multiloop":
 def generate_planar(n: int) -> "Multiloop":
     # Generate a random planar multiloop with "n" vertices (4n half-edges)
     # TODO: Optimize this.
-    generated_loop = generate(n)
-    while not generated_loop.is_planar():
+    MAX_ATTEMPTS = 100000
+    for _ in range(MAX_ATTEMPTS):
         generated_loop = generate(n)
-    return generated_loop
+        if generated_loop.is_planar():
+            return generated_loop
+    raise RuntimeError("Too many failed attempts to find a planar loop.")

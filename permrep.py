@@ -1,4 +1,5 @@
 from typing import Iterable
+from collections import deque
 
 
 # data structure for storing a multiloop as a permutation representation
@@ -82,7 +83,7 @@ class Multiloop:
         self.inf_face = self.phi[0] if inf_face == None else inf_face
 
     def __str__(self) -> str:
-        return f"Vertices: {self.sig}\nEdges: {self.eps}\nFaces: {self.phi}\nInfinite Face: {self.inf_face}\nStrands: {self.tau}\nEuler Characteristic: {self.chi}\nIs Planar?: {self.is_planar()}"
+        return f"Vertices: {self.sig}\nEdges: {self.eps}\nFaces: {self.phi}\nInfinite Face: {self.inf_face}\nStrands: {self.tau}\nEuler Characteristic: {self.chi}\nIs Planar: {self.is_planar()}\nIs Connected: {self.is_connected()}"
 
     def generate_epsilon(self, cycles: list[list[int]]) -> list[list[int]]:
         # Build ε as a set of +h and -h
@@ -110,3 +111,29 @@ class Multiloop:
     def is_planar(self) -> bool:
         # σ defines a planar (spherical) multiloop iff number of cycles in φ = n + 2, n = number of vertices
         return len(self.phi) == len(self.sig) + 2
+
+    def is_connected(self) -> bool:
+        all_halfedges = set(self.sig.perm.keys())
+
+        start_halfedge = next(iter(all_halfedges))
+
+        q = deque()
+
+        visited = set()
+
+        q.append(start_halfedge)
+
+        while q:
+            curr = q.popleft()
+            if curr in visited:
+                continue
+            visited.add(curr)
+
+            s = self.sig(curr)
+            if s not in visited:
+                q.append(s)
+
+            e = self.eps(curr)
+            if e not in visited:
+                q.append(e)
+        return visited == all_halfedges
