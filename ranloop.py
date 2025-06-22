@@ -15,6 +15,6 @@ def generate_planar(n: int) -> "Multiloop":
     MAX_ATTEMPTS = 100000
     for _ in range(MAX_ATTEMPTS):
         generated_loop = generate(n)
-        if generated_loop.is_planar():
+        if generated_loop.is_planar() and generated_loop.is_connected():
             return generated_loop
     raise RuntimeError("Too many failed attempts to find a planar loop.")

@@ -73,8 +73,7 @@ class Multiloop:
         # Edges: ε
         self.eps = Permutation(self.generate_epsilon(cycles))
         # Faces: (σ ∘ ε)⁻¹
-        areas = self.generate_area()
-        self.phi = areas
+        self.phi = self.generate_area()
         # Strands: σ² ∘ ε
         self.tau = self.generate_strands()
         # Euler Characteristic V - E + F
@@ -114,11 +113,9 @@ class Multiloop:
 
     def is_connected(self) -> bool:
         all_halfedges = set(self.sig.perm.keys())
-
         start_halfedge = next(iter(all_halfedges))
 
         q = deque()
-
         visited = set()
 
         q.append(start_halfedge)
@@ -137,3 +134,10 @@ class Multiloop:
             if e not in visited:
                 q.append(e)
         return visited == all_halfedges
+
+    def is_samevert(self, edge1, edge2) -> bool:
+        for _ in range(4):
+            if self.sig(edge1) == edge2:
+                return True
+            edge1 = self.sig(edge1)
+        return False
