@@ -88,6 +88,9 @@ def generate_circles(
         this_seq.append(edges_circ[strand[0]])
             
         sequences.append(this_seq)
+    print(vertices_circ)
+    print(edges_circ)
+    print(faces_circ)
     return [internal, external, sequences]
 
 
