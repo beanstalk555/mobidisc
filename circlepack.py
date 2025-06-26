@@ -144,7 +144,7 @@ def place(placements,radii,internal,center):
             s,t = cycle[i],cycle[i+1]
             theta = acxyz(radii[center],radii[s],radii[t])
             offset = (placements[s]-placements[center])/(radii[s]+radii[center])
-            offset *= e**(-1j*theta)
+            offset *= e**(1j*theta)     # -1j*theta to make the circles go clockwise
             placements[t] = placements[center] + offset*(radii[t]+radii[center])
             place(placements,radii,internal,t)
 

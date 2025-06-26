@@ -1,7 +1,13 @@
 # draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm
+import svgwrite.path
 from permrep import Multiloop
 import matplotlib.pyplot as plt
 import numpy as np
+import svgwrite
+from cmath import phase
+from math import cos, sin
+import os
+import cmath
 
 
 def generate_circles(
@@ -44,7 +50,7 @@ def generate_circles(
         circ[vertices_circ[vert_he]] = add_adj(
             circ[vertices_circ[vert_he]], faces_circ[vert_he]
         )
-        
+
     for edge_he in edges_circ:
         circ[edges_circ[edge_he]] = add_adj(
             circ[edges_circ[edge_he]], faces_circ[edge_he]
@@ -64,8 +70,6 @@ def generate_circles(
             circ[faces_circ[face_he]], edges_circ[-face_he]
         )
 
-
-
     external = {}
     for inf_he in inf_face:
         circ.pop(faces_circ[inf_he], None)
@@ -75,144 +79,134 @@ def generate_circles(
         external[vertices_circ[inf_he]] = 1
         external[edges_circ[inf_he]] = 1
     internal = circ
-    
+
     sequences = []
-    
+
     for strand in multiloop.tau.cycles:
         this_seq = []
         for he in strand:
-            this_seq.append(edges_circ[he])
+            this_seq.extend([edges_circ[he], he])
             if edges_circ[-he] not in this_seq:
-                this_seq.append(edges_circ[-he])
-            this_seq.append(vertices_circ[he])
-        this_seq.append(edges_circ[strand[0]])
-            
+                this_seq.extend([edges_circ[-he], -he])
+            this_seq.extend([vertices_circ[he], he])
+
         sequences.append(this_seq)
     print(vertices_circ)
     print(edges_circ)
     print(faces_circ)
-    return [internal, external, sequences]
+    return {"internal": internal, "external": external, "sequences": sequences}
 
 
-def drawloop(circles, sequence):
-    fig, ax = plt.subplots(1, 1, figsize=(12, 10))
+def drawloop(
+    circle_dict,
+    filename="circle_pack.svg",
+    scale=200,
+    padding=50,
+    sequence=None,
+):
+    if not isinstance(filename, (str, bytes, os.PathLike)):
+        raise TypeError(f"Filename must be a string or path, got {type(filename)}")
 
-    # Colors for different circles
-    colors = plt.cm.tab20(np.linspace(0, 1, len(circles)))
+    # Determine bounds
+    min_x = min(z.real - r for z, r in circle_dict.values())
+    max_x = max(z.real + r for z, r in circle_dict.values())
+    min_y = min(z.imag - r for z, r in circle_dict.values())
+    max_y = max(z.imag + r for z, r in circle_dict.values())
 
-    # Plot each circle
-    for i, (circle_id, (center, radius)) in enumerate(circles.items()):
-        # Extract real and imaginary parts of center
-        center_x = center.real
-        center_y = center.imag
+    width = (max_x - min_x) * scale + 2 * padding
+    height = (max_y - min_y) * scale + 2 * padding
 
-        # Create circle
-        circle = plt.Circle(
-            (center_x, center_y),
-            radius,
-            fill=False,
-            color=colors[i],
-            linewidth=2,
-            label=f"Circle {circle_id}",
+    dwg = svgwrite.Drawing(filename, size=(width, height))
+    dwg.viewbox(0, 0, width, height)
+
+    # Add white background
+    dwg.add(dwg.rect(insert=(0, 0), size=(width, height), fill="white"))
+
+    def to_svg_coords(center):
+        cx = (center.real - min_x) * scale + padding
+        cy = (max_y - center.imag) * scale + padding
+        return (cx, cy)
+
+    same_color = "#89CFF0"  # Light blue (can be changed)
+
+    # Draw circles
+    for name, (center, radius) in circle_dict.items():
+        cx, cy = to_svg_coords(center)
+        r = radius * scale
+        dwg.add(
+            dwg.circle(
+                center=(cx, cy), r=r, fill=same_color, stroke="black", stroke_width=1
+            )
         )
-        ax.add_patch(circle)
-
-        # Add center point
-        ax.plot(center_x, center_y, "o", color=colors[i], markersize=4)
-
-        # Add circle ID label near the center
-        ax.annotate(
-            str(circle_id),
-            (center_x, center_y),
-            xytext=(5, 5),
-            textcoords="offset points",
-            fontsize=8,
-            color=colors[i],
-            weight="bold",
+        dwg.add(
+            dwg.circle(
+                center=(cx, cy), r=2, fill="black", stroke="black", stroke_width=1
+            )
+        )
+        dwg.add(
+            dwg.text(
+                str(name),
+                insert=(cx + r * 0.1, cy),
+                fill="black",
+                font_size="15px",
+                text_anchor="middle",
+            )
         )
 
-    # Set equal aspect ratio and grid
-    ax.set_aspect("equal")
-    ax.grid(True, alpha=0.3)
+    # Draw connection lines (black, thick)
+    if sequence and len(sequence) >= 2:
+        offset_distance = (
+            0.1  # Fraction of the distance between centers to offset the line
+        )
+        offset = 0
+        for i in range(2, len(sequence), 4):
+            a_center = circle_dict[sequence[i]][0]
+            mid_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
+            b_center = circle_dict[sequence[(i + 4) % len(sequence)]][
+                0
+            ]  # Wraparound to close loop
 
-    # Set axis limits with some padding
-    all_centers = [center for center, radius in circles.values()]
-    all_radii = [radius for center, radius in circles.values()]
+            start = to_svg_coords(a_center + offset)
+            text = dwg.text(
+                str(-sequence[(i + 3) % len(sequence)]),
+                insert=start, 
+                fill="red",
+                font_size="20px",
+                text_anchor="middle",
+            )
+            dwg.add(text)
+            # Direction and offset
+            vec = b_center - a_center
+            distance = abs(vec)
 
-    x_coords = [c.real for c in all_centers]
-    y_coords = [c.imag for c in all_centers]
-    max_radius = max(all_radii)
+            unit = vec / distance  # Unit vector in the direction of b -> a
+            offset = unit * offset_distance * distance  # Offset from the centers
+            # New start and end points with offset
 
-    x_min, x_max = min(x_coords) - max_radius, max(x_coords) + max_radius
-    y_min, y_max = min(y_coords) - max_radius, max(y_coords) + max_radius
+            end = to_svg_coords(
+                b_center + (offset if i + 2 < len(sequence) else 0)
+            )  # Pull end point inward
 
-    # Add some padding
-    padding = 0.1
-    x_range = x_max - x_min
-    y_range = y_max - y_min
-    ax.set_xlim(x_min - padding * x_range, x_max + padding * x_range)
-    ax.set_ylim(y_min - padding * y_range, y_max + padding * y_range)
+            control = to_svg_coords(mid_center)
 
-    # Labels and title
-    ax.set_xlabel("Real Part", fontsize=12)
-    ax.set_ylabel("Imaginary Part", fontsize=12)
-    ax.set_title(
-        "Circle Visualization\n(Centers as complex numbers)", fontsize=14, weight="bold"
-    )
-
-    # Extract the centers for the sequence
-    sequence_points = []
-    for circle_id in sequence:
-        center = circles[circle_id][0]  # Get center (first element of tuple)
-        sequence_points.append((center.real, center.imag))
-
-    # Plot the line segments
-    for i in range(len(sequence_points) - 1):
-        x1, y1 = sequence_points[i]
-        x2, y2 = sequence_points[i + 1]
-        ax.plot([x1, x2], [y1, y2], "k-", linewidth=1.5, alpha=0.7)
-
-    # Add arrows to show direction
-    for i in range(len(sequence_points) - 1):
-        x1, y1 = sequence_points[i]
-        x2, y2 = sequence_points[i + 1]
-        # Add small arrow at midpoint
-        mid_x, mid_y = (x1 + x2) / 2, (y1 + y2) / 2
-        dx, dy = x2 - x1, y2 - y1
-        # Normalize and scale arrow
-        length = np.sqrt(dx**2 + dy**2)
-        if length > 0:
-            dx_norm, dy_norm = dx / length * 0.02, dy / length * 0.02
-            ax.arrow(
-                mid_x - dx_norm / 2,
-                mid_y - dy_norm / 2,
-                dx_norm,
-                dy_norm,
-                head_width=0.02,
-                head_length=0.015,
-                fc="red",
-                ec="red",
-                alpha=0.8,
+            # Draw line between offset points
+            path = svgwrite.path.Path(
+                d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
+                fill="none",
+                stroke="black",
+                stroke_width=2,
             )
 
-    # Add legend (but limit to avoid cluttering)
-    handles, labels = ax.get_legend_handles_labels()
-    if len(handles) <= 10:
-        ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
-    else:
-        ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", ncol=2, fontsize=8)
+            # Add the path to your SVG drawing
+            dwg.add(path)
+            text = dwg.text(
+                str(sequence[(i + 3) % len(sequence)]),
+                insert=to_svg_coords(b_center - offset), 
+                fill="red",
+                font_size="20px",
+                text_anchor="middle",
+            )
+            dwg.add(text)
 
-    plt.tight_layout()
-    plt.show()
-
-    # Print summary information
-    print("Circle Summary:")
-    print("-" * 50)
-    for circle_id, (center, radius) in sorted(circles.items()):
-        print(
-            f"Circle {circle_id:2d}: Center = ({center.real:6.3f}, {center.imag:6.3f}), Radius = {radius:.3f}"
-        )
-
-    print("\nConnection Sequence:")
-    print("-" * 30)
-    # print("Path:", " -> ".join(map(str, sequence)))
+    dwg.save()
+    print(f"SVG saved to {filename}")
