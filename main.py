@@ -32,18 +32,17 @@ if __name__ == "__main__":
         raise LookupError("Could not find half edge")
     
     # only do for the first face base on start, implenet recurrsively later
-    def faceGenerate(multiloop: list[list[int]], multiloopFaces: list[list[int]], startingHalfEdge: 1): 
-        currHalfEdge = startingHalfEdge
+    def faceGenerate(multiloop: list[list[int]], multiloopFaces: list[list[int]], startingHalfEdge= 1): 
         
-        firstPartnerPos = halfEdgePartnerSearch(multiloop, currHalfEdge)
+        firstPartnerPos = halfEdgePartnerSearch(multiloop, startingHalfEdge)
         firstPartner = multiloop[firstPartnerPos[0]][firstPartnerPos[1]]
-        multiloopFaces[0].append(firstPartner) # as tuple
         
         partner =  firstPartnerPos
-        allEdgesAppended = False
-        while (not allEdgesAppended):
+        nextHalfEdgeInCycle = 0
+        while(nextHalfEdgeInCycle != startingHalfEdge):
             
-          
+            multiloopFaces[0].append(multiloop[partner[0]][partner[1]]) # as tuple
+            
             if(firstPartner < 0): #continously to the left
                 #multiloopRev = multiloop.copy()
                 #multiloopRev.reverse()
@@ -59,15 +58,8 @@ if __name__ == "__main__":
                 except IndexError:
                     nextHalfEdgeInCycle = multiloop[partner[0]][0]
             
-            currHalfEdge = nextHalfEdgeInCycle
-            partner = halfEdgePartnerSearch(multiloop, currHalfEdge)
-            multiloopFaces[0].append(multiloop[partner[0]][partner[1]]) # as tuple
+            partner = halfEdgePartnerSearch(multiloop, nextHalfEdgeInCycle)
             
-            try:
-                if (multiloopFaces[0][2] != None):
-                    allEdgesAppended = True
-            except IndexError: 
-                continue
             
     faceGenerate(multiloopEx, multiloopExFaces, -4)
     print(multiloopExFaces)
