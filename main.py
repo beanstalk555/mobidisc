@@ -9,17 +9,11 @@ if __name__ == "__main__":
     # example_loop = perm.Multiloop(multiloop)
     # example_loop.inf_face = [-1, 5, 4]
     multiloop = [
-        (6, 1, -7, -2),
-        (13, 2, -14, -3),
-        (11, 4, -12, -5),
-        (5, 10, -6, -11),
-        (16, 7, -1, -8),
-        (14, 9, -15, -10),
-        (3, 12, -4, -13),
-        (8, 15, -9, -16),
+        (1, -1, -3, -2),
+        (2, 3, 4, -4),
     ]
     example_loop = perm.Multiloop(multiloop)
-    example_loop.inf_face =  (-1,6,10,-15,8)
+    example_loop.inf_face =  (2, -3)
 
     # TODO: Fix the problem where some randomly generated loop doesn't work with the circle packing algorithm
     print(example_loop)

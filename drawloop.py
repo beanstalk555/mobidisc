@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import svgwrite
 from cmath import phase
-from math import cos, sin
+from math import cos, sin, sqrt
 import os
 import cmath
 
@@ -155,58 +155,97 @@ def drawloop(
 
     # Draw connection lines (black, thick)
     if sequence and len(sequence) >= 2:
-        offset_distance = (
-            0.1  # Fraction of the distance between centers to offset the line
-        )
-        offset = 0
-        for i in range(2, len(sequence), 4):
-            a_center = circle_dict[sequence[i]][0]
-            mid_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
-            b_center = circle_dict[sequence[(i + 4) % len(sequence)]][
-                0
-            ]  # Wraparound to close loop
+        for i in range(0, len(sequence), 2):
+            startcirc_center = circle_dict[sequence[i]][0]
+            startcirc_r = circle_dict[sequence[i]][1] * scale
+            targetcirc_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
+            targetcirc_r = circle_dict[sequence[(i + 2) % len(sequence)]][1] * scale
+            endcirc_center = circle_dict[sequence[(i + 4) % len(sequence)]][0]
+            endcirc_r = circle_dict[sequence[(i + 4) % len(sequence)]][1] * scale
 
-            start = to_svg_coords(a_center + offset)
-            text = dwg.text(
-                str(-sequence[(i + 3) % len(sequence)]),
-                insert=start, 
-                fill="red",
-                font_size="20px",
-                text_anchor="middle",
+            def find_intersection(c1, r1, c2, r2):
+                x1 = c1[0]
+                x2 = c2[0]
+                y1 = c1[1]
+                y2 = c2[1]
+                d = r1 + r2
+                return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
+
+            start = to_svg_coords(startcirc_center)
+            target = to_svg_coords(targetcirc_center)
+            end = to_svg_coords(endcirc_center)
+            s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
+            e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
+
+            d_bet_se = sqrt(
+                (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
             )
-            dwg.add(text)
-            # Direction and offset
-            vec = b_center - a_center
-            distance = abs(vec)
 
-            unit = vec / distance  # Unit vector in the direction of b -> a
-            offset = unit * offset_distance * distance  # Offset from the centers
-            # New start and end points with offset
-
-            end = to_svg_coords(
-                b_center + (offset if i + 2 < len(sequence) else 0)
-            )  # Pull end point inward
-
-            control = to_svg_coords(mid_center)
-
-            # Draw line between offset points
-            path = svgwrite.path.Path(
-                d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
+            if d_bet_se / 2 == targetcirc_r:  # In case 3 circles are on the same line.
+                dwg.add(
+                    dwg.line(
+                        start=s_curve,
+                        end=e_curve,
+                        stroke="blue",
+                        stroke_width=2,
+                    )
+                )
+                continue
+            r_curve = sqrt(
+                ((d_bet_se / 2) ** 2 * targetcirc_r**2)
+                / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
+            )
+            arc_path = svgwrite.path.Path(
+                d=f"M {s_curve[0]},{s_curve[1]}",
                 fill="none",
-                stroke="black",
+                stroke="blue",
                 stroke_width=2,
             )
 
-            # Add the path to your SVG drawing
-            dwg.add(path)
-            text = dwg.text(
-                str(sequence[(i + 3) % len(sequence)]),
-                insert=to_svg_coords(b_center - offset), 
-                fill="red",
-                font_size="20px",
-                text_anchor="middle",
+            # Use the 'A' command for a circular arc
+            arc_path.push_arc(
+                target=e_curve,  # End point of the arc
+                rotation=0,  # No rotation
+                r=r_curve,  # Radius of the arc
+                large_arc=False,  # Large arc flag (False because we want a minor arc)
+                angle_dir=(
+                    "+"
+                    if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
+                    - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
+                    > 0
+                    else "-"
+                ),  # Sweep direction, use cross product to determine
+                absolute=True,  # Absolute coordinates
             )
-            dwg.add(text)
+
+            dwg.add(arc_path)
+
+            # Draw line between offset points
+            # path = svgwrite.path.Path(
+            #     d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
+            #     fill="none",
+            #     stroke="black",
+            #     stroke_width=2,
+            # )
+
+            # # Add the path to your SVG drawing
+            # dwg.add(path)
+            # text = dwg.text(
+            #     str(sequence[(i + 3) % len(sequence)]),
+            #     insert=to_svg_coords(b_center - offset),
+            #     fill="red",
+            #     font_size="20px",
+            #     text_anchor="middle",
+            # )
+            # dwg.add(text)
+            # text = dwg.text(
+            #     str(-sequence[(i + 3) % len(sequence)]),
+            #     insert=start,
+            #     fill="red",
+            #     font_size="20px",
+            #     text_anchor="middle",
+            # )
+            # dwg.add(text)
 
     dwg.save()
     print(f"SVG saved to {filename}")
