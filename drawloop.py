@@ -25,7 +25,8 @@ def generate_circles(
 
     for cycle in multiloop.eps.cycles:
         edges_circ[cycle[0]] = curr_cir
-        curr_cir += 1 if multiloop.is_samevert(cycle[0], cycle[1]) else 0
+        if multiloop.is_samevert(cycle[0], cycle[1]):
+            curr_cir += 1
         edges_circ[cycle[1]] = curr_cir
         curr_cir += 1
 
@@ -47,6 +48,7 @@ def generate_circles(
         circ[vertices_circ[vert_he]] = add_adj(
             circ[vertices_circ[vert_he]], edges_circ[vert_he]
         )
+        # if vert_he not in inf_face:
         circ[vertices_circ[vert_he]] = add_adj(
             circ[vertices_circ[vert_he]], faces_circ[vert_he]
         )
@@ -58,6 +60,13 @@ def generate_circles(
         circ[edges_circ[edge_he]] = add_adj(
             circ[edges_circ[edge_he]], vertices_circ[edge_he]
         )
+        if edges_circ[edge_he] != edges_circ[-edge_he]:
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], faces_circ[-edge_he]
+            )
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], edges_circ[-edge_he]
+            )
 
     for face_he in faces_circ:
         circ[faces_circ[face_he]] = add_adj(
@@ -74,10 +83,12 @@ def generate_circles(
     for inf_he in inf_face:
         circ.pop(faces_circ[inf_he], None)
         circ.pop(edges_circ[inf_he], None)
+        circ.pop(edges_circ[-inf_he], None)
         circ.pop(vertices_circ[inf_he], None)
 
         external[vertices_circ[inf_he]] = 1
         external[edges_circ[inf_he]] = 1
+        external[edges_circ[-inf_he]] = 1
     internal = circ
 
     sequences = []
@@ -104,6 +115,7 @@ def drawloop(
     padding=50,
     sequence=None,
 ):
+    tolerance = 1e-9  # how accurately to approximate things
     if not isinstance(filename, (str, bytes, os.PathLike)):
         raise TypeError(f"Filename must be a string or path, got {type(filename)}")
 
@@ -181,7 +193,9 @@ def drawloop(
                 (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
             )
 
-            if d_bet_se / 2 == targetcirc_r:  # In case 3 circles are on the same line.
+            if (
+                abs((d_bet_se / 2) - targetcirc_r) < tolerance
+            ):  # In case 3 circles are on the same line.
                 dwg.add(
                     dwg.line(
                         start=s_curve,

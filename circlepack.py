@@ -43,6 +43,9 @@ def CirclePack(internal,external):
             theta = flower(radii,k,internal[k])
             hat = radii[k]/(1.0/sin(theta/(2*len(internal[k])))-1.0)
             newrad = hat * (1.0/(sin(pi/len(internal[k]))) - 1.0)
+            if radii[k] == 0 or newrad == 0:
+                raise ZeroDivisionError(f"[CRASH] radii[{k}] = {radii[k]}, newrad = {newrad}")
+
             kc = max(newrad/radii[k],radii[k]/newrad)
             lastChange = max(lastChange,kc)
             radii[k] = newrad

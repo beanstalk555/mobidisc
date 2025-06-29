@@ -135,9 +135,9 @@ class Multiloop:
                 q.append(e)
         return visited == all_halfedges
 
-    def is_samevert(self, edge1, edge2) -> bool:
-        for _ in range(len(self.sig.cycles)):
-            if self.sig(edge1) == edge2:
+    def is_samevert(self, edge1: int, edge2: int) -> bool:
+        for _ in range(len(self.sig.cycles[0])):
+            if edge1 == edge2:
                 return True
             edge1 = self.sig(edge1)
         return False

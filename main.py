@@ -5,17 +5,14 @@ from circlepack import CirclePack
 
 if __name__ == "__main__":
     # Vertex permutation
-    # multiloop = [[-1, -4, -3, -2], [1, 2, 6, 5], [3, 8, 7, -6], [-8, 4, -5, -7]]
-    # example_loop = perm.Multiloop(multiloop)
-    # example_loop.inf_face = [-1, 5, 4]
-    multiloop = [
-        (1, -1, -3, -2),
-        (2, 3, 4, -4),
-    ]
+    multiloop = [[-1, -4, -3, -2], [1, 2, 6, 5], [3, 8, 7, -6], [-8, 4, -5, -7]]
     example_loop = perm.Multiloop(multiloop)
-    example_loop.inf_face =  (2, -3)
+    example_loop.inf_face = [-1, 5, 4]
+    # multiloop = [(-2, -3, 4, -4), (1, -1, 3, 2)]
+    # example_loop = perm.Multiloop(multiloop)
+    # example_loop.inf_face = [3,-2]
+    # example_loop = ranloop.generate_planar(8)
 
-    # TODO: Fix the problem where some randomly generated loop doesn't work with the circle packing algorithm
     print(example_loop)
     loop_to_circles = drawloop.generate_circles(example_loop, example_loop.inf_face)
     print(
