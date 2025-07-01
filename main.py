@@ -2,8 +2,8 @@ import permrep as perm
 import ranloop
 import drawloop
 from circlepack import CirclePack
-import math
 from collections import deque
+
 
 if __name__ == "__main__":
     # Vertex permutation
@@ -21,74 +21,48 @@ if __name__ == "__main__":
     #example_loop = perm.Multiloop(multiloopEx)
     #example_loop.inf_face =  (-1,6,10,-15,8)
     
-    multilooplen = len(multiloopEx)
-    multiloopExFaces = [[] ]
-    #for i in range(multilooplen + math.floor(multilooplen / 3))
+    multiloopExFaces = [[]]
     
-    loopsStartedFromHe = [] # list of halfedges started from to form a loop
-    
-    def halfEdgeSearch(multiloop: list[list[int]], halfEdge: int, findPartner: bool= True) -> tuple:
+    def halfEdgePartnerSearch(multiloop: list[list[int]], halfEdge: int) -> tuple:
         
         for col in range(4):
             for row in range(len(multiloop)):
-                if(findPartner and multiloop[row][col] == halfEdge * -1):
-                    return row, col
-                elif(multiloop[row][col] == halfEdge):
+                if(multiloop[row][col] == halfEdge * -1):
                     return row, col
         raise LookupError("Could not find half edge")
     
-    def getHalfEdgeInCycle(multiloop: list[list[int]], firstPartner: int, currEdgeInCycle: tuple) -> int:
-        if(firstPartner < 0): #continously to the left         
-            try:
-                return multiloop[currEdgeInCycle[0]][currEdgeInCycle[1] - 1]
-            except IndexError:
-                return multiloop[currEdgeInCycle[0]][2]                     
-        else: # to the right
-            try:
-                return multiloop[currEdgeInCycle[0]][currEdgeInCycle[1] + 1]
-            except IndexError:
-                return multiloop[currEdgeInCycle[0]][0]
-    
     # only do for the first face base on start, implenet recurrsively later
-    def faceGenerate(multiloop: list[list[int]], multiloopFaces: list[list[int]], startingHalfEdge= 1, faceCol= 0): 
+    def faceGenerate(multiloop: list[list[int]], multiloopFaces: list[list[int]], startingHalfEdge= 1): 
         
-        loopsStartedFromHe.append(startingHalfEdge) # where we create face from
-        firstPartnerPos = halfEdgeSearch(multiloop, startingHalfEdge)
+        firstPartnerPos = halfEdgePartnerSearch(multiloop, startingHalfEdge)
         firstPartner = multiloop[firstPartnerPos[0]][firstPartnerPos[1]]
         
-        partnerPos = firstPartnerPos
-        print(multiloopExFaces)
-        
-        while (True): # do while loop
-            multiloopFaces[faceCol].append(multiloop[partnerPos[0]][partnerPos[1]]) # as tuple
+        partner =  firstPartnerPos
+        nextHalfEdgeInCycle = 0
+        while(nextHalfEdgeInCycle != startingHalfEdge):
             
-            nextHalfEdge = getHalfEdgeInCycle(multiloop, firstPartner, partnerPos)             
-                     
-            partnerPos = halfEdgeSearch(multiloop, nextHalfEdge)         
-            # could optimize?
-            nextHalfEdgePos = halfEdgeSearch(multiloop, nextHalfEdge, False) 
-            nextnextHalfEdge = getHalfEdgeInCycle(multiloop, firstPartner, nextHalfEdgePos)
+            multiloopFaces[0].append(multiloop[partner[0]][partner[1]]) # as tuple
             
-            if( not any(item == nextnextHalfEdge for item in loopsStartedFromHe) ):
+            if(firstPartner < 0): #continously to the left
+                #multiloopRev = multiloop.copy()
+                #multiloopRev.reverse()
                 
-                print(alreadyVisited)
-                faceGenerate(multiloopEx, multiloopExFaces, nextnextHalfEdge, faceCol + 1)
-                
+                try:
+                    nextHalfEdgeInCycle = multiloop[partner[0]][partner[1] - 1]
+                except IndexError:
+                    nextHalfEdgeInCycle = multiloop[partner[0]][2]
+                                 
+            else: # to the right
+                try:
+                    nextHalfEdgeInCycle = multiloop[partner[0]][partner[1] + 1]
+                except IndexError:
+                    nextHalfEdgeInCycle = multiloop[partner[0]][0]
             
-            if(nextHalfEdge != startingHalfEdge):
-                continue
-            else:
-                break
-        
-        
-        
+            partner = halfEdgePartnerSearch(multiloop, nextHalfEdgeInCycle)
             
-    faceGenerate(multiloopEx, multiloopExFaces, -10)
-    
-    
+            
+    faceGenerate(multiloopEx, multiloopExFaces, -4)
     print(multiloopExFaces)
-    print(alreadyVisited)
-        
         
     #cycle is really column in list of lists (permutations)
     def cycleContainsHalfEdge(multiloop: list[list[int]], cycleRow: int, halfEdge: int) -> bool:
