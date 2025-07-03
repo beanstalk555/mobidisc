@@ -5,17 +5,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import svgwrite
 from cmath import phase
-from math import cos, sin
+from math import cos, sin, sqrt
 import os
 import cmath
 
 
 def generate_circles(
     multiloop: "Multiloop", inf_face: list[int]
-) -> dict[int : tuple[complex, float]]:
+) -> dict[
+    "internal" : dict[int, list[int]],
+    "external" : dict[int, int],
+    "sequences" : list[list[int]],
+]:
     vertices_circ = {}
     edges_circ = {}
     faces_circ = {}
+    external = {}
 
     curr_cir = 1
     for cycle in multiloop.sig.cycles:
@@ -25,7 +30,8 @@ def generate_circles(
 
     for cycle in multiloop.eps.cycles:
         edges_circ[cycle[0]] = curr_cir
-        curr_cir += 1 if multiloop.is_samevert(cycle[0], cycle[1]) else 0
+        if multiloop.is_samevert(cycle[0], cycle[1]):
+            curr_cir += 1
         edges_circ[cycle[1]] = curr_cir
         curr_cir += 1
 
@@ -38,31 +44,16 @@ def generate_circles(
     for i in range(1, curr_cir):
         circ[i] = []
 
-    def add_adj(circ, adj_circ):
-        if adj_circ not in circ:
-            circ.append(adj_circ)
-        return circ
-
-    for vert_he in vertices_circ:
-        circ[vertices_circ[vert_he]] = add_adj(
-            circ[vertices_circ[vert_he]], edges_circ[vert_he]
-        )
-        circ[vertices_circ[vert_he]] = add_adj(
-            circ[vertices_circ[vert_he]], faces_circ[vert_he]
-        )
-
-    for edge_he in edges_circ:
-        circ[edges_circ[edge_he]] = add_adj(
-            circ[edges_circ[edge_he]], faces_circ[edge_he]
-        )
-        circ[edges_circ[edge_he]] = add_adj(
-            circ[edges_circ[edge_he]], vertices_circ[edge_he]
-        )
+    def add_adj(neigh_list, neighbor):
+        if neighbor not in neigh_list:
+            neigh_list.append(neighbor)
+        return neigh_list
 
     for face_he in faces_circ:
-        circ[faces_circ[face_he]] = add_adj(
-            circ[faces_circ[face_he]], vertices_circ[face_he]
-        )
+        if vertices_circ[face_he] not in circ[faces_circ[face_he]]:
+            circ[faces_circ[face_he]].append(vertices_circ[face_he])
+        else:
+            circ[faces_circ[face_he]].remove(vertices_circ[face_he])
         circ[faces_circ[face_he]] = add_adj(
             circ[faces_circ[face_he]], edges_circ[face_he]
         )
@@ -70,26 +61,63 @@ def generate_circles(
             circ[faces_circ[face_he]], edges_circ[-face_he]
         )
 
-    external = {}
+    for vert_he in vertices_circ:
+        circ[vertices_circ[vert_he]].append(edges_circ[vert_he])
+        if faces_circ[vert_he] not in circ[vertices_circ[vert_he]]:
+            circ[vertices_circ[vert_he]].append(faces_circ[vert_he])
+        else:
+            circ[vertices_circ[vert_he]].remove(faces_circ[vert_he])
+
+    for edge_he in edges_circ:
+
+        circ[edges_circ[edge_he]] = add_adj(
+            circ[edges_circ[edge_he]], faces_circ[edge_he]
+        )
+        if faces_circ[edge_he] not in circ[vertices_circ[edge_he]]:
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], edges_circ[multiloop.sig(edge_he)]
+            )
+        circ[edges_circ[edge_he]] = add_adj(
+            circ[edges_circ[edge_he]], vertices_circ[edge_he]
+        )
+        if faces_circ[-edge_he] not in circ[vertices_circ[edge_he]]:
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], edges_circ[multiloop.sig.inv(edge_he)]
+            )
+
+        # In case of a loop, we want to add the opposite edge as well
+        if edges_circ[-edge_he] != edges_circ[edge_he]:
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], faces_circ[-edge_he]
+            )
+            circ[edges_circ[edge_he]] = add_adj(
+                circ[edges_circ[edge_he]], edges_circ[-edge_he]
+            )
+
     for inf_he in inf_face:
         circ.pop(faces_circ[inf_he], None)
         circ.pop(edges_circ[inf_he], None)
-        circ.pop(vertices_circ[inf_he], None)
+        circ.pop(edges_circ[-inf_he], None)
 
-        external[vertices_circ[inf_he]] = 1
         external[edges_circ[inf_he]] = 1
+        external[edges_circ[-inf_he]] = 1
+        try:
+            if faces_circ[inf_he] in circ[vertices_circ[inf_he]]:
+                circ.pop(vertices_circ[inf_he], None)
+                external[vertices_circ[inf_he]] = 1
+        except:
+            pass
     internal = circ
 
     sequences = []
-
     for strand in multiloop.tau.cycles:
         this_seq = []
         for he in strand:
-            this_seq.extend([edges_circ[he], he])
-            if edges_circ[-he] not in this_seq:
+            # print(f"Processing half-edge {he} with vertices {vertices_circ[he]} and edges {edges_circ[he]}")
+            if edges_circ[-he] != edges_circ[he]:
                 this_seq.extend([edges_circ[-he], -he])
+            this_seq.extend([edges_circ[he], he])
             this_seq.extend([vertices_circ[he], he])
-
         sequences.append(this_seq)
     print(vertices_circ)
     print(edges_circ)
@@ -102,8 +130,9 @@ def drawloop(
     filename="circle_pack.svg",
     scale=200,
     padding=50,
-    sequence=None,
+    sequences=None,
 ):
+    tolerance = 1e-2  # how accurately to approximate things
     if not isinstance(filename, (str, bytes, os.PathLike)):
         raise TypeError(f"Filename must be a string or path, got {type(filename)}")
 
@@ -135,7 +164,7 @@ def drawloop(
         r = radius * scale
         dwg.add(
             dwg.circle(
-                center=(cx, cy), r=r, fill=same_color, stroke="black", stroke_width=1
+                center=(cx, cy), r=r, fill="none", stroke="black", stroke_width=1
             )
         )
         dwg.add(
@@ -154,59 +183,107 @@ def drawloop(
         )
 
     # Draw connection lines (black, thick)
-    if sequence and len(sequence) >= 2:
-        offset_distance = (
-            0.1  # Fraction of the distance between centers to offset the line
-        )
-        offset = 0
-        for i in range(2, len(sequence), 4):
-            a_center = circle_dict[sequence[i]][0]
-            mid_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
-            b_center = circle_dict[sequence[(i + 4) % len(sequence)]][
-                0
-            ]  # Wraparound to close loop
+    if sequences:
+        for sequence in sequences:
+            for i in range(0, len(sequence), 2):
+                startcirc_center = circle_dict[sequence[i]][0]
+                startcirc_r = circle_dict[sequence[i]][1] * scale
+                targetcirc_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
+                targetcirc_r = circle_dict[sequence[(i + 2) % len(sequence)]][1] * scale
+                endcirc_center = circle_dict[sequence[(i + 4) % len(sequence)]][0]
+                endcirc_r = circle_dict[sequence[(i + 4) % len(sequence)]][1] * scale
 
-            start = to_svg_coords(a_center + offset)
-            text = dwg.text(
-                str(-sequence[(i + 3) % len(sequence)]),
-                insert=start, 
-                fill="red",
-                font_size="20px",
-                text_anchor="middle",
-            )
-            dwg.add(text)
-            # Direction and offset
-            vec = b_center - a_center
-            distance = abs(vec)
+                def find_intersection(c1, r1, c2, r2):
+                    x1 = c1[0]
+                    x2 = c2[0]
+                    y1 = c1[1]
+                    y2 = c2[1]
+                    d = r1 + r2
+                    return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
 
-            unit = vec / distance  # Unit vector in the direction of b -> a
-            offset = unit * offset_distance * distance  # Offset from the centers
-            # New start and end points with offset
+                start = to_svg_coords(startcirc_center)
+                target = to_svg_coords(targetcirc_center)
+                end = to_svg_coords(endcirc_center)
+                s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
+                e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
 
-            end = to_svg_coords(
-                b_center + (offset if i + 2 < len(sequence) else 0)
-            )  # Pull end point inward
+                try:
+                    d_bet_se = sqrt(
+                        (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
+                    )
 
-            control = to_svg_coords(mid_center)
+                    if (
+                        abs((d_bet_se / 2) - targetcirc_r) < tolerance
+                    ):  # In case 3 circles are on the same line.
+                        dwg.add(
+                            dwg.line(
+                                start=s_curve,
+                                end=e_curve,
+                                stroke="blue",
+                                stroke_width=0.1,
+                            )
+                        )
+                        continue
+                    r_curve = sqrt(
+                        ((d_bet_se / 2) ** 2 * targetcirc_r**2)
+                        / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
+                    )
 
-            # Draw line between offset points
-            path = svgwrite.path.Path(
-                d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
-                fill="none",
-                stroke="black",
-                stroke_width=2,
-            )
+                except ValueError:
+                    raise ValueError(
+                        f"Error finding the curve between start {s_curve} and end {e_curve} points. Half of the distance between them is {d_bet_se/2}, target circle radius is {targetcirc_r}."
+                    )
+                arc_path = svgwrite.path.Path(
+                    d=f"M {s_curve[0]},{s_curve[1]}",
+                    fill="none",
+                    stroke="blue",
+                    stroke_width=0.1,
+                )
 
-            # Add the path to your SVG drawing
-            dwg.add(path)
-            text = dwg.text(
-                str(sequence[(i + 3) % len(sequence)]),
-                insert=to_svg_coords(b_center - offset), 
-                fill="red",
-                font_size="20px",
-                text_anchor="middle",
-            )
-            dwg.add(text)
+                # Use the 'A' command for a circular arc
+                arc_path.push_arc(
+                    target=e_curve,  # End point of the arc
+                    rotation=0,  # No rotation
+                    r=r_curve,  # Radius of the arc
+                    large_arc=False,  # Large arc flag (False because we want a minor arc)
+                    angle_dir=(
+                        "+"
+                        if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
+                        - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
+                        > 0
+                        else "-"
+                    ),  # Sweep direction, use cross product to determine
+                    absolute=True,  # Absolute coordinates
+                )
+
+                dwg.add(arc_path)
+
+                # Draw line between offset points
+                # path = svgwrite.path.Path(
+                #     d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
+                #     fill="none",
+                #     stroke="black",
+                #     stroke_width=2,
+                # )
+
+                # # Add the path to your SVG drawing
+                # dwg.add(path)
+                # text = dwg.text(
+                #     str(sequence[(i + 3) % len(sequence)]),
+                #     insert=to_svg_coords(b_center - offset),
+                #     fill="red",
+                #     font_size="20px",
+                #     text_anchor="middle",
+                # )
+                # dwg.add(text)
+                # text = dwg.text(
+                #     str(-sequence[(i + 3) % len(sequence)]),
+                #     insert=start,
+                #     fill="red",
+                #     font_size="20px",
+                #     text_anchor="middle",
+                # )
+                # dwg.add(text)
 
     dwg.save()
     print(f"SVG saved to {filename}")

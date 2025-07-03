@@ -42,7 +42,9 @@ def CirclePack(internal,external):
         for k in internal:
             theta = flower(radii,k,internal[k])
             hat = radii[k]/(1.0/sin(theta/(2*len(internal[k])))-1.0)
+            
             newrad = hat * (1.0/(sin(pi/len(internal[k]))) - 1.0)
+            # print(f"Updating circle {k}: radius {radii[k]} -> {newrad}, angle sum {theta}")
             kc = max(newrad/radii[k],radii[k]/newrad)
             lastChange = max(lastChange,kc)
             radii[k] = newrad
@@ -87,7 +89,7 @@ def NormalizePacking(packing,k=None,target=1.0):
     else:
         z,r = packing[k]
     s = target/r
-    return dict((kk,(zz*s,rr*s)) for kk,(zz,rr) in packing.iteritems())
+    return dict((kk,(zz*s,rr*s)) for kk,(zz,rr) in packing.items())
 
 def InvertAround(packing,k,smallCircles=None):
     """Invert so that the specified circle surrounds all the others.
@@ -158,3 +160,4 @@ def testgrid(packing,k,z,r,q,g):
                 newpack = NormalizePacking(newpack,k)
                 minrad = min(r for z,r in newpack.values())
                 yield minrad,i,j,center
+
