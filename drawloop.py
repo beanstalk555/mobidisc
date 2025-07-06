@@ -13,11 +13,15 @@ from typing import TypedDict
 
 
 class CircleResult(TypedDict):
+    """A typed dictionary to hold the results of circle adjacencies."""
     internal: dict[int, list[int]]
     external: dict[int, int]
     sequences: list[list[int]]
 
+
 class CircleAssignments:
+    """A class to hold the circle assignments for vertices, edges, and faces."""
+
     def __init__(self):
         self.vertices: dict[int, int] = {}
         self.edges: dict[int, int] = {}
@@ -25,20 +29,26 @@ class CircleAssignments:
         self.next_circle_id = 1
 
     def assign_vertex_circles(self, cycles: list[list[int]]) -> None:
+        """Assigns circle IDs incrementally to vertices."""
         for cycle in cycles:
             for he in cycle:
                 self.vertices[he] = self.next_circle_id
             self.next_circle_id += 1
 
     def assign_edge_circles(self, cycles: list[list[int]], multiloop) -> None:
+        """Assigns circle IDs incrementally to edges."""
         for cycle in cycles:
             self.edges[cycle[0]] = self.next_circle_id
+
+            # If both half-edges of the cycle are in the same vertex, it's a monogon.
+            # In this case, we need to assign two circle IDs to the edge.
             if multiloop.is_samevert(cycle[0], cycle[1]):
                 self.next_circle_id += 1
             self.edges[cycle[1]] = self.next_circle_id
             self.next_circle_id += 1
 
     def assign_face_circles(self, cycles: list[list[int]]) -> None:
+        """Assigns circle IDs incrementally to faces."""
         for cycle in cycles:
             for he in cycle:
                 self.faces[he] = self.next_circle_id
@@ -46,6 +56,8 @@ class CircleAssignments:
 
 
 class AdjacencyBuilder:
+    """A class to build the adjacency relationships between circles."""
+
     def __init__(self, circles: CircleAssignments):
         self.circles = circles
         self.internal: dict[int, list[int]] = {}
@@ -53,16 +65,19 @@ class AdjacencyBuilder:
         self.external: dict[int, int] = {}
 
     def _initialize_internal_dict(self) -> None:
+        """Initializes the internal dictionary with empty lists for each circle."""
         max_circle = self.circles.next_circle_id
         for i in range(1, max_circle):
             self.internal[i] = []
 
     def _add_neighbor(self, neighbors: list[int], neighbor: int) -> list[int]:
+        """Adds a neighbor to the list if it is not already present."""
         if neighbor not in neighbors:
             neighbors.append(neighbor)
         return neighbors
 
     def _toggle_neighbor(self, neighbors: list[int], neighbor: int) -> list[int]:
+        """If a neighbor is already in the list, delete it."""
         if neighbor not in neighbors:
             neighbors.append(neighbor)
         else:
@@ -70,6 +85,7 @@ class AdjacencyBuilder:
         return neighbors
 
     def build_face_adjacencies(self) -> None:
+        """Builds the adjacency relationships for faces."""
         for face_he, face_circle in self.circles.faces.items():
             vertex_circle = self.circles.vertices[face_he]
             edge_circle = self.circles.edges[face_he]
@@ -87,6 +103,7 @@ class AdjacencyBuilder:
             )
 
     def build_vertex_adjacencies(self) -> None:
+        """Builds the adjacency relationships for vertices."""
         for vert_he, vertex_circle in self.circles.vertices.items():
             edge_circle = self.circles.edges[vert_he]
             face_circle = self.circles.faces[vert_he]
@@ -98,6 +115,7 @@ class AdjacencyBuilder:
             )
 
     def build_edge_adjacencies(self, multiloop) -> None:
+        """Builds the adjacency relationships for edges."""
         for edge_he, edge_circle in self.circles.edges.items():
             face_circle = self.circles.faces[edge_he]
             opposite_face_circle = self.circles.faces[-edge_he]
@@ -133,6 +151,7 @@ class AdjacencyBuilder:
                 )
 
     def process_infinite_face(self, inf_face: list[int]) -> None:
+        """Processes the infinite face to update internal and external circle relationships."""
         for inf_he in inf_face:
             face_circle = self.circles.faces[inf_he]
             edge_circle = self.circles.edges[inf_he]
@@ -154,33 +173,30 @@ class AdjacencyBuilder:
                 pass
 
 
+def build_sequences(
+    circles: "CircleAssignments", tau_cycles: list[list[int]]
+) -> list[list[int]]:
+    """Builds sequences of circle assignments for the given strands (tau) cycles."""
+    sequences = []
 
-class SequenceBuilder:
-    def __init__(self, circles: CircleAssignments):
-        self.circles = circles
+    for strand in tau_cycles:
+        sequence = []
+        for he in strand:
+            edge_circle = circles.edges[he]
+            opposite_edge_circle = circles.edges[-he]
+            vertex_circle = circles.vertices[he]
 
-    def build_sequences(self, tau_cycles: list[list[int]]) -> list[list[int]]:
-        sequences = []
+            if opposite_edge_circle != edge_circle:
+                sequence.extend([opposite_edge_circle, -he])
 
-        for strand in tau_cycles:
-            sequence = []
-            for he in strand:
-                edge_circle = self.circles.edges[he]
-                opposite_edge_circle = self.circles.edges[-he]
-                vertex_circle = self.circles.vertices[he]
+            sequence.extend([edge_circle, he])
+            sequence.extend([vertex_circle, he])
 
-                if opposite_edge_circle != edge_circle:
-                    sequence.extend([opposite_edge_circle, -he])
-
-                sequence.extend([edge_circle, he])
-                sequence.extend([vertex_circle, he])
-
-            sequences.append(sequence)
-
-        return sequences
+        sequences.append(sequence)
+    return sequences
 
 
-def generate_circles(multiloop, inf_face: list[int]) -> CircleResult:
+def generate_circles(multiloop: "Multiloop", inf_face: list[int]) -> CircleResult:
     circles = CircleAssignments()
     circles.assign_vertex_circles(multiloop.sig.cycles)
     circles.assign_edge_circles(multiloop.eps.cycles, multiloop)
@@ -192,8 +208,7 @@ def generate_circles(multiloop, inf_face: list[int]) -> CircleResult:
     adj_builder.build_edge_adjacencies(multiloop)
     adj_builder.process_infinite_face(inf_face)
 
-    sequence_builder = SequenceBuilder(circles)
-    sequences = sequence_builder.build_sequences(multiloop.tau.cycles)
+    sequences = build_sequences(circles, multiloop.tau.cycles)
 
     return {
         "internal": adj_builder.internal,
