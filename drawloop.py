@@ -9,128 +9,205 @@ from math import cos, sin, sqrt
 import os
 import cmath
 
+from typing import TypedDict
 
-def generate_circles(
-    multiloop: "Multiloop", inf_face: list[int]
-) -> dict[
-    "internal" : dict[int, list[int]],
-    "external" : dict[int, int],
-    "sequences" : list[list[int]],
-]:
-    vertices_circ = {}
-    edges_circ = {}
-    faces_circ = {}
-    external = {}
 
-    curr_cir = 1
-    for cycle in multiloop.sig.cycles:
-        for he in cycle:
-            vertices_circ[he] = curr_cir
-        curr_cir += 1
+class CircleResult(TypedDict):
+    internal: dict[int, list[int]]
+    external: dict[int, int]
+    sequences: list[list[int]]
 
-    for cycle in multiloop.eps.cycles:
-        edges_circ[cycle[0]] = curr_cir
-        if multiloop.is_samevert(cycle[0], cycle[1]):
-            curr_cir += 1
-        edges_circ[cycle[1]] = curr_cir
-        curr_cir += 1
+class CircleAssignments:
+    def __init__(self):
+        self.vertices: dict[int, int] = {}
+        self.edges: dict[int, int] = {}
+        self.faces: dict[int, int] = {}
+        self.next_circle_id = 1
 
-    for cycle in multiloop.phi.cycles:
-        for he in cycle:
-            faces_circ[he] = curr_cir
-        curr_cir += 1
+    def assign_vertex_circles(self, cycles: list[list[int]]) -> None:
+        for cycle in cycles:
+            for he in cycle:
+                self.vertices[he] = self.next_circle_id
+            self.next_circle_id += 1
 
-    circ = {}
-    for i in range(1, curr_cir):
-        circ[i] = []
+    def assign_edge_circles(self, cycles: list[list[int]], multiloop) -> None:
+        for cycle in cycles:
+            self.edges[cycle[0]] = self.next_circle_id
+            if multiloop.is_samevert(cycle[0], cycle[1]):
+                self.next_circle_id += 1
+            self.edges[cycle[1]] = self.next_circle_id
+            self.next_circle_id += 1
 
-    def add_adj(neigh_list, neighbor):
-        if neighbor not in neigh_list:
-            neigh_list.append(neighbor)
-        return neigh_list
+    def assign_face_circles(self, cycles: list[list[int]]) -> None:
+        for cycle in cycles:
+            for he in cycle:
+                self.faces[he] = self.next_circle_id
+            self.next_circle_id += 1
 
-    for face_he in faces_circ:
-        if vertices_circ[face_he] not in circ[faces_circ[face_he]]:
-            circ[faces_circ[face_he]].append(vertices_circ[face_he])
+
+class AdjacencyBuilder:
+    def __init__(self, circles: CircleAssignments):
+        self.circles = circles
+        self.internal: dict[int, list[int]] = {}
+        self._initialize_internal_dict()
+        self.external: dict[int, int] = {}
+
+    def _initialize_internal_dict(self) -> None:
+        max_circle = self.circles.next_circle_id
+        for i in range(1, max_circle):
+            self.internal[i] = []
+
+    def _add_neighbor(self, neighbors: list[int], neighbor: int) -> list[int]:
+        if neighbor not in neighbors:
+            neighbors.append(neighbor)
+        return neighbors
+
+    def _toggle_neighbor(self, neighbors: list[int], neighbor: int) -> list[int]:
+        if neighbor not in neighbors:
+            neighbors.append(neighbor)
         else:
-            circ[faces_circ[face_he]].remove(vertices_circ[face_he])
-        circ[faces_circ[face_he]] = add_adj(
-            circ[faces_circ[face_he]], edges_circ[face_he]
-        )
-        circ[faces_circ[face_he]] = add_adj(
-            circ[faces_circ[face_he]], edges_circ[-face_he]
-        )
+            neighbors.remove(neighbor)
+        return neighbors
 
-    for vert_he in vertices_circ:
-        circ[vertices_circ[vert_he]].append(edges_circ[vert_he])
-        if faces_circ[vert_he] not in circ[vertices_circ[vert_he]]:
-            circ[vertices_circ[vert_he]].append(faces_circ[vert_he])
-        else:
-            circ[vertices_circ[vert_he]].remove(faces_circ[vert_he])
+    def build_face_adjacencies(self) -> None:
+        for face_he, face_circle in self.circles.faces.items():
+            vertex_circle = self.circles.vertices[face_he]
+            edge_circle = self.circles.edges[face_he]
+            opposite_edge_circle = self.circles.edges[-face_he]
 
-    for edge_he in edges_circ:
-
-        circ[edges_circ[edge_he]] = add_adj(
-            circ[edges_circ[edge_he]], faces_circ[edge_he]
-        )
-        if faces_circ[edge_he] not in circ[vertices_circ[edge_he]]:
-            circ[edges_circ[edge_he]] = add_adj(
-                circ[edges_circ[edge_he]], edges_circ[multiloop.sig(edge_he)]
-            )
-        circ[edges_circ[edge_he]] = add_adj(
-            circ[edges_circ[edge_he]], vertices_circ[edge_he]
-        )
-        if faces_circ[-edge_he] not in circ[vertices_circ[edge_he]]:
-            circ[edges_circ[edge_he]] = add_adj(
-                circ[edges_circ[edge_he]], edges_circ[multiloop.sig.inv(edge_he)]
+            self.internal[face_circle] = self._toggle_neighbor(
+                self.internal[face_circle], vertex_circle
             )
 
-        # In case of a loop, we want to add the opposite edge as well
-        if edges_circ[-edge_he] != edges_circ[edge_he]:
-            circ[edges_circ[edge_he]] = add_adj(
-                circ[edges_circ[edge_he]], faces_circ[-edge_he]
+            self.internal[face_circle] = self._add_neighbor(
+                self.internal[face_circle], edge_circle
             )
-            circ[edges_circ[edge_he]] = add_adj(
-                circ[edges_circ[edge_he]], edges_circ[-edge_he]
+            self.internal[face_circle] = self._add_neighbor(
+                self.internal[face_circle], opposite_edge_circle
             )
 
-    for inf_he in inf_face:
-        circ.pop(faces_circ[inf_he], None)
-        circ.pop(edges_circ[inf_he], None)
-        circ.pop(edges_circ[-inf_he], None)
+    def build_vertex_adjacencies(self) -> None:
+        for vert_he, vertex_circle in self.circles.vertices.items():
+            edge_circle = self.circles.edges[vert_he]
+            face_circle = self.circles.faces[vert_he]
 
-        external[edges_circ[inf_he]] = 1
-        external[edges_circ[-inf_he]] = 1
-        try:
-            if faces_circ[inf_he] in circ[vertices_circ[inf_he]]:
-                circ.pop(vertices_circ[inf_he], None)
-                external[vertices_circ[inf_he]] = 1
-        except:
-            pass
-    internal = circ
+            self.internal[vertex_circle].append(edge_circle)
 
-    sequences = []
-    for strand in multiloop.tau.cycles:
-        this_seq = []
-        for he in strand:
-            # print(f"Processing half-edge {he} with vertices {vertices_circ[he]} and edges {edges_circ[he]}")
-            if edges_circ[-he] != edges_circ[he]:
-                this_seq.extend([edges_circ[-he], -he])
-            this_seq.extend([edges_circ[he], he])
-            this_seq.extend([vertices_circ[he], he])
-        sequences.append(this_seq)
-    print(vertices_circ)
-    print(edges_circ)
-    print(faces_circ)
-    return {"internal": internal, "external": external, "sequences": sequences}
+            self.internal[vertex_circle] = self._toggle_neighbor(
+                self.internal[vertex_circle], face_circle
+            )
+
+    def build_edge_adjacencies(self, multiloop) -> None:
+        for edge_he, edge_circle in self.circles.edges.items():
+            face_circle = self.circles.faces[edge_he]
+            opposite_face_circle = self.circles.faces[-edge_he]
+            vertex_circle = self.circles.vertices[edge_he]
+
+            self.internal[edge_circle] = self._add_neighbor(
+                self.internal[edge_circle], face_circle
+            )
+
+            if face_circle not in self.internal[vertex_circle]:
+                sig_edge_circle = self.circles.edges[multiloop.sig(edge_he)]
+                self.internal[edge_circle] = self._add_neighbor(
+                    self.internal[edge_circle], sig_edge_circle
+                )
+
+            self.internal[edge_circle] = self._add_neighbor(
+                self.internal[edge_circle], vertex_circle
+            )
+
+            if opposite_face_circle not in self.internal[vertex_circle]:
+                sig_inv_edge_circle = self.circles.edges[multiloop.sig.inv(edge_he)]
+                self.internal[edge_circle] = self._add_neighbor(
+                    self.internal[edge_circle], sig_inv_edge_circle
+                )
+
+            opposite_edge_circle = self.circles.edges[-edge_he]
+            if opposite_edge_circle != edge_circle:
+                self.internal[edge_circle] = self._add_neighbor(
+                    self.internal[edge_circle], opposite_face_circle
+                )
+                self.internal[edge_circle] = self._add_neighbor(
+                    self.internal[edge_circle], opposite_edge_circle
+                )
+
+    def process_infinite_face(self, inf_face: list[int]) -> None:
+        for inf_he in inf_face:
+            face_circle = self.circles.faces[inf_he]
+            edge_circle = self.circles.edges[inf_he]
+            opposite_edge_circle = self.circles.edges[-inf_he]
+            vertex_circle = self.circles.vertices[inf_he]
+
+            self.internal.pop(face_circle, None)
+            self.internal.pop(edge_circle, None)
+            self.internal.pop(opposite_edge_circle, None)
+
+            self.external[edge_circle] = 1
+            self.external[opposite_edge_circle] = 1
+
+            try:
+                if face_circle in self.internal[vertex_circle]:
+                    self.internal.pop(vertex_circle, None)
+                    self.external[vertex_circle] = 1
+            except KeyError:
+                pass
+
+
+
+class SequenceBuilder:
+    def __init__(self, circles: CircleAssignments):
+        self.circles = circles
+
+    def build_sequences(self, tau_cycles: list[list[int]]) -> list[list[int]]:
+        sequences = []
+
+        for strand in tau_cycles:
+            sequence = []
+            for he in strand:
+                edge_circle = self.circles.edges[he]
+                opposite_edge_circle = self.circles.edges[-he]
+                vertex_circle = self.circles.vertices[he]
+
+                if opposite_edge_circle != edge_circle:
+                    sequence.extend([opposite_edge_circle, -he])
+
+                sequence.extend([edge_circle, he])
+                sequence.extend([vertex_circle, he])
+
+            sequences.append(sequence)
+
+        return sequences
+
+
+def generate_circles(multiloop, inf_face: list[int]) -> CircleResult:
+    circles = CircleAssignments()
+    circles.assign_vertex_circles(multiloop.sig.cycles)
+    circles.assign_edge_circles(multiloop.eps.cycles, multiloop)
+    circles.assign_face_circles(multiloop.phi.cycles)
+
+    adj_builder = AdjacencyBuilder(circles)
+    adj_builder.build_face_adjacencies()
+    adj_builder.build_vertex_adjacencies()
+    adj_builder.build_edge_adjacencies(multiloop)
+    adj_builder.process_infinite_face(inf_face)
+
+    sequence_builder = SequenceBuilder(circles)
+    sequences = sequence_builder.build_sequences(multiloop.tau.cycles)
+
+    return {
+        "internal": adj_builder.internal,
+        "external": adj_builder.external,
+        "sequences": sequences,
+    }
 
 
 def drawloop(
     circle_dict,
     filename="circle_pack.svg",
+    sequences=None,
     scale=200,
     padding=50,
-    sequences=None,
 ):
     tolerance = 1e-2  # how accurately to approximate things
     if not isinstance(filename, (str, bytes, os.PathLike)):
@@ -156,20 +233,22 @@ def drawloop(
         cy = (max_y - center.imag) * scale + padding
         return (cx, cy)
 
-    same_color = "#89CFF0"  # Light blue (can be changed)
-
     # Draw circles
     for name, (center, radius) in circle_dict.items():
         cx, cy = to_svg_coords(center)
         r = radius * scale
         dwg.add(
             dwg.circle(
-                center=(cx, cy), r=r, fill="none", stroke="black", stroke_width=1
+                center=(cx, cy), r=r, fill="none", stroke="black", stroke_width=radius
             )
         )
         dwg.add(
             dwg.circle(
-                center=(cx, cy), r=2, fill="black", stroke="black", stroke_width=1
+                center=(cx, cy),
+                r=(radius),
+                fill="black",
+                stroke="black",
+                stroke_width=30 * radius,
             )
         )
         dwg.add(
@@ -177,7 +256,7 @@ def drawloop(
                 str(name),
                 insert=(cx + r * 0.1, cy),
                 fill="black",
-                font_size="15px",
+                font_size=f"{45*radius}px",
                 text_anchor="middle",
             )
         )
@@ -257,25 +336,6 @@ def drawloop(
                 )
 
                 dwg.add(arc_path)
-
-                # Draw line between offset points
-                # path = svgwrite.path.Path(
-                #     d=f"M {start[0]},{start[1]} Q {control[0]},{control[1]} {end[0]},{end[1]}",
-                #     fill="none",
-                #     stroke="black",
-                #     stroke_width=2,
-                # )
-
-                # # Add the path to your SVG drawing
-                # dwg.add(path)
-                # text = dwg.text(
-                #     str(sequence[(i + 3) % len(sequence)]),
-                #     insert=to_svg_coords(b_center - offset),
-                #     fill="red",
-                #     font_size="20px",
-                #     text_anchor="middle",
-                # )
-                # dwg.add(text)
                 # text = dwg.text(
                 #     str(-sequence[(i + 3) % len(sequence)]),
                 #     insert=start,
