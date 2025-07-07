@@ -7,13 +7,13 @@ import svgwrite
 from cmath import phase
 from math import cos, sin, sqrt
 import os
-import cmath
 
 from typing import TypedDict
 
 
 class CircleResult(TypedDict):
     """A typed dictionary to hold the results of circle adjacencies."""
+
     internal: dict[int, list[int]]
     external: dict[int, int]
     sequences: list[list[int]]
@@ -58,7 +58,8 @@ class CircleAssignments:
 class AdjacencyBuilder:
     """A class to build the adjacency relationships between circles."""
 
-    def __init__(self, circles: CircleAssignments):
+    def __init__(self, multiloop: "Multiloop", circles: CircleAssignments):
+        self.multiloop = multiloop
         self.circles = circles
         self.internal: dict[int, list[int]] = {}
         self._initialize_internal_dict()
@@ -114,7 +115,7 @@ class AdjacencyBuilder:
                 self.internal[vertex_circle], face_circle
             )
 
-    def build_edge_adjacencies(self, multiloop) -> None:
+    def build_edge_adjacencies(self) -> None:
         """Builds the adjacency relationships for edges."""
         for edge_he, edge_circle in self.circles.edges.items():
             face_circle = self.circles.faces[edge_he]
@@ -126,7 +127,7 @@ class AdjacencyBuilder:
             )
 
             if face_circle not in self.internal[vertex_circle]:
-                sig_edge_circle = self.circles.edges[multiloop.sig(edge_he)]
+                sig_edge_circle = self.circles.edges[self.multiloop.sig(edge_he)]
                 self.internal[edge_circle] = self._add_neighbor(
                     self.internal[edge_circle], sig_edge_circle
                 )
@@ -136,7 +137,9 @@ class AdjacencyBuilder:
             )
 
             if opposite_face_circle not in self.internal[vertex_circle]:
-                sig_inv_edge_circle = self.circles.edges[multiloop.sig.inv(edge_he)]
+                sig_inv_edge_circle = self.circles.edges[
+                    self.multiloop.sig.inv(edge_he)
+                ]
                 self.internal[edge_circle] = self._add_neighbor(
                     self.internal[edge_circle], sig_inv_edge_circle
                 )
@@ -180,32 +183,37 @@ def build_sequences(
     sequences = []
 
     for strand in tau_cycles:
-        sequence = []
+        sequence = {"circle_ids": [], "half_edges": []}
         for he in strand:
             edge_circle = circles.edges[he]
             opposite_edge_circle = circles.edges[-he]
             vertex_circle = circles.vertices[he]
 
             if opposite_edge_circle != edge_circle:
-                sequence.extend([opposite_edge_circle, -he])
+                sequence["circle_ids"].append(opposite_edge_circle)
+                sequence["half_edges"].append(-he)
 
-            sequence.extend([edge_circle, he])
-            sequence.extend([vertex_circle, he])
+            sequence["circle_ids"].append(edge_circle)
+            sequence["half_edges"].append(he)
+
+            sequence["circle_ids"].append(vertex_circle)
+            sequence["half_edges"].append(he)
 
         sequences.append(sequence)
     return sequences
 
 
-def generate_circles(multiloop: "Multiloop", inf_face: list[int]) -> CircleResult:
+def generate_circles(multiloop: "Multiloop") -> CircleResult:
+    inf_face = multiloop.inf_face
     circles = CircleAssignments()
     circles.assign_vertex_circles(multiloop.sig.cycles)
     circles.assign_edge_circles(multiloop.eps.cycles, multiloop)
     circles.assign_face_circles(multiloop.phi.cycles)
 
-    adj_builder = AdjacencyBuilder(circles)
+    adj_builder = AdjacencyBuilder(multiloop, circles)
     adj_builder.build_face_adjacencies()
     adj_builder.build_vertex_adjacencies()
-    adj_builder.build_edge_adjacencies(multiloop)
+    adj_builder.build_edge_adjacencies()
     adj_builder.process_infinite_face(inf_face)
 
     sequences = build_sequences(circles, multiloop.tau.cycles)
@@ -271,7 +279,7 @@ def drawloop(
                 str(name),
                 insert=(cx + r * 0.1, cy),
                 fill="black",
-                font_size=f"{45*radius}px",
+                font_size=f"{45*radius+10}px",
                 text_anchor="middle",
             )
         )
@@ -279,13 +287,21 @@ def drawloop(
     # Draw connection lines (black, thick)
     if sequences:
         for sequence in sequences:
-            for i in range(0, len(sequence), 2):
-                startcirc_center = circle_dict[sequence[i]][0]
-                startcirc_r = circle_dict[sequence[i]][1] * scale
-                targetcirc_center = circle_dict[sequence[(i + 2) % len(sequence)]][0]
-                targetcirc_r = circle_dict[sequence[(i + 2) % len(sequence)]][1] * scale
-                endcirc_center = circle_dict[sequence[(i + 4) % len(sequence)]][0]
-                endcirc_r = circle_dict[sequence[(i + 4) % len(sequence)]][1] * scale
+            circle_ids = sequence["circle_ids"]
+            for i in range(0, len(circle_ids)):
+                startcirc_center = circle_dict[circle_ids[i]][0]
+                startcirc_r = circle_dict[circle_ids[i]][1] * scale
+                targetcirc_center = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][
+                    0
+                ]
+                targetcirc_r = (
+                    circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * scale
+                )
+
+                endcirc_center = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][0]
+                endcirc_r = (
+                    circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * scale
+                )
 
                 def find_intersection(c1, r1, c2, r2):
                     x1 = c1[0]
