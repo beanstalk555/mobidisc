@@ -28,11 +28,36 @@ def is_counterclockwise(a: tuple, b: tuple, c: tuple) -> bool:
     return is_convex(a, c, b)
 
 
-def is_appear_counterclockwise(indices: list[int]) -> bool:
+def is_appear_counterclockwise(vertices: list[int]) -> bool:
     """Check if the indices appear in counterclockwise order around a vertex."""
-    i, j, k, l = indices
-    print("Function is_appear_counterclockwise is not implemented yet.")
+    i, j, k, l, m = vertices  # l = k+1, m = k-1
+    if not (j == l) and not is_counterclockwise(i, j, l):
+        return False
+    if not (j == l) and not is_counterclockwise(j, l, m):
+        return False
+    if not (m == i) and not is_counterclockwise(l, m, i):
+        return False
+    if not (m == i) and not is_counterclockwise(m, i, j):
+        return False
+    toggle = True
+    if not is_counterclockwise(k, i, j):
+        if not toggle:
+            return False
+        toggle = False
+    if not (j == l) and not is_counterclockwise(k, j, l):
+        if not toggle:
+            return False
+        toggle = False
+    if not is_counterclockwise(k, l, m):
+        if not toggle:
+            return False
+        toggle = False
+    if not (m == i) and not is_counterclockwise(k, m, i):
+        if not toggle:
+            return False
+        toggle = False
     return True
+
 
 def is_intersect_interior(a: tuple, b: tuple, triangle: list[tuple]) -> bool:
     def is_intersect(a: tuple, b: tuple, c: tuple, d: tuple) -> bool:
@@ -79,21 +104,48 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
         for i in range(n):
             j = (i + length) % n
             for k in range(n):
+                print(
+                    f"Checking i={i}, j={j}, k={k}, circles={sequences[i % n]}, {sequences[j % n]}, {sequences[k % n]}"
+                )
                 # Check if Q[i][k] = Q[k][j] = 1
                 if not q[i][k % n] or not q[k % n][j % n]:
+                    print(f"Skipping k={k} due to Q[i][k] or Q[k][j] not being 1")
                     continue
+                if not (i <= k <= j) and (i < j):
+                    print("294928473")
+                    raise ValueError(
+                        "Invalid k index: k must be between i and j in the sequence."
+                    )
+                if not (k >= i or k <= j) and (i > j):
+                    print("artkarenst")
+                    raise ValueError(
+                        "Invalid k index: k must be between i and j in the sequence."
+                    )
+                print(f"Q[i][k] and Q[k][j] are both 1 for k={k}")
                 # Check if v[i]v[j]v[k] is oriented counterclockwise
                 if not is_counterclockwise(
                     packed_circles[sequences[i % n]],
                     packed_circles[sequences[j % n]],
                     packed_circles[sequences[k % n]],
                 ):
+                    print(f"Skipping k={k} due to counterclockwise orientation")
                     continue
-
+                print(f"v[i]v[j]v[k] is oriented counterclockwise for k={k}")
                 # Check if v[i], v[j], v[k+1], and v[k-1], appear in that order counterclockwise around v[k]
-                if not is_appear_counterclockwise([i, j, k - 1, k + 1]):
-                    continue
-
+                # if not is_appear_counterclockwise(
+                #     [
+                #         packed_circles[sequences[i % n]],
+                #         packed_circles[sequences[j % n]],
+                #         packed_circles[sequences[(k) % n]],
+                #         packed_circles[sequences[(k + 1) % n]],
+                #         packed_circles[sequences[(k - 1) % n]],
+                #     ]
+                # ):
+                #     print(f"Skipping k={k} due to appearance order around v[k]")
+                #     continue
+                print(
+                    f"v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k={k}"
+                )
                 # Check if the following four segments intersect the interior of v[i]v[j]v[k]: v[i]v[i+1],, v[k-1]v[k], v[k]v[k+1], and v[j-1]v[j]
                 if is_intersect_interior(
                     packed_circles[sequences[i % n]],
@@ -104,6 +156,7 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
                         packed_circles[sequences[k % n]],
                     ],
                 ):
+                    print(f"Skipping k={k} due to intersection with v[i]v[i+1]")
                     continue
 
                 if is_intersect_interior(
@@ -115,6 +168,7 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
                         packed_circles[sequences[k % n]],
                     ],
                 ):
+                    print(f"Skipping k={k} due to intersection with v[k-1]v[k]")
                     continue
 
                 if is_intersect_interior(
@@ -126,6 +180,7 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
                         packed_circles[sequences[k % n]],
                     ],
                 ):
+                    print(f"Skipping k={k} due to intersection with v[k]v[k+1]")
                     continue
 
                 if is_intersect_interior(
@@ -137,8 +192,9 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
                         packed_circles[sequences[k % n]],
                     ],
                 ):
+                    print(f"Skipping k={k} due to intersection with v[j-1]v[j]")
                     continue
-
+                print(f"All condition checks passed for k={k}")
                 # If we reach here, it means there exists an index k that satisfies the conditions
                 q[i][j % n] = 1
                 break
