@@ -229,6 +229,7 @@ def drawloop(
     circle_dict,
     filename="circle_pack.svg",
     sequences=None,
+    withLabels=False,
     scale=200,
     padding=50,
 ):
@@ -274,15 +275,16 @@ def drawloop(
                 stroke_width=30 * radius,
             )
         )
-        dwg.add(
-            dwg.text(
-                str(name),
-                insert=(cx + r * 0.1, cy),
-                fill="black",
-                font_size=f"{45*radius+10}px",
-                text_anchor="middle",
+        if withLabels:
+            dwg.add(
+                dwg.text(
+                    str(name),
+                    insert=(cx + r * 0.1, cy),
+                    fill="black",
+                    font_size=f"{45*radius+10}px",
+                    text_anchor="middle",
+                )
             )
-        )
 
     # Draw connection lines (black, thick)
     if sequences:
@@ -330,7 +332,7 @@ def drawloop(
                                 start=s_curve,
                                 end=e_curve,
                                 stroke="blue",
-                                stroke_width=0.1,
+                                stroke_width=1,
                             )
                         )
                         continue
@@ -347,7 +349,7 @@ def drawloop(
                     d=f"M {s_curve[0]},{s_curve[1]}",
                     fill="none",
                     stroke="blue",
-                    stroke_width=0.1,
+                    stroke_width=1,
                 )
 
                 # Use the 'A' command for a circular arc
