@@ -1,0 +1,84 @@
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][71] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -3
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -3
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -3
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 14, 39, 35, 9, 6, 32, 7, 49, 16, 47, 15, 43, 13, 9, 34, 8, 38, 10, 12, 44, 13, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -3
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][70] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][70] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 11, 46, 14, 48, 15, 50, 16, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][66] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][71] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 2, 10, 33, 8, 24, 3, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -5
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -3
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [19, 1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 26, 4, 53, 18, 28, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: -1
+INFO:mobidisc:There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 4, 53, 18, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][68] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Generating circle assignments for multiloop...
+INFO:mobidisc:Checking if multiloop with sequences: [1, 31, 7, 29, 6, 21, 2, 23, 3, 27, 5, 51, 17, 20, 1, 22, 2, 37, 10, 33, 8, 24, 3, 4, 53, 18, 5, 45, 14, 39, 11, 35, 9, 41, 12, 30, 6, 32, 7, 49, 16, 47, 15, 43, 13, 36, 9, 34, 8, 38, 10, 42, 12, 44, 13, 40, 11, 46, 14, 48, 15, 50, 16, 52, 17, 54, 18, 25, 4] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 1
+INFO:mobidisc:q[0][68] = 1 => The loop is self-overlapping.
