@@ -6,7 +6,10 @@ from permrep import Multiloop
 from circlepack import CirclePack
 from drawloop import generate_circles
 import logging
+import numpy as np
+
 logger = logging.getLogger(__name__)
+
 
 def cross_product(a: tuple, b: tuple, c: tuple) -> float:
     """Calculate the cross product of vectors AB and AC, where A, B, C are points in 2D space."""
@@ -32,18 +35,6 @@ def is_counterclockwise(a: tuple, b: tuple, c: tuple) -> bool:
 def is_appear_counterclockwise(vertices: list[int]) -> bool:
     """Check if the indices appear in counterclockwise order around a vertex."""
     i, j, k, l, m = vertices  # l = k+1, m = k-1
-    # if not (j == l) and not is_counterclockwise(i, j, l):
-    #     print("i, j, k+1 are not counterclockwise")
-    #     return False
-    # if not (j == l) and not is_counterclockwise(j, l, m):
-    #     print("j, k+1, k-1 are not counterclockwise")
-    #     return False
-    # if not (m == i) and not is_counterclockwise(l, m, i):
-    #     print("k+1, k-1, i are not counterclockwise")
-    #     return False
-    # if not (m == i) and not is_counterclockwise(m, i, j):
-    #     print("k-1, i, j are not counterclockwise")
-    #     return False
     toggle = True
     if not is_counterclockwise(k, i, j):
         if not toggle:
@@ -81,9 +72,55 @@ def is_intersect_interior(a: tuple, b: tuple, triangle: list[tuple]) -> bool:
     return False
 
 
+def cal_angle(a: tuple, b: tuple, c: tuple) -> float:
+    """Calculate the angle between vector AB and BC (in radians) given three points A, B, and C."""
+    vector_ab = np.array(b) - np.array(a)
+    vector_bc = np.array(c) - np.array(b)
+    print(f"Vectors: AB={vector_ab}, BC={vector_bc}")
+    dot_product = np.dot(vector_ab, vector_bc)
+    mag_ab = np.linalg.norm(vector_ab)
+    mag_ac = np.linalg.norm(vector_bc)
+    if mag_ab == 0 or mag_ac == 0:
+        raise ValueError("One of the vectors has zero length.")
+    cos_theta = dot_product / (mag_ab * mag_ac)
+    theta = np.arccos(cos_theta)
+    return theta
+
+
+def cal_whit(circle_pack: CirclePack, sequence) -> float:
+    """Calculate the whitney index of the loop"""
+    sign = 1
+    angles = []
+    for i in range(len(sequence)):
+        if is_convex(
+            circle_pack[sequence[i - 1]],
+            circle_pack[sequence[i]],
+            circle_pack[sequence[(i + 1) % len(sequence)]],
+        ):
+            sign = 1
+        else:
+            sign = -1
+        print(
+            f"Convex check: {sequence[i-1]}, {sequence[i]}, {sequence[(i+1)%len(sequence)]} = {sign}"
+        )
+        angle = sign * cal_angle(
+            circle_pack[sequence[i - 1]],
+            circle_pack[sequence[i]],
+            circle_pack[sequence[(i + 1) % len(sequence)]],
+        )
+        print(f"Angle: {angle}")
+        angles.append(angle)
+    whitney_index = sum(angles) / (2 * np.pi)
+    whitney_index = round(whitney_index)
+    print(f"Whitney index: {whitney_index}")
+    return whitney_index
+    # return
+
+
 def is_self_overlapping(multiloop: "Multiloop") -> bool:
+
     tolerance = 1e-5  # Tolerance for collinearity checks
-    
+
     assigned_circles = generate_circles(multiloop)
     packed_circles = CirclePack(
         assigned_circles["internal"], assigned_circles["external"]
@@ -98,13 +135,16 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
         cross_product_result = cross_product(
             packed_circles[sequences[i - 1]],
             packed_circles[sequences[i]],
-            packed_circles[sequences[(i + 1) % len(sequences)]]
+            packed_circles[sequences[(i + 1) % len(sequences)]],
         )
         if abs(cross_product_result) > tolerance:
             temp_sequences.append(sequences[i])
     sequences = temp_sequences
     logger.info(f"Sequence after removing collinear points: {sequences}")
-
+    whitney_index = cal_whit(packed_circles, sequences)
+    if abs(whitney_index) != 1:
+        return False
+    sequences = sequences[::whitney_index]
     n = len(sequences)
     q = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):

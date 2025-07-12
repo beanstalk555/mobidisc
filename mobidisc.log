@@ -1,218 +1,1094 @@
-2025-07-10 20:51:03,891 Checking multiloop with sequences: [3, 2, 1, 5, 4, 1]
-2025-07-10 20:51:03,891 Sequence after removing collinear points: [3, 2, 1, 5, 4, 1]
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=0, circles=3, 5, 3
-2025-07-10 20:51:03,891 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=1, circles=3, 5, 2
-2025-07-10 20:51:03,891 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=2, circles=3, 5, 1
-2025-07-10 20:51:03,891 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=3, circles=3, 5, 5
-2025-07-10 20:51:03,891 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=4, circles=3, 5, 4
-2025-07-10 20:51:03,891 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=0, j=3, k=5, circles=3, 5, 1
-2025-07-10 20:51:03,891 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=0, circles=2, 4, 3
-2025-07-10 20:51:03,891 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=1, circles=2, 4, 2
-2025-07-10 20:51:03,891 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=2, circles=2, 4, 1
-2025-07-10 20:51:03,891 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=3, circles=2, 4, 5
-2025-07-10 20:51:03,891 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=4, circles=2, 4, 4
-2025-07-10 20:51:03,891 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=1, j=4, k=5, circles=2, 4, 1
-2025-07-10 20:51:03,891 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=2, j=5, k=0, circles=1, 1, 3
-2025-07-10 20:51:03,891 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=2, j=5, k=1, circles=1, 1, 2
-2025-07-10 20:51:03,891 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,891 Checking i=2, j=5, k=2, circles=1, 1, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=5, k=3, circles=1, 1, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=5, k=4, circles=1, 1, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=5, k=5, circles=1, 1, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=0, circles=5, 3, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=1, circles=5, 3, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=2, circles=5, 3, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=3, circles=5, 3, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=4, circles=5, 3, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=0, k=5, circles=5, 3, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=0, circles=4, 2, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=1, circles=4, 2, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=2, circles=4, 2, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=3, circles=4, 2, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=4, circles=4, 2, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=4, j=1, k=5, circles=4, 2, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=0, circles=1, 1, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=1, circles=1, 1, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=2, circles=1, 1, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=3, circles=1, 1, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=4, circles=1, 1, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=5, j=2, k=5, circles=1, 1, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=0, circles=3, 4, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=1, circles=3, 4, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=2, circles=3, 4, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=3, circles=3, 4, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=4, circles=3, 4, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=0, j=4, k=5, circles=3, 4, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=0, circles=2, 1, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=1, circles=2, 1, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=2, circles=2, 1, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=3, circles=2, 1, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=4, circles=2, 1, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=1, j=5, k=5, circles=2, 1, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=0, circles=1, 3, 3
-2025-07-10 20:51:03,892 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=1, circles=1, 3, 2
-2025-07-10 20:51:03,892 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=2, circles=1, 3, 1
-2025-07-10 20:51:03,892 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=3, circles=1, 3, 5
-2025-07-10 20:51:03,892 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=4, circles=1, 3, 4
-2025-07-10 20:51:03,892 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=2, j=0, k=5, circles=1, 3, 1
-2025-07-10 20:51:03,892 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,892 Checking i=3, j=1, k=0, circles=5, 2, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=1, k=1, circles=5, 2, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=1, k=2, circles=5, 2, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=1, k=3, circles=5, 2, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=1, k=4, circles=5, 2, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=1, k=5, circles=5, 2, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=0, circles=4, 1, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=1, circles=4, 1, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=2, circles=4, 1, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=3, circles=4, 1, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=4, circles=4, 1, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=4, j=2, k=5, circles=4, 1, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=0, circles=1, 5, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=1, circles=1, 5, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=2, circles=1, 5, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=3, circles=1, 5, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=4, circles=1, 5, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=5, j=3, k=5, circles=1, 5, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=0, circles=3, 1, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=1, circles=3, 1, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=2, circles=3, 1, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=3, circles=3, 1, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=4, circles=3, 1, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=0, j=5, k=5, circles=3, 1, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=0, circles=2, 3, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=1, circles=2, 3, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=2, circles=2, 3, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=3, circles=2, 3, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=4, circles=2, 3, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=1, j=0, k=5, circles=2, 3, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=0, circles=1, 2, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=1, circles=1, 2, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=2, circles=1, 2, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=3, circles=1, 2, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=4, circles=1, 2, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=2, j=1, k=5, circles=1, 2, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=0, circles=5, 1, 3
-2025-07-10 20:51:03,893 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=1, circles=5, 1, 2
-2025-07-10 20:51:03,893 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=2, circles=5, 1, 1
-2025-07-10 20:51:03,893 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=3, circles=5, 1, 5
-2025-07-10 20:51:03,893 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=4, circles=5, 1, 4
-2025-07-10 20:51:03,893 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,893 Checking i=3, j=2, k=5, circles=5, 1, 1
-2025-07-10 20:51:03,893 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=0, circles=4, 5, 3
-2025-07-10 20:51:03,894 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=1, circles=4, 5, 2
-2025-07-10 20:51:03,894 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=2, circles=4, 5, 1
-2025-07-10 20:51:03,894 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=3, circles=4, 5, 5
-2025-07-10 20:51:03,894 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=4, circles=4, 5, 4
-2025-07-10 20:51:03,894 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=4, j=3, k=5, circles=4, 5, 1
-2025-07-10 20:51:03,894 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=0, circles=1, 4, 3
-2025-07-10 20:51:03,894 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=1, circles=1, 4, 2
-2025-07-10 20:51:03,894 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=2, circles=1, 4, 1
-2025-07-10 20:51:03,894 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=3, circles=1, 4, 5
-2025-07-10 20:51:03,894 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=4, circles=1, 4, 4
-2025-07-10 20:51:03,894 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
-2025-07-10 20:51:03,894 Checking i=5, j=4, k=5, circles=1, 4, 1
-2025-07-10 20:51:03,894 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,268 Checking multiloop with sequences: [3, 1, 5, 6, 1, 4, 2, 8, 7, 2]
+2025-07-11 20:38:50,268 Sequence after removing collinear points: [3, 1, 5, 6, 1, 4, 2, 8, 7, 2]
+2025-07-11 20:38:50,273 Checking i=0, j=3, k=0, circles=3, 6, 3
+2025-07-11 20:38:50,273 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,273 Checking i=0, j=3, k=1, circles=3, 6, 1
+2025-07-11 20:38:50,273 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,273 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,273 Checking i=0, j=3, k=2, circles=3, 6, 5
+2025-07-11 20:38:50,273 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,274 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,274 Checking appearance order around v[k] for k=2: 3, 6, 5, 6, 1
+2025-07-11 20:38:50,274 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,274 All condition checks passed for k=2
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=0, circles=1, 1, 3
+2025-07-11 20:38:50,274 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=1, circles=1, 1, 1
+2025-07-11 20:38:50,274 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=2, circles=1, 1, 5
+2025-07-11 20:38:50,274 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,274 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=3, circles=1, 1, 6
+2025-07-11 20:38:50,274 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,274 Skipping k=3 due to counterclockwise orientation
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=4, circles=1, 1, 1
+2025-07-11 20:38:50,274 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=5, circles=1, 1, 4
+2025-07-11 20:38:50,274 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=6, circles=1, 1, 2
+2025-07-11 20:38:50,274 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=7, circles=1, 1, 8
+2025-07-11 20:38:50,274 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=8, circles=1, 1, 7
+2025-07-11 20:38:50,274 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=1, j=4, k=9, circles=1, 1, 2
+2025-07-11 20:38:50,274 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=2, j=5, k=0, circles=5, 4, 3
+2025-07-11 20:38:50,274 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=2, j=5, k=1, circles=5, 4, 1
+2025-07-11 20:38:50,274 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=2, j=5, k=2, circles=5, 4, 5
+2025-07-11 20:38:50,274 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=2, j=5, k=3, circles=5, 4, 6
+2025-07-11 20:38:50,274 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,274 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,274 Checking appearance order around v[k] for k=3: 5, 4, 6, 1, 5
+2025-07-11 20:38:50,274 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,274 All condition checks passed for k=3
+2025-07-11 20:38:50,274 Checking i=3, j=6, k=0, circles=6, 2, 3
+2025-07-11 20:38:50,274 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=3, j=6, k=1, circles=6, 2, 1
+2025-07-11 20:38:50,274 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=3, j=6, k=2, circles=6, 2, 5
+2025-07-11 20:38:50,274 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=3, j=6, k=3, circles=6, 2, 6
+2025-07-11 20:38:50,274 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,274 Checking i=3, j=6, k=4, circles=6, 2, 1
+2025-07-11 20:38:50,274 Q[i][k] and Q[k][j] are both 1 for k=4
+2025-07-11 20:38:50,275 v[i]v[j]v[k] is oriented counterclockwise for k=4
+2025-07-11 20:38:50,275 Checking appearance order around v[k] for k=4: 6, 2, 1, 4, 6
+2025-07-11 20:38:50,275 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=4
+2025-07-11 20:38:50,275 All condition checks passed for k=4
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=0, circles=1, 8, 3
+2025-07-11 20:38:50,275 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=1, circles=1, 8, 1
+2025-07-11 20:38:50,275 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=2, circles=1, 8, 5
+2025-07-11 20:38:50,275 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=3, circles=1, 8, 6
+2025-07-11 20:38:50,275 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=4, circles=1, 8, 1
+2025-07-11 20:38:50,275 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=5, circles=1, 8, 4
+2025-07-11 20:38:50,275 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=4, j=7, k=6, circles=1, 8, 2
+2025-07-11 20:38:50,275 Q[i][k] and Q[k][j] are both 1 for k=6
+2025-07-11 20:38:50,275 v[i]v[j]v[k] is oriented counterclockwise for k=6
+2025-07-11 20:38:50,275 Checking appearance order around v[k] for k=6: 1, 8, 2, 8, 4
+2025-07-11 20:38:50,275 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=6
+2025-07-11 20:38:50,275 All condition checks passed for k=6
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=0, circles=4, 7, 3
+2025-07-11 20:38:50,275 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=1, circles=4, 7, 1
+2025-07-11 20:38:50,275 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=2, circles=4, 7, 5
+2025-07-11 20:38:50,275 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=3, circles=4, 7, 6
+2025-07-11 20:38:50,275 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=4, circles=4, 7, 1
+2025-07-11 20:38:50,275 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=5, circles=4, 7, 4
+2025-07-11 20:38:50,275 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=6, circles=4, 7, 2
+2025-07-11 20:38:50,275 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=7, circles=4, 7, 8
+2025-07-11 20:38:50,275 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=8, circles=4, 7, 7
+2025-07-11 20:38:50,275 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=5, j=8, k=9, circles=4, 7, 2
+2025-07-11 20:38:50,275 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=0, circles=2, 2, 3
+2025-07-11 20:38:50,275 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=1, circles=2, 2, 1
+2025-07-11 20:38:50,275 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=2, circles=2, 2, 5
+2025-07-11 20:38:50,275 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=3, circles=2, 2, 6
+2025-07-11 20:38:50,275 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=4, circles=2, 2, 1
+2025-07-11 20:38:50,275 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=5, circles=2, 2, 4
+2025-07-11 20:38:50,275 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=6, circles=2, 2, 2
+2025-07-11 20:38:50,275 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=7, circles=2, 2, 8
+2025-07-11 20:38:50,275 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=8, circles=2, 2, 7
+2025-07-11 20:38:50,275 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=6, j=9, k=9, circles=2, 2, 2
+2025-07-11 20:38:50,275 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=0, circles=8, 3, 3
+2025-07-11 20:38:50,275 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=1, circles=8, 3, 1
+2025-07-11 20:38:50,275 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=2, circles=8, 3, 5
+2025-07-11 20:38:50,275 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=3, circles=8, 3, 6
+2025-07-11 20:38:50,275 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=4, circles=8, 3, 1
+2025-07-11 20:38:50,275 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=5, circles=8, 3, 4
+2025-07-11 20:38:50,275 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=6, circles=8, 3, 2
+2025-07-11 20:38:50,275 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,275 Checking i=7, j=0, k=7, circles=8, 3, 8
+2025-07-11 20:38:50,276 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=7, j=0, k=8, circles=8, 3, 7
+2025-07-11 20:38:50,276 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=7, j=0, k=9, circles=8, 3, 2
+2025-07-11 20:38:50,276 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=0, circles=7, 1, 3
+2025-07-11 20:38:50,276 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=1, circles=7, 1, 1
+2025-07-11 20:38:50,276 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=2, circles=7, 1, 5
+2025-07-11 20:38:50,276 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=3, circles=7, 1, 6
+2025-07-11 20:38:50,276 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=4, circles=7, 1, 1
+2025-07-11 20:38:50,276 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=5, circles=7, 1, 4
+2025-07-11 20:38:50,276 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=6, circles=7, 1, 2
+2025-07-11 20:38:50,276 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=7, circles=7, 1, 8
+2025-07-11 20:38:50,276 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=8, circles=7, 1, 7
+2025-07-11 20:38:50,276 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=8, j=1, k=9, circles=7, 1, 2
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=9
+2025-07-11 20:38:50,276 v[i]v[j]v[k] is oriented counterclockwise for k=9
+2025-07-11 20:38:50,276 Checking appearance order around v[k] for k=9: 7, 1, 2, 3, 7
+2025-07-11 20:38:50,276 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=9
+2025-07-11 20:38:50,276 All condition checks passed for k=9
+2025-07-11 20:38:50,276 Checking i=9, j=2, k=0, circles=2, 5, 3
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,276 Skipping k=0 due to counterclockwise orientation
+2025-07-11 20:38:50,276 Checking i=9, j=2, k=1, circles=2, 5, 1
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,276 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,276 Checking appearance order around v[k] for k=1: 2, 5, 1, 5, 3
+2025-07-11 20:38:50,276 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,276 All condition checks passed for k=1
+2025-07-11 20:38:50,276 Checking i=0, j=4, k=0, circles=3, 1, 3
+2025-07-11 20:38:50,276 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=0, j=4, k=1, circles=3, 1, 1
+2025-07-11 20:38:50,276 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=0, j=4, k=2, circles=3, 1, 5
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,276 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,276 Checking i=0, j=4, k=3, circles=3, 1, 6
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,276 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,276 Checking appearance order around v[k] for k=3: 3, 1, 6, 1, 5
+2025-07-11 20:38:50,276 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,276 All condition checks passed for k=3
+2025-07-11 20:38:50,276 Checking i=1, j=5, k=0, circles=1, 4, 3
+2025-07-11 20:38:50,276 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=1, j=5, k=1, circles=1, 4, 1
+2025-07-11 20:38:50,276 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=1, j=5, k=2, circles=1, 4, 5
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,276 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,276 Checking appearance order around v[k] for k=2: 1, 4, 5, 6, 1
+2025-07-11 20:38:50,276 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,276 All condition checks passed for k=2
+2025-07-11 20:38:50,276 Checking i=2, j=6, k=0, circles=5, 2, 3
+2025-07-11 20:38:50,276 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=2, j=6, k=1, circles=5, 2, 1
+2025-07-11 20:38:50,276 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=2, j=6, k=2, circles=5, 2, 5
+2025-07-11 20:38:50,276 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,276 Checking i=2, j=6, k=3, circles=5, 2, 6
+2025-07-11 20:38:50,276 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,276 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,276 Checking appearance order around v[k] for k=3: 5, 2, 6, 1, 5
+2025-07-11 20:38:50,276 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,276 All condition checks passed for k=3
+2025-07-11 20:38:50,276 Checking i=3, j=7, k=0, circles=6, 8, 3
+2025-07-11 20:38:50,276 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=3, j=7, k=1, circles=6, 8, 1
+2025-07-11 20:38:50,277 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=3, j=7, k=2, circles=6, 8, 5
+2025-07-11 20:38:50,277 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=3, j=7, k=3, circles=6, 8, 6
+2025-07-11 20:38:50,277 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=3, j=7, k=4, circles=6, 8, 1
+2025-07-11 20:38:50,277 Q[i][k] and Q[k][j] are both 1 for k=4
+2025-07-11 20:38:50,277 v[i]v[j]v[k] is oriented counterclockwise for k=4
+2025-07-11 20:38:50,277 Checking appearance order around v[k] for k=4: 6, 8, 1, 4, 6
+2025-07-11 20:38:50,277 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=4
+2025-07-11 20:38:50,277 All condition checks passed for k=4
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=0, circles=1, 7, 3
+2025-07-11 20:38:50,277 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=1, circles=1, 7, 1
+2025-07-11 20:38:50,277 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=2, circles=1, 7, 5
+2025-07-11 20:38:50,277 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=3, circles=1, 7, 6
+2025-07-11 20:38:50,277 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=4, circles=1, 7, 1
+2025-07-11 20:38:50,277 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=5, circles=1, 7, 4
+2025-07-11 20:38:50,277 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=6, circles=1, 7, 2
+2025-07-11 20:38:50,277 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=7, circles=1, 7, 8
+2025-07-11 20:38:50,277 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,277 Skipping k=7 due to counterclockwise orientation
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=8, circles=1, 7, 7
+2025-07-11 20:38:50,277 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=4, j=8, k=9, circles=1, 7, 2
+2025-07-11 20:38:50,277 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=0, circles=4, 2, 3
+2025-07-11 20:38:50,277 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=1, circles=4, 2, 1
+2025-07-11 20:38:50,277 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=2, circles=4, 2, 5
+2025-07-11 20:38:50,277 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=3, circles=4, 2, 6
+2025-07-11 20:38:50,277 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=4, circles=4, 2, 1
+2025-07-11 20:38:50,277 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=5, circles=4, 2, 4
+2025-07-11 20:38:50,277 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=6, circles=4, 2, 2
+2025-07-11 20:38:50,277 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=7, circles=4, 2, 8
+2025-07-11 20:38:50,277 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=8, circles=4, 2, 7
+2025-07-11 20:38:50,277 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=5, j=9, k=9, circles=4, 2, 2
+2025-07-11 20:38:50,277 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=0, circles=2, 3, 3
+2025-07-11 20:38:50,277 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=1, circles=2, 3, 1
+2025-07-11 20:38:50,277 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=2, circles=2, 3, 5
+2025-07-11 20:38:50,277 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=3, circles=2, 3, 6
+2025-07-11 20:38:50,277 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=4, circles=2, 3, 1
+2025-07-11 20:38:50,277 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=5, circles=2, 3, 4
+2025-07-11 20:38:50,277 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=6, circles=2, 3, 2
+2025-07-11 20:38:50,277 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=7, circles=2, 3, 8
+2025-07-11 20:38:50,277 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=8, circles=2, 3, 7
+2025-07-11 20:38:50,277 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=6, j=0, k=9, circles=2, 3, 2
+2025-07-11 20:38:50,277 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=7, j=1, k=0, circles=8, 1, 3
+2025-07-11 20:38:50,277 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=7, j=1, k=1, circles=8, 1, 1
+2025-07-11 20:38:50,277 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,277 Checking i=7, j=1, k=2, circles=8, 1, 5
+2025-07-11 20:38:50,278 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=3, circles=8, 1, 6
+2025-07-11 20:38:50,278 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=4, circles=8, 1, 1
+2025-07-11 20:38:50,278 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=5, circles=8, 1, 4
+2025-07-11 20:38:50,278 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=6, circles=8, 1, 2
+2025-07-11 20:38:50,278 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=7, circles=8, 1, 8
+2025-07-11 20:38:50,278 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=8, circles=8, 1, 7
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,278 Skipping k=8 due to counterclockwise orientation
+2025-07-11 20:38:50,278 Checking i=7, j=1, k=9, circles=8, 1, 2
+2025-07-11 20:38:50,278 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=8, j=2, k=0, circles=7, 5, 3
+2025-07-11 20:38:50,278 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=8, j=2, k=1, circles=7, 5, 1
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,278 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,278 Checking appearance order around v[k] for k=1: 7, 5, 1, 5, 3
+2025-07-11 20:38:50,278 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,278 All condition checks passed for k=1
+2025-07-11 20:38:50,278 Checking i=9, j=3, k=0, circles=2, 6, 3
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,278 Skipping k=0 due to counterclockwise orientation
+2025-07-11 20:38:50,278 Checking i=9, j=3, k=1, circles=2, 6, 1
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,278 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,278 Checking i=9, j=3, k=2, circles=2, 6, 5
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,278 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,278 Checking appearance order around v[k] for k=2: 2, 6, 5, 6, 1
+2025-07-11 20:38:50,278 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,278 All condition checks passed for k=2
+2025-07-11 20:38:50,278 Checking i=0, j=5, k=0, circles=3, 4, 3
+2025-07-11 20:38:50,278 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=0, j=5, k=1, circles=3, 4, 1
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,278 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,278 Checking appearance order around v[k] for k=1: 3, 4, 1, 5, 3
+2025-07-11 20:38:50,278 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,278 All condition checks passed for k=1
+2025-07-11 20:38:50,278 Checking i=1, j=6, k=0, circles=1, 2, 3
+2025-07-11 20:38:50,278 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=1, j=6, k=1, circles=1, 2, 1
+2025-07-11 20:38:50,278 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=1, j=6, k=2, circles=1, 2, 5
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,278 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,278 Checking appearance order around v[k] for k=2: 1, 2, 5, 6, 1
+2025-07-11 20:38:50,278 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,278 All condition checks passed for k=2
+2025-07-11 20:38:50,278 Checking i=2, j=7, k=0, circles=5, 8, 3
+2025-07-11 20:38:50,278 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=2, j=7, k=1, circles=5, 8, 1
+2025-07-11 20:38:50,278 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=2, j=7, k=2, circles=5, 8, 5
+2025-07-11 20:38:50,278 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=2, j=7, k=3, circles=5, 8, 6
+2025-07-11 20:38:50,278 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,278 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,278 Checking appearance order around v[k] for k=3: 5, 8, 6, 1, 5
+2025-07-11 20:38:50,278 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,278 All condition checks passed for k=3
+2025-07-11 20:38:50,278 Checking i=3, j=8, k=0, circles=6, 7, 3
+2025-07-11 20:38:50,278 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=3, j=8, k=1, circles=6, 7, 1
+2025-07-11 20:38:50,278 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=3, j=8, k=2, circles=6, 7, 5
+2025-07-11 20:38:50,278 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=3, j=8, k=3, circles=6, 7, 6
+2025-07-11 20:38:50,278 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,278 Checking i=3, j=8, k=4, circles=6, 7, 1
+2025-07-11 20:38:50,279 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=3, j=8, k=5, circles=6, 7, 4
+2025-07-11 20:38:50,279 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=3, j=8, k=6, circles=6, 7, 2
+2025-07-11 20:38:50,279 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=3, j=8, k=7, circles=6, 7, 8
+2025-07-11 20:38:50,279 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,279 v[i]v[j]v[k] is oriented counterclockwise for k=7
+2025-07-11 20:38:50,279 Checking appearance order around v[k] for k=7: 6, 7, 8, 7, 2
+2025-07-11 20:38:50,279 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=7
+2025-07-11 20:38:50,279 All condition checks passed for k=7
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=0, circles=1, 2, 3
+2025-07-11 20:38:50,279 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=1, circles=1, 2, 1
+2025-07-11 20:38:50,279 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=2, circles=1, 2, 5
+2025-07-11 20:38:50,279 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=3, circles=1, 2, 6
+2025-07-11 20:38:50,279 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=4, circles=1, 2, 1
+2025-07-11 20:38:50,279 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=5, circles=1, 2, 4
+2025-07-11 20:38:50,279 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=6, circles=1, 2, 2
+2025-07-11 20:38:50,279 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=7, circles=1, 2, 8
+2025-07-11 20:38:50,279 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=8, circles=1, 2, 7
+2025-07-11 20:38:50,279 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=4, j=9, k=9, circles=1, 2, 2
+2025-07-11 20:38:50,279 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=0, circles=4, 3, 3
+2025-07-11 20:38:50,279 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=1, circles=4, 3, 1
+2025-07-11 20:38:50,279 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=2, circles=4, 3, 5
+2025-07-11 20:38:50,279 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=3, circles=4, 3, 6
+2025-07-11 20:38:50,279 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=4, circles=4, 3, 1
+2025-07-11 20:38:50,279 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=5, circles=4, 3, 4
+2025-07-11 20:38:50,279 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=6, circles=4, 3, 2
+2025-07-11 20:38:50,279 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=7, circles=4, 3, 8
+2025-07-11 20:38:50,279 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=8, circles=4, 3, 7
+2025-07-11 20:38:50,279 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=5, j=0, k=9, circles=4, 3, 2
+2025-07-11 20:38:50,279 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=0, circles=2, 1, 3
+2025-07-11 20:38:50,279 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=1, circles=2, 1, 1
+2025-07-11 20:38:50,279 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=2, circles=2, 1, 5
+2025-07-11 20:38:50,279 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=3, circles=2, 1, 6
+2025-07-11 20:38:50,279 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=4, circles=2, 1, 1
+2025-07-11 20:38:50,279 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=5, circles=2, 1, 4
+2025-07-11 20:38:50,279 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=6, circles=2, 1, 2
+2025-07-11 20:38:50,279 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=7, circles=2, 1, 8
+2025-07-11 20:38:50,279 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=8, circles=2, 1, 7
+2025-07-11 20:38:50,279 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=6, j=1, k=9, circles=2, 1, 2
+2025-07-11 20:38:50,279 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,279 Checking i=7, j=2, k=0, circles=8, 5, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=1, circles=8, 5, 1
+2025-07-11 20:38:50,280 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=2, circles=8, 5, 5
+2025-07-11 20:38:50,280 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=3, circles=8, 5, 6
+2025-07-11 20:38:50,280 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=4, circles=8, 5, 1
+2025-07-11 20:38:50,280 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=5, circles=8, 5, 4
+2025-07-11 20:38:50,280 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=6, circles=8, 5, 2
+2025-07-11 20:38:50,280 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=7, circles=8, 5, 8
+2025-07-11 20:38:50,280 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=7, j=2, k=8, circles=8, 5, 7
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=8
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=8: 8, 5, 7, 2, 8
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=8
+2025-07-11 20:38:50,280 All condition checks passed for k=8
+2025-07-11 20:38:50,280 Checking i=8, j=3, k=0, circles=7, 6, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=8, j=3, k=1, circles=7, 6, 1
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,280 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,280 Checking i=8, j=3, k=2, circles=7, 6, 5
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=2: 7, 6, 5, 6, 1
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,280 All condition checks passed for k=2
+2025-07-11 20:38:50,280 Checking i=9, j=4, k=0, circles=2, 1, 3
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=0
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=0: 2, 1, 3, 1, 2
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=0
+2025-07-11 20:38:50,280 All condition checks passed for k=0
+2025-07-11 20:38:50,280 Checking i=0, j=6, k=0, circles=3, 2, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=0, j=6, k=1, circles=3, 2, 1
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=1: 3, 2, 1, 5, 3
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,280 All condition checks passed for k=1
+2025-07-11 20:38:50,280 Checking i=1, j=7, k=0, circles=1, 8, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=1, j=7, k=1, circles=1, 8, 1
+2025-07-11 20:38:50,280 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=1, j=7, k=2, circles=1, 8, 5
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=2: 1, 8, 5, 6, 1
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,280 All condition checks passed for k=2
+2025-07-11 20:38:50,280 Checking i=2, j=8, k=0, circles=5, 7, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=2, j=8, k=1, circles=5, 7, 1
+2025-07-11 20:38:50,280 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=2, j=8, k=2, circles=5, 7, 5
+2025-07-11 20:38:50,280 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=2, j=8, k=3, circles=5, 7, 6
+2025-07-11 20:38:50,280 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,280 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,280 Checking appearance order around v[k] for k=3: 5, 7, 6, 1, 5
+2025-07-11 20:38:50,280 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,280 All condition checks passed for k=3
+2025-07-11 20:38:50,280 Checking i=3, j=9, k=0, circles=6, 2, 3
+2025-07-11 20:38:50,280 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=3, j=9, k=1, circles=6, 2, 1
+2025-07-11 20:38:50,280 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=3, j=9, k=2, circles=6, 2, 5
+2025-07-11 20:38:50,280 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,280 Checking i=3, j=9, k=3, circles=6, 2, 6
+2025-07-11 20:38:50,281 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=4, circles=6, 2, 1
+2025-07-11 20:38:50,281 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=5, circles=6, 2, 4
+2025-07-11 20:38:50,281 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=6, circles=6, 2, 2
+2025-07-11 20:38:50,281 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=7, circles=6, 2, 8
+2025-07-11 20:38:50,281 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=8, circles=6, 2, 7
+2025-07-11 20:38:50,281 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,281 Skipping k=8 due to counterclockwise orientation
+2025-07-11 20:38:50,281 Checking i=3, j=9, k=9, circles=6, 2, 2
+2025-07-11 20:38:50,281 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=0, circles=1, 3, 3
+2025-07-11 20:38:50,281 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=1, circles=1, 3, 1
+2025-07-11 20:38:50,281 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=2, circles=1, 3, 5
+2025-07-11 20:38:50,281 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=3, circles=1, 3, 6
+2025-07-11 20:38:50,281 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=4, circles=1, 3, 1
+2025-07-11 20:38:50,281 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=5, circles=1, 3, 4
+2025-07-11 20:38:50,281 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=6, circles=1, 3, 2
+2025-07-11 20:38:50,281 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=7, circles=1, 3, 8
+2025-07-11 20:38:50,281 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=8, circles=1, 3, 7
+2025-07-11 20:38:50,281 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=4, j=0, k=9, circles=1, 3, 2
+2025-07-11 20:38:50,281 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=0, circles=4, 1, 3
+2025-07-11 20:38:50,281 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=1, circles=4, 1, 1
+2025-07-11 20:38:50,281 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=2, circles=4, 1, 5
+2025-07-11 20:38:50,281 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=3, circles=4, 1, 6
+2025-07-11 20:38:50,281 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=4, circles=4, 1, 1
+2025-07-11 20:38:50,281 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=5, circles=4, 1, 4
+2025-07-11 20:38:50,281 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=6, circles=4, 1, 2
+2025-07-11 20:38:50,281 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=7, circles=4, 1, 8
+2025-07-11 20:38:50,281 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=8, circles=4, 1, 7
+2025-07-11 20:38:50,281 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=5, j=1, k=9, circles=4, 1, 2
+2025-07-11 20:38:50,281 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=6, j=2, k=0, circles=2, 5, 3
+2025-07-11 20:38:50,281 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,281 Checking i=6, j=2, k=1, circles=2, 5, 1
+2025-07-11 20:38:50,282 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=2, circles=2, 5, 5
+2025-07-11 20:38:50,282 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=3, circles=2, 5, 6
+2025-07-11 20:38:50,282 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=4, circles=2, 5, 1
+2025-07-11 20:38:50,282 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=5, circles=2, 5, 4
+2025-07-11 20:38:50,282 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=6, circles=2, 5, 2
+2025-07-11 20:38:50,282 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=7, circles=2, 5, 8
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,282 Skipping k=7 due to counterclockwise orientation
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=8, circles=2, 5, 7
+2025-07-11 20:38:50,282 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=6, j=2, k=9, circles=2, 5, 2
+2025-07-11 20:38:50,282 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=7, j=3, k=0, circles=8, 6, 3
+2025-07-11 20:38:50,282 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=7, j=3, k=1, circles=8, 6, 1
+2025-07-11 20:38:50,282 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=7, j=3, k=2, circles=8, 6, 5
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,282 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,282 Checking appearance order around v[k] for k=2: 8, 6, 5, 6, 1
+2025-07-11 20:38:50,282 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,282 All condition checks passed for k=2
+2025-07-11 20:38:50,282 Checking i=8, j=4, k=0, circles=7, 1, 3
+2025-07-11 20:38:50,282 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=8, j=4, k=1, circles=7, 1, 1
+2025-07-11 20:38:50,282 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=8, j=4, k=2, circles=7, 1, 5
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,282 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,282 Checking i=8, j=4, k=3, circles=7, 1, 6
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,282 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,282 Checking appearance order around v[k] for k=3: 7, 1, 6, 1, 5
+2025-07-11 20:38:50,282 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,282 All condition checks passed for k=3
+2025-07-11 20:38:50,282 Checking i=9, j=5, k=0, circles=2, 4, 3
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,282 v[i]v[j]v[k] is oriented counterclockwise for k=0
+2025-07-11 20:38:50,282 Checking appearance order around v[k] for k=0: 2, 4, 3, 1, 2
+2025-07-11 20:38:50,282 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=0
+2025-07-11 20:38:50,282 All condition checks passed for k=0
+2025-07-11 20:38:50,282 Checking i=0, j=7, k=0, circles=3, 8, 3
+2025-07-11 20:38:50,282 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=0, j=7, k=1, circles=3, 8, 1
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,282 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,282 Checking appearance order around v[k] for k=1: 3, 8, 1, 5, 3
+2025-07-11 20:38:50,282 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,282 All condition checks passed for k=1
+2025-07-11 20:38:50,282 Checking i=1, j=8, k=0, circles=1, 7, 3
+2025-07-11 20:38:50,282 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=1, j=8, k=1, circles=1, 7, 1
+2025-07-11 20:38:50,282 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=1, j=8, k=2, circles=1, 7, 5
+2025-07-11 20:38:50,282 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,282 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,282 Checking appearance order around v[k] for k=2: 1, 7, 5, 6, 1
+2025-07-11 20:38:50,282 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,282 All condition checks passed for k=2
+2025-07-11 20:38:50,282 Checking i=2, j=9, k=0, circles=5, 2, 3
+2025-07-11 20:38:50,282 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=2, j=9, k=1, circles=5, 2, 1
+2025-07-11 20:38:50,282 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=2, j=9, k=2, circles=5, 2, 5
+2025-07-11 20:38:50,282 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,282 Checking i=2, j=9, k=3, circles=5, 2, 6
+2025-07-11 20:38:50,282 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=2, j=9, k=4, circles=5, 2, 1
+2025-07-11 20:38:50,283 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=2, j=9, k=5, circles=5, 2, 4
+2025-07-11 20:38:50,283 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=2, j=9, k=6, circles=5, 2, 2
+2025-07-11 20:38:50,283 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=2, j=9, k=7, circles=5, 2, 8
+2025-07-11 20:38:50,283 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=2, j=9, k=8, circles=5, 2, 7
+2025-07-11 20:38:50,283 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,283 v[i]v[j]v[k] is oriented counterclockwise for k=8
+2025-07-11 20:38:50,283 Checking appearance order around v[k] for k=8: 5, 2, 7, 2, 8
+2025-07-11 20:38:50,283 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=8
+2025-07-11 20:38:50,283 All condition checks passed for k=8
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=0, circles=6, 3, 3
+2025-07-11 20:38:50,283 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=1, circles=6, 3, 1
+2025-07-11 20:38:50,283 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=2, circles=6, 3, 5
+2025-07-11 20:38:50,283 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=3, circles=6, 3, 6
+2025-07-11 20:38:50,283 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=4, circles=6, 3, 1
+2025-07-11 20:38:50,283 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=5, circles=6, 3, 4
+2025-07-11 20:38:50,283 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=6, circles=6, 3, 2
+2025-07-11 20:38:50,283 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=7, circles=6, 3, 8
+2025-07-11 20:38:50,283 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=8, circles=6, 3, 7
+2025-07-11 20:38:50,283 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=3, j=0, k=9, circles=6, 3, 2
+2025-07-11 20:38:50,283 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=0, circles=1, 1, 3
+2025-07-11 20:38:50,283 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=1, circles=1, 1, 1
+2025-07-11 20:38:50,283 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=2, circles=1, 1, 5
+2025-07-11 20:38:50,283 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=3, circles=1, 1, 6
+2025-07-11 20:38:50,283 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=4, circles=1, 1, 1
+2025-07-11 20:38:50,283 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=5, circles=1, 1, 4
+2025-07-11 20:38:50,283 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=6, circles=1, 1, 2
+2025-07-11 20:38:50,283 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=7, circles=1, 1, 8
+2025-07-11 20:38:50,283 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=8, circles=1, 1, 7
+2025-07-11 20:38:50,283 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=4, j=1, k=9, circles=1, 1, 2
+2025-07-11 20:38:50,283 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=0, circles=4, 5, 3
+2025-07-11 20:38:50,283 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=1, circles=4, 5, 1
+2025-07-11 20:38:50,283 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=2, circles=4, 5, 5
+2025-07-11 20:38:50,283 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=3, circles=4, 5, 6
+2025-07-11 20:38:50,283 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=4, circles=4, 5, 1
+2025-07-11 20:38:50,283 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=5, circles=4, 5, 4
+2025-07-11 20:38:50,283 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=6, circles=4, 5, 2
+2025-07-11 20:38:50,283 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=7, circles=4, 5, 8
+2025-07-11 20:38:50,283 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=8, circles=4, 5, 7
+2025-07-11 20:38:50,283 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=5, j=2, k=9, circles=4, 5, 2
+2025-07-11 20:38:50,283 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=6, j=3, k=0, circles=2, 6, 3
+2025-07-11 20:38:50,283 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=6, j=3, k=1, circles=2, 6, 1
+2025-07-11 20:38:50,283 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=6, j=3, k=2, circles=2, 6, 5
+2025-07-11 20:38:50,283 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=6, j=3, k=3, circles=2, 6, 6
+2025-07-11 20:38:50,283 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,283 Checking i=6, j=3, k=4, circles=2, 6, 1
+2025-07-11 20:38:50,284 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=6, j=3, k=5, circles=2, 6, 4
+2025-07-11 20:38:50,284 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=6, j=3, k=6, circles=2, 6, 2
+2025-07-11 20:38:50,284 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=6, j=3, k=7, circles=2, 6, 8
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,284 v[i]v[j]v[k] is oriented counterclockwise for k=7
+2025-07-11 20:38:50,284 Checking appearance order around v[k] for k=7: 2, 6, 8, 7, 2
+2025-07-11 20:38:50,284 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=7
+2025-07-11 20:38:50,284 All condition checks passed for k=7
+2025-07-11 20:38:50,284 Checking i=7, j=4, k=0, circles=8, 1, 3
+2025-07-11 20:38:50,284 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=7, j=4, k=1, circles=8, 1, 1
+2025-07-11 20:38:50,284 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=7, j=4, k=2, circles=8, 1, 5
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,284 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=7, j=4, k=3, circles=8, 1, 6
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,284 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,284 Checking appearance order around v[k] for k=3: 8, 1, 6, 1, 5
+2025-07-11 20:38:50,284 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,284 All condition checks passed for k=3
+2025-07-11 20:38:50,284 Checking i=8, j=5, k=0, circles=7, 4, 3
+2025-07-11 20:38:50,284 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=8, j=5, k=1, circles=7, 4, 1
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,284 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,284 Checking appearance order around v[k] for k=1: 7, 4, 1, 5, 3
+2025-07-11 20:38:50,284 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,284 All condition checks passed for k=1
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=0, circles=2, 2, 3
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,284 Skipping k=0 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=1, circles=2, 2, 1
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,284 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=2, circles=2, 2, 5
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,284 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=3, circles=2, 2, 6
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,284 Skipping k=3 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=4, circles=2, 2, 1
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=4
+2025-07-11 20:38:50,284 Skipping k=4 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=5, circles=2, 2, 4
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=5
+2025-07-11 20:38:50,284 Skipping k=5 due to counterclockwise orientation
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=6, circles=2, 2, 2
+2025-07-11 20:38:50,284 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=7, circles=2, 2, 8
+2025-07-11 20:38:50,284 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=8, circles=2, 2, 7
+2025-07-11 20:38:50,284 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=9, j=6, k=9, circles=2, 2, 2
+2025-07-11 20:38:50,284 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=0, j=8, k=0, circles=3, 7, 3
+2025-07-11 20:38:50,284 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=0, j=8, k=1, circles=3, 7, 1
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,284 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,284 Checking appearance order around v[k] for k=1: 3, 7, 1, 5, 3
+2025-07-11 20:38:50,284 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,284 All condition checks passed for k=1
+2025-07-11 20:38:50,284 Checking i=1, j=9, k=0, circles=1, 2, 3
+2025-07-11 20:38:50,284 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=1, j=9, k=1, circles=1, 2, 1
+2025-07-11 20:38:50,284 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=1, j=9, k=2, circles=1, 2, 5
+2025-07-11 20:38:50,284 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,284 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,284 Checking appearance order around v[k] for k=2: 1, 2, 5, 6, 1
+2025-07-11 20:38:50,284 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,284 All condition checks passed for k=2
+2025-07-11 20:38:50,284 Checking i=2, j=0, k=0, circles=5, 3, 3
+2025-07-11 20:38:50,284 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,284 Checking i=2, j=0, k=1, circles=5, 3, 1
+2025-07-11 20:38:50,284 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=2, circles=5, 3, 5
+2025-07-11 20:38:50,285 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=3, circles=5, 3, 6
+2025-07-11 20:38:50,285 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=4, circles=5, 3, 1
+2025-07-11 20:38:50,285 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=5, circles=5, 3, 4
+2025-07-11 20:38:50,285 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=6, circles=5, 3, 2
+2025-07-11 20:38:50,285 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=7, circles=5, 3, 8
+2025-07-11 20:38:50,285 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=8, circles=5, 3, 7
+2025-07-11 20:38:50,285 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=2, j=0, k=9, circles=5, 3, 2
+2025-07-11 20:38:50,285 Q[i][k] and Q[k][j] are both 1 for k=9
+2025-07-11 20:38:50,285 Skipping k=9 due to counterclockwise orientation
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=0, circles=6, 1, 3
+2025-07-11 20:38:50,285 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=1, circles=6, 1, 1
+2025-07-11 20:38:50,285 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=2, circles=6, 1, 5
+2025-07-11 20:38:50,285 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=3, circles=6, 1, 6
+2025-07-11 20:38:50,285 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=4, circles=6, 1, 1
+2025-07-11 20:38:50,285 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=5, circles=6, 1, 4
+2025-07-11 20:38:50,285 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=6, circles=6, 1, 2
+2025-07-11 20:38:50,285 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=7, circles=6, 1, 8
+2025-07-11 20:38:50,285 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=8, circles=6, 1, 7
+2025-07-11 20:38:50,285 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,285 Skipping k=8 due to counterclockwise orientation
+2025-07-11 20:38:50,285 Checking i=3, j=1, k=9, circles=6, 1, 2
+2025-07-11 20:38:50,285 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=0, circles=1, 5, 3
+2025-07-11 20:38:50,285 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=1, circles=1, 5, 1
+2025-07-11 20:38:50,285 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=2, circles=1, 5, 5
+2025-07-11 20:38:50,285 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=3, circles=1, 5, 6
+2025-07-11 20:38:50,285 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=4, circles=1, 5, 1
+2025-07-11 20:38:50,285 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=5, circles=1, 5, 4
+2025-07-11 20:38:50,285 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=6, circles=1, 5, 2
+2025-07-11 20:38:50,285 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=7, circles=1, 5, 8
+2025-07-11 20:38:50,285 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,285 Skipping k=7 due to counterclockwise orientation
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=8, circles=1, 5, 7
+2025-07-11 20:38:50,285 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=4, j=2, k=9, circles=1, 5, 2
+2025-07-11 20:38:50,285 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=5, j=3, k=0, circles=4, 6, 3
+2025-07-11 20:38:50,285 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,285 Checking i=5, j=3, k=1, circles=4, 6, 1
+2025-07-11 20:38:50,286 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=2, circles=4, 6, 5
+2025-07-11 20:38:50,286 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=3, circles=4, 6, 6
+2025-07-11 20:38:50,286 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=4, circles=4, 6, 1
+2025-07-11 20:38:50,286 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=5, circles=4, 6, 4
+2025-07-11 20:38:50,286 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=6, circles=4, 6, 2
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=6
+2025-07-11 20:38:50,286 Skipping k=6 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=7, circles=4, 6, 8
+2025-07-11 20:38:50,286 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=8, circles=4, 6, 7
+2025-07-11 20:38:50,286 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=5, j=3, k=9, circles=4, 6, 2
+2025-07-11 20:38:50,286 Skipping k=9 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=6, j=4, k=0, circles=2, 1, 3
+2025-07-11 20:38:50,286 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=6, j=4, k=1, circles=2, 1, 1
+2025-07-11 20:38:50,286 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=6, j=4, k=2, circles=2, 1, 5
+2025-07-11 20:38:50,286 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=6, j=4, k=3, circles=2, 1, 6
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,286 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,286 Checking appearance order around v[k] for k=3: 2, 1, 6, 1, 5
+2025-07-11 20:38:50,286 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,286 All condition checks passed for k=3
+2025-07-11 20:38:50,286 Checking i=7, j=5, k=0, circles=8, 4, 3
+2025-07-11 20:38:50,286 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=7, j=5, k=1, circles=8, 4, 1
+2025-07-11 20:38:50,286 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=7, j=5, k=2, circles=8, 4, 5
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,286 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=7, j=5, k=3, circles=8, 4, 6
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,286 Skipping k=3 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=7, j=5, k=4, circles=8, 4, 1
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=4
+2025-07-11 20:38:50,286 v[i]v[j]v[k] is oriented counterclockwise for k=4
+2025-07-11 20:38:50,286 Checking appearance order around v[k] for k=4: 8, 4, 1, 4, 6
+2025-07-11 20:38:50,286 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=4
+2025-07-11 20:38:50,286 All condition checks passed for k=4
+2025-07-11 20:38:50,286 Checking i=8, j=6, k=0, circles=7, 2, 3
+2025-07-11 20:38:50,286 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=8, j=6, k=1, circles=7, 2, 1
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,286 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=8, j=6, k=2, circles=7, 2, 5
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,286 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=8, j=6, k=3, circles=7, 2, 6
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,286 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,286 Checking appearance order around v[k] for k=3: 7, 2, 6, 1, 5
+2025-07-11 20:38:50,286 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,286 All condition checks passed for k=3
+2025-07-11 20:38:50,286 Checking i=9, j=7, k=0, circles=2, 8, 3
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,286 Skipping k=0 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=9, j=7, k=1, circles=2, 8, 1
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,286 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,286 Checking i=9, j=7, k=2, circles=2, 8, 5
+2025-07-11 20:38:50,286 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,286 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,286 Checking appearance order around v[k] for k=2: 2, 8, 5, 6, 1
+2025-07-11 20:38:50,286 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,286 All condition checks passed for k=2
+2025-07-11 20:38:50,286 Checking i=0, j=9, k=0, circles=3, 2, 3
+2025-07-11 20:38:50,286 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,286 Checking i=0, j=9, k=1, circles=3, 2, 1
+2025-07-11 20:38:50,287 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,287 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,287 Checking appearance order around v[k] for k=1: 3, 2, 1, 5, 3
+2025-07-11 20:38:50,287 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,287 All condition checks passed for k=1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=0, circles=1, 3, 3
+2025-07-11 20:38:50,287 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=1, circles=1, 3, 1
+2025-07-11 20:38:50,287 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=2, circles=1, 3, 5
+2025-07-11 20:38:50,287 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=3, circles=1, 3, 6
+2025-07-11 20:38:50,287 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=4, circles=1, 3, 1
+2025-07-11 20:38:50,287 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=5, circles=1, 3, 4
+2025-07-11 20:38:50,287 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=6, circles=1, 3, 2
+2025-07-11 20:38:50,287 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=7, circles=1, 3, 8
+2025-07-11 20:38:50,287 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=8, circles=1, 3, 7
+2025-07-11 20:38:50,287 Skipping k=8 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=1, j=0, k=9, circles=1, 3, 2
+2025-07-11 20:38:50,287 Q[i][k] and Q[k][j] are both 1 for k=9
+2025-07-11 20:38:50,287 v[i]v[j]v[k] is oriented counterclockwise for k=9
+2025-07-11 20:38:50,287 Checking appearance order around v[k] for k=9: 1, 3, 2, 3, 7
+2025-07-11 20:38:50,287 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=9
+2025-07-11 20:38:50,287 All condition checks passed for k=9
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=0, circles=5, 1, 3
+2025-07-11 20:38:50,287 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=1, circles=5, 1, 1
+2025-07-11 20:38:50,287 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=2, circles=5, 1, 5
+2025-07-11 20:38:50,287 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=3, circles=5, 1, 6
+2025-07-11 20:38:50,287 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=4, circles=5, 1, 1
+2025-07-11 20:38:50,287 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=5, circles=5, 1, 4
+2025-07-11 20:38:50,287 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=6, circles=5, 1, 2
+2025-07-11 20:38:50,287 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=7, circles=5, 1, 8
+2025-07-11 20:38:50,287 Skipping k=7 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=2, j=1, k=8, circles=5, 1, 7
+2025-07-11 20:38:50,287 Q[i][k] and Q[k][j] are both 1 for k=8
+2025-07-11 20:38:50,287 v[i]v[j]v[k] is oriented counterclockwise for k=8
+2025-07-11 20:38:50,287 Checking appearance order around v[k] for k=8: 5, 1, 7, 2, 8
+2025-07-11 20:38:50,287 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=8
+2025-07-11 20:38:50,287 All condition checks passed for k=8
+2025-07-11 20:38:50,287 Checking i=3, j=2, k=0, circles=6, 5, 3
+2025-07-11 20:38:50,287 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=3, j=2, k=1, circles=6, 5, 1
+2025-07-11 20:38:50,287 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=3, j=2, k=2, circles=6, 5, 5
+2025-07-11 20:38:50,287 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=3, j=2, k=3, circles=6, 5, 6
+2025-07-11 20:38:50,287 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,287 Checking i=3, j=2, k=4, circles=6, 5, 1
+2025-07-11 20:38:50,287 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=3, j=2, k=5, circles=6, 5, 4
+2025-07-11 20:38:50,288 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=3, j=2, k=6, circles=6, 5, 2
+2025-07-11 20:38:50,288 Skipping k=6 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=3, j=2, k=7, circles=6, 5, 8
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=7
+2025-07-11 20:38:50,288 v[i]v[j]v[k] is oriented counterclockwise for k=7
+2025-07-11 20:38:50,288 Checking appearance order around v[k] for k=7: 6, 5, 8, 7, 2
+2025-07-11 20:38:50,288 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=7
+2025-07-11 20:38:50,288 All condition checks passed for k=7
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=0, circles=1, 6, 3
+2025-07-11 20:38:50,288 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=1, circles=1, 6, 1
+2025-07-11 20:38:50,288 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=2, circles=1, 6, 5
+2025-07-11 20:38:50,288 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=3, circles=1, 6, 6
+2025-07-11 20:38:50,288 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=4, circles=1, 6, 1
+2025-07-11 20:38:50,288 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=5, circles=1, 6, 4
+2025-07-11 20:38:50,288 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=4, j=3, k=6, circles=1, 6, 2
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=6
+2025-07-11 20:38:50,288 v[i]v[j]v[k] is oriented counterclockwise for k=6
+2025-07-11 20:38:50,288 Checking appearance order around v[k] for k=6: 1, 6, 2, 8, 4
+2025-07-11 20:38:50,288 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=6
+2025-07-11 20:38:50,288 All condition checks passed for k=6
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=0, circles=4, 1, 3
+2025-07-11 20:38:50,288 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=1, circles=4, 1, 1
+2025-07-11 20:38:50,288 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=2, circles=4, 1, 5
+2025-07-11 20:38:50,288 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=3, circles=4, 1, 6
+2025-07-11 20:38:50,288 Skipping k=3 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=4, circles=4, 1, 1
+2025-07-11 20:38:50,288 Skipping k=4 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=5, circles=4, 1, 4
+2025-07-11 20:38:50,288 Skipping k=5 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=5, j=4, k=6, circles=4, 1, 2
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=6
+2025-07-11 20:38:50,288 v[i]v[j]v[k] is oriented counterclockwise for k=6
+2025-07-11 20:38:50,288 Checking appearance order around v[k] for k=6: 4, 1, 2, 8, 4
+2025-07-11 20:38:50,288 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=6
+2025-07-11 20:38:50,288 All condition checks passed for k=6
+2025-07-11 20:38:50,288 Checking i=6, j=5, k=0, circles=2, 4, 3
+2025-07-11 20:38:50,288 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=6, j=5, k=1, circles=2, 4, 1
+2025-07-11 20:38:50,288 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=6, j=5, k=2, circles=2, 4, 5
+2025-07-11 20:38:50,288 Skipping k=2 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=6, j=5, k=3, circles=2, 4, 6
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,288 Skipping k=3 due to counterclockwise orientation
+2025-07-11 20:38:50,288 Checking i=6, j=5, k=4, circles=2, 4, 1
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=4
+2025-07-11 20:38:50,288 v[i]v[j]v[k] is oriented counterclockwise for k=4
+2025-07-11 20:38:50,288 Checking appearance order around v[k] for k=4: 2, 4, 1, 4, 6
+2025-07-11 20:38:50,288 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=4
+2025-07-11 20:38:50,288 All condition checks passed for k=4
+2025-07-11 20:38:50,288 Checking i=7, j=6, k=0, circles=8, 2, 3
+2025-07-11 20:38:50,288 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=7, j=6, k=1, circles=8, 2, 1
+2025-07-11 20:38:50,288 Skipping k=1 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,288 Checking i=7, j=6, k=2, circles=8, 2, 5
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,288 Skipping k=2 due to counterclockwise orientation
+2025-07-11 20:38:50,288 Checking i=7, j=6, k=3, circles=8, 2, 6
+2025-07-11 20:38:50,288 Q[i][k] and Q[k][j] are both 1 for k=3
+2025-07-11 20:38:50,289 v[i]v[j]v[k] is oriented counterclockwise for k=3
+2025-07-11 20:38:50,289 Checking appearance order around v[k] for k=3: 8, 2, 6, 1, 5
+2025-07-11 20:38:50,289 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=3
+2025-07-11 20:38:50,289 All condition checks passed for k=3
+2025-07-11 20:38:50,289 Checking i=8, j=7, k=0, circles=7, 8, 3
+2025-07-11 20:38:50,289 Skipping k=0 due to Q[i][k] or Q[k][j] not being 1
+2025-07-11 20:38:50,289 Checking i=8, j=7, k=1, circles=7, 8, 1
+2025-07-11 20:38:50,289 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,289 Skipping k=1 due to counterclockwise orientation
+2025-07-11 20:38:50,289 Checking i=8, j=7, k=2, circles=7, 8, 5
+2025-07-11 20:38:50,289 Q[i][k] and Q[k][j] are both 1 for k=2
+2025-07-11 20:38:50,289 v[i]v[j]v[k] is oriented counterclockwise for k=2
+2025-07-11 20:38:50,289 Checking appearance order around v[k] for k=2: 7, 8, 5, 6, 1
+2025-07-11 20:38:50,289 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=2
+2025-07-11 20:38:50,289 All condition checks passed for k=2
+2025-07-11 20:38:50,289 Checking i=9, j=8, k=0, circles=2, 7, 3
+2025-07-11 20:38:50,289 Q[i][k] and Q[k][j] are both 1 for k=0
+2025-07-11 20:38:50,289 Skipping k=0 due to counterclockwise orientation
+2025-07-11 20:38:50,289 Checking i=9, j=8, k=1, circles=2, 7, 1
+2025-07-11 20:38:50,289 Q[i][k] and Q[k][j] are both 1 for k=1
+2025-07-11 20:38:50,289 v[i]v[j]v[k] is oriented counterclockwise for k=1
+2025-07-11 20:38:50,289 Checking appearance order around v[k] for k=1: 2, 7, 1, 5, 3
+2025-07-11 20:38:50,289 v[i], v[j], v[k+1], and v[k-1] appear in counterclockwise order around v[k] for k=1
+2025-07-11 20:38:50,289 All condition checks passed for k=1

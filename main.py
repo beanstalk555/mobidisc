@@ -4,7 +4,9 @@ import drawloop
 from circlepack import CirclePack
 from mobidisc import is_self_overlapping
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def init_logging():
     logging.basicConfig(
@@ -14,10 +16,12 @@ def init_logging():
         filemode="w",
     )
 
+
 if __name__ == "__main__":
     init_logging()
-    example_loop = perm.Multiloop([[2, 1, -1, -2]])
-    example_loop.inf_face = [1]
+    # [[-3, -4, 2, -2], [3, 1, -1, 4]]
+    # [2]
+    example_loop = ranloop.generate_planar(2)
     print(example_loop)
     loop_to_circles = drawloop.generate_circles(example_loop)
     packed_circles = CirclePack(
@@ -55,24 +59,19 @@ if __name__ == "__main__":
     #     ]
     # )
     # for i in range(len(example_loop.phi)):
-    #     example_loop.inf_face = example_loop.phi[i]  # Set the infinite face to the first face in the loop
-    #     # example_loop = perm.Multiloop(
-    #     #     [
-    #     #         (9, 14, -10, -1),
-    #     #         (7, 2, -8, -3),
-    #     #         (3, 6, -4, -7),
-    #     #         (11, 4, -12, -5),
-    #     #         (1, 8, -2, -9),
-    #     #         (13, 10, -14, -11),
-    #     #         (5, 12, -6, -13),
-    #     #     ]
-    #     # )
-    #     # example_loop.inf_face = (-2, 7, -4, 11, -14, 9)
+    #     example_loop.inf_face = example_loop.phi[
+    #         i
+    #     ]
     #     loop_to_circles = drawloop.generate_circles(example_loop)
     #     packed_circles = CirclePack(
     #         loop_to_circles["internal"], loop_to_circles["external"]
     #     )
     #     print(example_loop)
-    #     drawloop.drawloop(packed_circles, sequences=loop_to_circles["sequences"], scale=500, filename=f"loop_{i}_{is_self_overlapping(example_loop)}.svg")
+    #     drawloop.drawloop(
+    #         packed_circles,
+    #         sequences=loop_to_circles["sequences"],
+    #         scale=500,
+    #         filename=f"test_loops/reverse_loop_{i}_{is_self_overlapping(example_loop)}.svg",
+    #     )
 
-    #         # print(is_self_overlapping(example_loop))
+        # print(is_self_overlapping(example_loop))
