@@ -74,12 +74,11 @@ class Multiloop:
         self.eps = Permutation(self.generate_epsilon(cycles))
         # Faces: (σ ∘ ε)⁻¹
         self.phi = self.generate_area()
+        self.inf_face = self.phi[0] if inf_face == None else inf_face
         # Strands: σ² ∘ ε
         self.tau = self.generate_strands()
         # Euler Characteristic V - E + F
         self.chi = self.cal_eulerchar()
-        #
-        self.inf_face = self.phi[0] if inf_face == None else inf_face
 
     def __str__(self) -> str:
         return f"Vertices: {self.sig}\nEdges: {self.eps}\nFaces: {self.phi}\nInfinite Face: {self.inf_face}\nStrands: {self.tau}\nEuler Characteristic: {self.chi}\nIs Planar: {self.is_planar()}\nIs Connected: {self.is_connected()}"
