@@ -9,14 +9,7 @@ from math import cos, sin, sqrt
 import os
 
 from typing import TypedDict
-
-
-class CircleResult(TypedDict):
-    """A typed dictionary to hold the results of circle adjacencies."""
-
-    internal: dict[int, list[int]]
-    external: dict[int, int]
-    sequences: list[list[int]]
+from dataclasses import dataclass
 
 
 class CircleAssignments:
@@ -53,6 +46,15 @@ class CircleAssignments:
             for he in cycle:
                 self.faces[he] = self.next_circle_id
             self.next_circle_id += 1
+
+
+class CircleResult(TypedDict):
+    """A typed dictionary to hold the results of circle adjacencies."""
+
+    internal: dict[int, list[int]]
+    external: dict[int, int]
+    sequences: list[list[int]]
+    assignments: CircleAssignments
 
 
 class AdjacencyBuilder:
@@ -222,29 +224,42 @@ def generate_circles(multiloop: "Multiloop") -> CircleResult:
         "internal": adj_builder.internal,
         "external": adj_builder.external,
         "sequences": sequences,
+        "assignments": circles
     }
+    
 
+# act as struct
+
+@dataclass
+class svg_globals:
+    min_x: float
+    max_y: float
+    scale: int = 200
+    padding: int = 50
+    
+def to_svg_coords(center):
+        cx = (center.real - svg_globals.min_x) * svg_globals.scale + svg_globals.padding
+        cy = (svg_globals.max_y - center.imag) * svg_globals.scale + svg_globals.padding
+        return (cx, cy)
 
 def drawloop(
     circle_dict,
     filename="circle_pack.svg",
     sequences=None,
-    withLabels=False,
-    scale=200,
-    padding=50,
+    withLabels=False
 ):
     tolerance = 1e-2  # how accurately to approximate things
     if not isinstance(filename, (str, bytes, os.PathLike)):
         raise TypeError(f"Filename must be a string or path, got {type(filename)}")
 
     # Determine bounds
-    min_x = min(z.real - r for z, r in circle_dict.values())
+    svg_globals.min_x = min(z.real - r for z, r in circle_dict.values())
     max_x = max(z.real + r for z, r in circle_dict.values())
     min_y = min(z.imag - r for z, r in circle_dict.values())
-    max_y = max(z.imag + r for z, r in circle_dict.values())
+    svg_globals.max_y = max(z.imag + r for z, r in circle_dict.values())
 
-    width = (max_x - min_x) * scale + 2 * padding
-    height = (max_y - min_y) * scale + 2 * padding
+    width = (max_x - svg_globals.min_x) * svg_globals.scale + 2 * svg_globals.padding
+    height = (svg_globals.max_y- min_y) * svg_globals.scale + 2 * svg_globals.padding
 
     dwg = svgwrite.Drawing(filename, size=(width, height))
     dwg.viewbox(0, 0, width, height)
@@ -252,15 +267,10 @@ def drawloop(
     # Add white background
     dwg.add(dwg.rect(insert=(0, 0), size=(width, height), fill="white"))
 
-    def to_svg_coords(center):
-        cx = (center.real - min_x) * scale + padding
-        cy = (max_y - center.imag) * scale + padding
-        return (cx, cy)
-
     # Draw circles
     for name, (center, radius) in circle_dict.items():
         cx, cy = to_svg_coords(center)
-        r = radius * scale
+        r = radius * svg_globals.scale
         dwg.add(
             dwg.circle(
                 center=(cx, cy), r=r, fill="none", stroke="black", stroke_width=radius
@@ -292,17 +302,17 @@ def drawloop(
             circle_ids = sequence["circle_ids"]
             for i in range(0, len(circle_ids)):
                 startcirc_center = circle_dict[circle_ids[i]][0]
-                startcirc_r = circle_dict[circle_ids[i]][1] * scale
+                startcirc_r = circle_dict[circle_ids[i]][1] * svg_globals.scale
                 targetcirc_center = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][
                     0
                 ]
                 targetcirc_r = (
-                    circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * scale
+                    circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * svg_globals.scale
                 )
 
                 endcirc_center = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][0]
                 endcirc_r = (
-                    circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * scale
+                    circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * svg_globals.scale
                 )
 
                 def find_intersection(c1, r1, c2, r2):
