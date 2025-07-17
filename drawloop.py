@@ -4,11 +4,27 @@ from permrep import Multiloop
 import matplotlib.pyplot as plt
 import numpy as np
 import svgwrite
-from cmath import phase
-from math import cos, sin, sqrt
+from math import sqrt
 import os
-
+from circlepack import CirclePack
 from typing import TypedDict
+
+
+def drawloop(multiloop: "Multiloop", **kwargs):
+    """
+    Draws a multiloop using circle packing.
+    Parameters passed via kwargs:
+        filename (str): Output SVG filename.
+        sequences (list): Optional sequences for drawing connections.
+        withLabels (bool): Whether to draw circle labels.
+        scale (float): Scaling factor for drawing.
+        padding (float): Padding around the drawing.
+    """
+    loop_to_circles = generate_circles(multiloop)
+    packed_circles = CirclePack(
+        loop_to_circles["internal"], loop_to_circles["external"]
+    )
+    drawcircles(packed_circles, sequences=loop_to_circles["sequences"], **kwargs)
 
 
 class CircleResult(TypedDict):
@@ -225,7 +241,7 @@ def generate_circles(multiloop: "Multiloop") -> CircleResult:
     }
 
 
-def drawloop(
+def drawcircles(
     circle_dict,
     filename="circle_pack.svg",
     sequences=None,
@@ -379,4 +395,3 @@ def drawloop(
                 # dwg.add(text)
 
     dwg.save()
-    print(f"SVG saved to {filename}")

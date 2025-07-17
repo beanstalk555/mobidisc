@@ -29,7 +29,6 @@ def cross_product(a: tuple, b: tuple, c: tuple) -> float:
 
 def is_convex(a: tuple, b: tuple, c: tuple) -> bool:
     """Check if the points a, b, c form a convex angle (if it turns right at b)."""
-    # Using the cross product to determine the orientation
     is_convex_value = cross_product(a, b, c) < 0
     logger.debug(f"Points a={a}, b={b}, c={c} form a convex angle: {is_convex_value}")
     return is_convex_value
@@ -37,8 +36,7 @@ def is_convex(a: tuple, b: tuple, c: tuple) -> bool:
 
 def is_counterclockwise(a: tuple, b: tuple, c: tuple) -> bool:
     """Check if the points a, b, c are in counterclockwise order."""
-    # Using is_convex to determine if the angle at 'b' is convex
-    # If the angle is not convex, then it is counterclockwise
+    # If the angle at b is not convex, then it is counterclockwise
     is_counterclockwise_value = not is_convex(a, b, c)
     logger.debug(
         f"Points a={a}, b={b}, c={c} are in counterclockwise order: {is_counterclockwise_value}"
@@ -129,16 +127,16 @@ def cal_angle(a: tuple, b: tuple, c: tuple) -> float:
     return theta
 
 
-def cal_whit(circle_pack: CirclePack, sequence) -> float:
+def cal_whit(sequence) -> float:
     """Calculate the whitney index of the loop"""
     sign = 1
     angles = []
     logger.debug(f"Starting Whitney index calculation for sequence: {sequence}")
     n = len(sequence)
     for i in range(n):
-        prev = circle_pack[sequence[i - 1]]
-        targ = circle_pack[sequence[i]]
-        next = circle_pack[sequence[(i + 1) % n]]
+        prev = sequence[i - 1]
+        targ = sequence[i]
+        next = sequence[(i + 1) % n]
 
         is_conv = is_convex(prev, targ, next)
         sign = 1 if is_conv else -1
@@ -146,7 +144,6 @@ def cal_whit(circle_pack: CirclePack, sequence) -> float:
             f"Convex check at index {i}: ({sequence[i-1]}, {sequence[i]}, {sequence[(i+1)%n]}) -> "
             f"points {prev}, {targ}, {next} => {'convex' if is_conv else 'concave'} (sign={sign})"
         )
-
         angle = sign * cal_angle(prev, targ, next)
         logger.debug(
             f"Angle at index {i}: signed angle between AB and BC = {angle:.6f} radians"
@@ -162,61 +159,50 @@ def cal_whit(circle_pack: CirclePack, sequence) -> float:
     # return
 
 
-def is_self_overlapping(multiloop: "Multiloop") -> bool:
+def is_self_overlapping(sequence: list[tuple]) -> bool:
+    """The function accepts a sequence of points in the form of tuple (x,y) and checks if the multiloop is self-overlapping."""
     tolerance = 1e-5  # Tolerance for collinearity checks
 
-    logger.info("Generating circle assignments for multiloop...")
-    assigned_circles = generate_circles(multiloop)
-    packed_circles = CirclePack(
-        assigned_circles["internal"], assigned_circles["external"]
-    )
-    sequences = assigned_circles["sequences"][0]["circle_ids"]
-    logger.debug(f"Original circle IDs in sequence: {sequences}")
-
-    for circle_id, (center, radius) in packed_circles.items():
-        packed_circles[circle_id] = (center.real, center.imag)
-
-    temp_sequences = []
-    for i in range(len(sequences)):
+    temp_sequence = []
+    for i in range(len(sequence)):
         cross_product_result = cross_product(
-            packed_circles[sequences[i - 1]],
-            packed_circles[sequences[i]],
-            packed_circles[sequences[(i + 1) % len(sequences)]],
+            sequence[i - 1],
+            sequence[i],
+            sequence[(i + 1) % len(sequence)],
         )
         if abs(cross_product_result) > tolerance:
-            temp_sequences.append(sequences[i])
-    sequences = temp_sequences
+            temp_sequence.append(sequence[i])
+    sequence = temp_sequence
 
-    logger.debug(f"Sequence after removing collinear points: {sequences}")
-    logger.info(
-        f"Checking if multiloop with sequences: {sequences} is self-overlapping"
-    )
-    whitney_index = cal_whit(packed_circles, sequences)
+    logger.debug(f"Sequence after removing collinear points: {sequence}")
+    logger.info(f"Checking if multiloop with sequence: {sequence} is self-overlapping")
+    whitney_index = cal_whit(sequence)
     logger.info(f"Computed Whitney index: {whitney_index}")
 
     if abs(whitney_index) != 1:
         logger.info("Whitney index is not +1 or -1, loop is not self-overlapping.")
         return False
-    sequences = sequences[::whitney_index]
-    n = len(sequences)
+    sequence = sequence[::whitney_index]
+    n = len(sequence)
     q = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
         q[i][(i + 1) % n] = 1
         q[i][(i + 2) % n] = (
             1
             if is_convex(
-                packed_circles[sequences[i % n]],
-                packed_circles[sequences[(i + 1) % n]],
-                packed_circles[sequences[(i + 2) % n]],
+                sequence[i % n],
+                sequence[(i + 1) % n],
+                sequence[(i + 2) % n],
             )
             else 0
         )
+
     for length in range(3, n):
         for i in range(n):
             j = (i + length) % n
             for k in range(n):
                 logger.debug(
-                    f"Checking i={i}, j={j}, k={k} (circles: {sequences[i]}, {sequences[j]}, {sequences[k]})"
+                    f"Checking i={i}, j={j}, k={k} (circles: {sequence[i]}, {sequence[j]}, {sequence[k]})"
                 )
 
                 # Check if Q[i][k] = Q[k][j] = 1
@@ -226,9 +212,9 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
 
                 # Check if v[i]v[j]v[k] is oriented counterclockwise
                 if not is_counterclockwise(
-                    packed_circles[sequences[i % n]],
-                    packed_circles[sequences[j % n]],
-                    packed_circles[sequences[k % n]],
+                    sequence[i % n],
+                    sequence[j % n],
+                    sequence[k % n],
                 ):
                     logger.debug(f"Skipping k={k}: not counterclockwise")
                     continue
@@ -236,11 +222,11 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
                 # Check if v[i], v[j], v[k+1], and v[k-1], appear in that order counterclockwise around v[k]
                 if not is_appear_counterclockwise(
                     [
-                        packed_circles[sequences[i % n]],
-                        packed_circles[sequences[j % n]],
-                        packed_circles[sequences[(k) % n]],
-                        packed_circles[sequences[(k + 1) % n]],
-                        packed_circles[sequences[(k - 1) % n]],
+                        sequence[i % n],
+                        sequence[j % n],
+                        sequence[(k) % n],
+                        sequence[(k + 1) % n],
+                        sequence[(k - 1) % n],
                     ]
                 ):
                     logger.debug(f"Skipping k={k}: appearance order check failed")
@@ -248,23 +234,21 @@ def is_self_overlapping(multiloop: "Multiloop") -> bool:
 
                 # Check if the following four segments intersect the interior of v[i]v[j]v[k]: v[i]v[i+1],, v[k-1]v[k], v[k]v[k+1], and v[j-1]v[j]
                 triangle = [
-                    packed_circles[sequences[i]],
-                    packed_circles[sequences[j]],
-                    packed_circles[sequences[k]],
+                    sequence[i],
+                    sequence[j],
+                    sequence[k],
                 ]
 
                 segments_to_check = [
-                    (sequences[i], sequences[(i + 1) % n]),
-                    (sequences[(k - 1) % n], sequences[k]),
-                    (sequences[k], sequences[(k + 1) % n]),
-                    (sequences[(j - 1) % n], sequences[j]),
+                    (sequence[i], sequence[(i + 1) % n]),
+                    (sequence[(k - 1) % n], sequence[k]),
+                    (sequence[k], sequence[(k + 1) % n]),
+                    (sequence[(j - 1) % n], sequence[j]),
                 ]
 
                 intersect_flag = False
                 for a_idx, b_idx in segments_to_check:
-                    if is_intersect_interior(
-                        packed_circles[a_idx], packed_circles[b_idx], triangle
-                    ):
+                    if is_intersect_interior(a_idx, b_idx, triangle):
                         logger.debug(
                             f"Skipping k={k}: segment ({a_idx}, {b_idx}) intersects interior"
                         )
