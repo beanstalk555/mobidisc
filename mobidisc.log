@@ -1,3 +1,3 @@
-INFO:mobidisc:Checking if multiloop with sequence: [(-0.38297576790996546, 1.9199430375448953e-12), (-0.19148788394953176, 1.0873780253858605), (1.4870856264877732, -2.1180156634260863e-11), (-0.19148788397233873, -1.0873780253863092)] is self-overlapping
-INFO:mobidisc:Computed Whitney index: 1
-INFO:mobidisc:q[0][3] = 1 => The loop is self-overlapping.
+INFO:mobidisc:Checking if multiloop with sequence: [(0.0568866082759798, -0.05836985661287877), (0.08150537627650303, 0.0), (0.0, 0.0), (-0.048319582635709846, -0.15027350176863025), (-0.8356377719240253, -0.9299136066213086), (-1.8632818239321407, 0.7858800005945711), (0.08272246083770399, 1.2474721624083784), (0.07389335349963125, 0.13948720266671202), (0.0, 0.0)] is self-overlapping
+INFO:mobidisc:Computed Whitney index: 0
+INFO:mobidisc:Whitney index is not +1 or -1, loop is not self-overlapping.

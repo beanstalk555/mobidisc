@@ -10,23 +10,6 @@ from circlepack import CirclePack
 from typing import TypedDict
 
 
-def drawloop(multiloop: "Multiloop", **kwargs):
-    """
-    Draws a multiloop using circle packing.
-    Parameters passed via kwargs:
-        filename (str): Output SVG filename.
-        sequences (list): Optional sequences for drawing connections.
-        withLabels (bool): Whether to draw circle labels.
-        scale (float): Scaling factor for drawing.
-        padding (float): Padding around the drawing.
-    """
-    loop_to_circles = generate_circles(multiloop)
-    packed_circles = CirclePack(
-        loop_to_circles["internal"], loop_to_circles["external"]
-    )
-    drawcircles(packed_circles, sequences=loop_to_circles["sequences"], **kwargs)
-
-
 class CircleResult(TypedDict):
     """A typed dictionary to hold the results of circle adjacencies."""
 
@@ -241,10 +224,10 @@ def generate_circles(multiloop: "Multiloop") -> CircleResult:
     }
 
 
-def drawcircles(
+def drawloop(
+    sequences,
     circle_dict,
-    filename="circle_pack.svg",
-    sequences=None,
+    filename="loop.svg",
     withLabels=False,
     scale=200,
     padding=50,
@@ -303,95 +286,88 @@ def drawcircles(
             )
 
     # Draw connection lines (black, thick)
-    if sequences:
-        for sequence in sequences:
-            circle_ids = sequence["circle_ids"]
-            for i in range(0, len(circle_ids)):
-                startcirc_center = circle_dict[circle_ids[i]][0]
-                startcirc_r = circle_dict[circle_ids[i]][1] * scale
-                targetcirc_center = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][
-                    0
-                ]
-                targetcirc_r = (
-                    circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * scale
+    for sequence in sequences:
+        circle_ids = sequence["circle_ids"]
+        for i in range(0, len(circle_ids)):
+            startcirc_center = circle_dict[circle_ids[i]][0]
+            startcirc_r = circle_dict[circle_ids[i]][1] * scale
+            targetcirc_center = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][0]
+            targetcirc_r = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * scale
+
+            endcirc_center = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][0]
+            endcirc_r = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * scale
+
+            def find_intersection(c1, r1, c2, r2):
+                x1 = c1[0]
+                x2 = c2[0]
+                y1 = c1[1]
+                y2 = c2[1]
+                d = r1 + r2
+                return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
+
+            start = to_svg_coords(startcirc_center)
+            target = to_svg_coords(targetcirc_center)
+            end = to_svg_coords(endcirc_center)
+            s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
+            e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
+
+            try:
+                d_bet_se = sqrt(
+                    (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
                 )
 
-                endcirc_center = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][0]
-                endcirc_r = (
-                    circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * scale
-                )
-
-                def find_intersection(c1, r1, c2, r2):
-                    x1 = c1[0]
-                    x2 = c2[0]
-                    y1 = c1[1]
-                    y2 = c2[1]
-                    d = r1 + r2
-                    return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
-
-                start = to_svg_coords(startcirc_center)
-                target = to_svg_coords(targetcirc_center)
-                end = to_svg_coords(endcirc_center)
-                s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
-                e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
-
-                try:
-                    d_bet_se = sqrt(
-                        (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
-                    )
-
-                    if (
-                        abs((d_bet_se / 2) - targetcirc_r) < tolerance
-                    ):  # In case 3 circles are on the same line.
-                        dwg.add(
-                            dwg.line(
-                                start=s_curve,
-                                end=e_curve,
-                                stroke="blue",
-                                stroke_width=1,
-                            )
+                if (
+                    abs((d_bet_se / 2) - targetcirc_r) < tolerance
+                ):  # In case 3 circles are on the same line.
+                    dwg.add(
+                        dwg.line(
+                            start=s_curve,
+                            end=e_curve,
+                            stroke="blue",
+                            stroke_width=1,
                         )
-                        continue
-                    r_curve = sqrt(
-                        ((d_bet_se / 2) ** 2 * targetcirc_r**2)
-                        / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
                     )
-
-                except ValueError:
-                    raise ValueError(
-                        f"Error finding the curve between start {s_curve} and end {e_curve} points. Half of the distance between them is {d_bet_se/2}, target circle radius is {targetcirc_r}."
-                    )
-                arc_path = svgwrite.path.Path(
-                    d=f"M {s_curve[0]},{s_curve[1]}",
-                    fill="none",
-                    stroke="blue",
-                    stroke_width=1,
+                    continue
+                r_curve = sqrt(
+                    ((d_bet_se / 2) ** 2 * targetcirc_r**2)
+                    / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
                 )
 
-                # Use the 'A' command for a circular arc
-                arc_path.push_arc(
-                    target=e_curve,  # End point of the arc
-                    rotation=0,  # No rotation
-                    r=r_curve,  # Radius of the arc
-                    large_arc=False,  # Large arc flag (False because we want a minor arc)
-                    angle_dir=(
-                        "+"
-                        if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
-                        - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
-                        > 0
-                        else "-"
-                    ),  # Sweep direction, use cross product to determine
-                    absolute=True,  # Absolute coordinates
+            except ValueError:
+                raise ValueError(
+                    f"Error finding the curve between start {s_curve} and end {e_curve} points. Half of the distance between them is {d_bet_se/2}, target circle radius is {targetcirc_r}."
                 )
+            arc_path = svgwrite.path.Path(
+                d=f"M {s_curve[0]},{s_curve[1]}",
+                fill="none",
+                stroke="blue",
+                stroke_width=1,
+            )
 
-                dwg.add(arc_path)
-                # text = dwg.text(
-                #     str(-sequence[(i + 3) % len(sequence)]),
-                #     insert=start,
-                #     fill="red",
-                #     font_size="20px",
-                #     text_anchor="middle",
-                # )
-                # dwg.add(text)
+            # Use the 'A' command for a circular arc
+            arc_path.push_arc(
+                target=e_curve,  # End point of the arc
+                rotation=0,  # No rotation
+                r=r_curve,  # Radius of the arc
+                large_arc=False,  # Large arc flag (False because we want a minor arc)
+                angle_dir=(
+                    "+"
+                    if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
+                    - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
+                    > 0
+                    else "-"
+                ),  # Sweep direction, use cross product to determine
+                absolute=True,  # Absolute coordinates
+            )
+
+            dwg.add(arc_path)
+            # text = dwg.text(
+            #     str(-sequence[(i + 3) % len(sequence)]),
+            #     insert=start,
+            #     fill="red",
+            #     font_size="20px",
+            #     text_anchor="middle",
+            # )
+            # dwg.add(text)
 
     dwg.save()

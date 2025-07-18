@@ -14,6 +14,51 @@ logger = logging.getLogger(__name__)
 # TODO: Remove unnecessary logging
 
 
+def is_self_overlapping(sequence: list[tuple]) -> bool:
+    """The function accepts a sequence of points in the form of tuple (x,y) and checks if the multiloop is self-overlapping."""
+    logger.info(f"Checking if multiloop with sequence: {sequence} is self-overlapping")
+    
+    sequence = remove_collinear_points(sequence)
+    
+    whitney_index = cal_whit(sequence)
+    if abs(whitney_index) != 1:
+        logger.info("Whitney index is not +1 or -1, loop is not self-overlapping.")
+        return False
+    # Reverse the sequence if the whitney index is negative
+    sequence = sequence[::whitney_index]
+
+    n = len(sequence)
+    q = init_table_q(sequence, n)
+    fill_table_q(q, sequence, n)
+    for i in range(n):
+        if q[i][i - 1] == 1:
+            # If any q[i][i - 1] is 1, it indicates the loop is self-overlapping
+            logger.info(f"q[{i}][{(i - 1) % n}] = 1 => The loop is self-overlapping.")
+            return True
+
+    logger.info(
+        "There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping"
+    )
+    return False
+
+
+def remove_collinear_points(
+    sequence: list[tuple], tolerance: float = 1e-5
+) -> list[tuple]:
+    """Remove collinear points from the sequence of points."""
+    temp_sequence = []
+    for i in range(len(sequence)):
+        cross_product_result = cross_product(
+            sequence[i - 1],
+            sequence[i],
+            sequence[(i + 1) % len(sequence)],
+        )
+        if abs(cross_product_result) > tolerance:
+            temp_sequence.append(sequence[i])
+    logger.debug(f"Sequence after removing collinear points: {temp_sequence}")
+    return temp_sequence
+
+
 def cross_product(a: tuple, b: tuple, c: tuple) -> float:
     """Calculate the cross product of vectors ab and ac, where a, b, c are points in 2D space."""
     x1, y1 = a
@@ -44,7 +89,7 @@ def is_counterclockwise(a: tuple, b: tuple, c: tuple) -> bool:
     return is_counterclockwise_value
 
 
-def is_appear_counterclockwise(vertices: list[int]) -> bool:
+def is_appear_counterclockwise(vertices: list[tuple]) -> bool:
     """Check if the indices appear in counterclockwise order around a vertex."""
     i, j, k, l, m = vertices  # l = k+1, m = k-1
     logger.debug(
@@ -155,35 +200,25 @@ def cal_whit(sequence) -> float:
 
     whitney_index = round(whitney_index_raw)
     logger.debug(f"Whitney index after rounding: {whitney_index}")
-    return whitney_index
-    # return
-
-
-def is_self_overlapping(sequence: list[tuple]) -> bool:
-    """The function accepts a sequence of points in the form of tuple (x,y) and checks if the multiloop is self-overlapping."""
-    tolerance = 1e-5  # Tolerance for collinearity checks
-
-    temp_sequence = []
-    for i in range(len(sequence)):
-        cross_product_result = cross_product(
-            sequence[i - 1],
-            sequence[i],
-            sequence[(i + 1) % len(sequence)],
-        )
-        if abs(cross_product_result) > tolerance:
-            temp_sequence.append(sequence[i])
-    sequence = temp_sequence
-
-    logger.debug(f"Sequence after removing collinear points: {sequence}")
-    logger.info(f"Checking if multiloop with sequence: {sequence} is self-overlapping")
-    whitney_index = cal_whit(sequence)
     logger.info(f"Computed Whitney index: {whitney_index}")
+    return whitney_index
 
-    if abs(whitney_index) != 1:
-        logger.info("Whitney index is not +1 or -1, loop is not self-overlapping.")
-        return False
-    sequence = sequence[::whitney_index]
-    n = len(sequence)
+
+def segment_intersects_triangle(segments: list[tuple], triangle: list[tuple]) -> bool:
+    """Check if any segment intersects the interior of the triangle."""
+    for segment in segments:
+        a, b = segment
+        if is_intersect_interior(a, b, triangle):
+            logger.debug(f"Segment {segment} intersects the interior of the triangle.")
+            return True
+    logger.debug("No segments intersect the interior of the triangle.")
+    return False
+
+
+def init_table_q(sequence: list[tuple], n: int) -> list[list[int]]:
+    """Initialize the Q table for the self-overlapping check."""
+    if not n:
+        n = len(sequence)
     q = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
         q[i][(i + 1) % n] = 1
@@ -196,7 +231,11 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
             )
             else 0
         )
+    return q
 
+
+def fill_table_q(q: list[list[int]], sequence: list[tuple], n: int) -> None:
+    """Fill the Q table based on the conditions for self-overlapping."""
     for length in range(3, n):
         for i in range(n):
             j = (i + length) % n
@@ -205,24 +244,21 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
                     f"Checking i={i}, j={j}, k={k} (circles: {sequence[i]}, {sequence[j]}, {sequence[k]})"
                 )
 
-                # Check if Q[i][k] = Q[k][j] = 1
-                if not q[i][k % n] or not q[k % n][j % n]:
+                if q[i][k % n] != 1 or q[k % n][j % n] != 1:
                     logger.debug(f"Skipping k={k}: q[i][k] or q[k][j] is 0")
                     continue
 
-                # Check if v[i]v[j]v[k] is oriented counterclockwise
                 if not is_counterclockwise(
-                    sequence[i % n],
+                    sequence[i],
                     sequence[j % n],
                     sequence[k % n],
                 ):
                     logger.debug(f"Skipping k={k}: not counterclockwise")
                     continue
 
-                # Check if v[i], v[j], v[k+1], and v[k-1], appear in that order counterclockwise around v[k]
                 if not is_appear_counterclockwise(
                     [
-                        sequence[i % n],
+                        sequence[i],
                         sequence[j % n],
                         sequence[(k) % n],
                         sequence[(k + 1) % n],
@@ -246,17 +282,9 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
                     (sequence[(j - 1) % n], sequence[j]),
                 ]
 
-                intersect_flag = False
-                for a_idx, b_idx in segments_to_check:
-                    if is_intersect_interior(a_idx, b_idx, triangle):
-                        logger.debug(
-                            f"Skipping k={k}: segment ({a_idx}, {b_idx}) intersects interior"
-                        )
-                        intersect_flag = True
-                        break
-
-                if intersect_flag:
+                if segment_intersects_triangle(segments_to_check, triangle):
                     continue
+
                 logger.debug(
                     f"All conditions passed for i={i}, j={j}, k={k}, marking q[i][j] = 1"
                 )
@@ -267,14 +295,3 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
     logger.debug("Final Q table:")
     for row in q:
         logger.debug(row)
-
-    for i in range(n):
-        if q[i][i - 1] == 1:
-            # If any q[i][i - 1] is 1, it indicates the loop is self-overlapping
-            logger.info(f"q[{i}][{(i - 1) % n}] = 1 => The loop is self-overlapping.")
-            return True
-
-    logger.info(
-        "There is no index i such that Q[i][i-1] = 1, hence the loop is not self-overlapping"
-    )
-    return False

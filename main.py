@@ -41,13 +41,15 @@ def preprocess_multiloop(multiloop: perm.Multiloop):
 def main():
     init_logging()
     example_loop = ranloop.generate_planar(2)
-    print(example_loop)
 
     proccessed_loop = preprocess_multiloop(example_loop)
-    print(proccessed_loop)
     strand_no = 0
     sequence_of_coordinations = proccessed_loop["SequencesOfCoordinations"][strand_no]
     print(is_self_overlapping(sequence_of_coordinations))
+    drawloop.drawloop(
+        sequences=proccessed_loop["SequencesOfCircles"],
+        circle_dict=proccessed_loop["PackedCircles"],
+    )
 
 
 if __name__ == "__main__":
