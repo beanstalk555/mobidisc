@@ -2,24 +2,28 @@
 # 1) a function which computes whether a plane curve given by a perm rep is self overlapping
 # 2) a function which computes all mobidiscs for a given a multiloop
 # 3) a function which computes all unicorn annuli for a given multiloop
-from permrep import Multiloop
-from circlepack import CirclePack
-from drawloop import generate_circles
 import logging
 import numpy as np
+from logging_utils.logger import setup_logger
+from permrep import Multiloop
 
-logger = logging.getLogger(__name__)
+logger = setup_logger(
+    "mobidisc_logger",
+    "logs/mobidisc.log",
+    level=logging.DEBUG,
+)
 
 # TODO: Some of the functions could be replaced by numpy
 # TODO: Remove unnecessary logging
 
 
+# Main functions
 def is_self_overlapping(sequence: list[tuple]) -> bool:
     """The function accepts a sequence of points in the form of tuple (x,y) and checks if the multiloop is self-overlapping."""
     logger.info(f"Checking if multiloop with sequence: {sequence} is self-overlapping")
-    
     sequence = remove_collinear_points(sequence)
-    
+    logger.info(f"Sequence after removing collinear points: {sequence}")
+
     whitney_index = cal_whit(sequence)
     if abs(whitney_index) != 1:
         logger.info("Whitney index is not +1 or -1, loop is not self-overlapping.")
@@ -42,18 +46,29 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
     return False
 
 
+def compute_mobidiscs(multiloop: Multiloop) -> list[int]:
+    """Compute all mobidiscs for a given multiloop."""
+    logger.info(f"Computing mobidiscs for multiloop: {multiloop}")
+    monogons = multiloop.find_monogons()
+    bigons = multiloop.find_bigons()
+
+    return {"monogons": monogons.cycles, "bigons": bigons.cycles}
+
+
+# Helper functions, intended for internal use only
 def remove_collinear_points(
-    sequence: list[tuple], tolerance: float = 1e-5
+    sequence: list[tuple], tolerance: float = 1e-16
 ) -> list[tuple]:
     """Remove collinear points from the sequence of points."""
     temp_sequence = []
     for i in range(len(sequence)):
-        cross_product_result = cross_product(
+        angle = cal_angle(
             sequence[i - 1],
             sequence[i],
             sequence[(i + 1) % len(sequence)],
         )
-        if abs(cross_product_result) > tolerance:
+        # If the angle is not close to zero, keep the point
+        if abs(angle) > tolerance:
             temp_sequence.append(sequence[i])
     logger.debug(f"Sequence after removing collinear points: {temp_sequence}")
     return temp_sequence
@@ -65,7 +80,7 @@ def cross_product(a: tuple, b: tuple, c: tuple) -> float:
     x2, y2 = b
     x3, y3 = c
     logger.debug(
-        f"Calculating cross product for vectors: ab=({x2 - x1}, {y2 - y1}), ac=({x3 - x1}, {y3 - y1})"
+        f"Calculating cross product for vectors: ({x2 - x1}, {y2 - y1}), ({x3 - x1}, {y3 - y1})"
     )
     cross_product_value = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
     logger.debug(f"Cross product value: {cross_product_value}")
@@ -155,6 +170,7 @@ def is_intersect_interior(a: tuple, b: tuple, triangle: list[tuple]) -> bool:
 
 def cal_angle(a: tuple, b: tuple, c: tuple) -> float:
     """Calculate the angle between vector AB and BC (in radians) given three points A, B, and C."""
+    tolerance = 1e-8
     vector_ab = np.array(b) - np.array(a)
     vector_bc = np.array(c) - np.array(b)
     logger.debug(
@@ -164,8 +180,9 @@ def cal_angle(a: tuple, b: tuple, c: tuple) -> float:
     # Using the formula: θ = arccos((a ⋅ b) / (|a| |b|)), where θ is the angle, 'a' and 'b' are the vectors, '⋅' represents the dot product, and |a| and |b| are the magnitudes of the vectors.
     dot_product = np.dot(vector_ab, vector_bc)
     mag_ab = np.linalg.norm(vector_ab)
-    mag_ac = np.linalg.norm(vector_bc)
-    cos_theta = dot_product / (mag_ab * mag_ac)
+    mag_bc = np.linalg.norm(vector_bc)
+
+    cos_theta = dot_product / (mag_ab * mag_bc)
     theta = np.arccos(cos_theta)
 
     logger.debug(f"The angle between vectors AB={vector_ab}, BC={vector_bc} = {theta}")
@@ -196,7 +213,7 @@ def cal_whit(sequence) -> float:
         angles.append(angle)
 
     whitney_index_raw = sum(angles) / (2 * np.pi)
-    logger.debug(f"Whitney index before rounding: {whitney_index_raw:.6f}")
+    logger.info(f"Whitney index before rounding: {whitney_index_raw:.6f}")
 
     whitney_index = round(whitney_index_raw)
     logger.debug(f"Whitney index after rounding: {whitney_index}")

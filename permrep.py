@@ -140,3 +140,63 @@ class Multiloop:
                 return True
             edge1 = self.sig(edge1)
         return False
+
+    def two_end_strands(self, start, end) -> list[int]:
+        """Finds strands that have two ends."""
+        this_strand = []
+        curr = start
+        while True:
+            this_strand.append(curr)
+            curr = self.eps(curr)
+            this_strand.append(curr)
+            if self.is_samevert(end, curr) or self.is_samevert(start, curr):
+                break
+            curr = (self.sig * self.sig)(curr)
+        return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
+
+    def find_monogons(self) -> Permutation:
+        monogons = []
+        for cycle in self.sig.cycles:
+            visited = set()
+            for half_edge in cycle:
+                if half_edge in visited:
+                    continue
+                this_monogon = []
+                curr = half_edge
+                this_monogon = self.two_end_strands(curr, half_edge)
+                if not this_monogon:
+                    continue
+                last = this_monogon[-1]
+                visited.add(last)
+                monogons.append(this_monogon)
+        return Permutation(monogons)
+
+    def find_bigons(self) -> Permutation:
+        bigons = []
+        for cycle in self.sig.cycles:
+            visited = set()
+            for half_edge in cycle:
+                if half_edge in visited:
+                    continue
+                fst_strnd_bigon = []
+                sec_strnd_bigon = []
+                curr = half_edge
+                while True:
+                    fst_strnd_bigon.append(curr)
+                    curr = self.eps(curr)
+                    fst_strnd_bigon.append(curr)
+                    if self.is_samevert(curr, half_edge):
+                        break
+                    sec_strnd_bigon = self.two_end_strands(
+                        self.sig(half_edge), curr
+                    )
+                    if sec_strnd_bigon:
+                        bigons.append(fst_strnd_bigon + sec_strnd_bigon[::-1])
+                    sec_strnd_bigon = self.two_end_strands(
+                        self.sig.inv(half_edge), curr
+                    )
+                    if sec_strnd_bigon:
+                        bigons.append(fst_strnd_bigon + sec_strnd_bigon[::-1])
+                    curr = (self.sig * self.sig)(curr)
+                visited.add(half_edge)
+        return Permutation(bigons)
