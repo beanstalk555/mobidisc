@@ -58,6 +58,5 @@ def main():
 
     logger.info(f"Mobidiscs: {compute_mobidiscs(example_loop)}")
 
-
 if __name__ == "__main__":
     main()

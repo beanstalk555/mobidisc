@@ -1,5 +1,6 @@
 from typing import Iterable
 from collections import deque
+from xml.etree.ElementTree import canonicalize
 
 
 # data structure for storing a multiloop as a permutation representation
@@ -141,8 +142,8 @@ class Multiloop:
             edge1 = self.sig(edge1)
         return False
 
-    def two_end_strands(self, start, end) -> list[int]:
-        """Finds strands that have two ends."""
+    def find_strand_between(self, start, end) -> list[int]:
+        """Finds strands that is between two ends."""
         this_strand = []
         curr = start
         while True:
@@ -153,8 +154,20 @@ class Multiloop:
                 break
             curr = (self.sig * self.sig)(curr)
         return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
+    
+    def canonicalize_strand(self, strand):
+        n = len(strand)
+        min_idx = min(range(n), key=lambda i: strand[i])
+        rotated = strand[min_idx:] + strand[:min_idx]
+        reversed_rotated = rotated[::-1]
+        return tuple(min(rotated, reversed_rotated))
 
-    def find_monogons(self) -> Permutation:
+    def canonicalize_bigon(self, strand1, strand2):
+        canon1 = self.canonicalize_strand(strand1)
+        canon2 = self.canonicalize_strand(strand2)
+        return tuple(sorted([canon1, canon2]))
+
+    def find_monogons(self) -> list[tuple[int]]:
         monogons = []
         for cycle in self.sig.cycles:
             visited = set()
@@ -163,21 +176,18 @@ class Multiloop:
                     continue
                 this_monogon = []
                 curr = half_edge
-                this_monogon = self.two_end_strands(curr, half_edge)
+                this_monogon = self.find_strand_between(curr, half_edge)
                 if not this_monogon:
                     continue
                 last = this_monogon[-1]
                 visited.add(last)
                 monogons.append(this_monogon)
-        return Permutation(monogons)
+        return monogons
 
-    def find_bigons(self) -> Permutation:
-        bigons = []
+    def find_bigons(self) -> list[tuple[tuple[int], tuple[int]]]:
+        bigons = set()
         for cycle in self.sig.cycles:
-            visited = set()
             for half_edge in cycle:
-                if half_edge in visited:
-                    continue
                 fst_strnd_bigon = []
                 sec_strnd_bigon = []
                 curr = half_edge
@@ -187,16 +197,9 @@ class Multiloop:
                     fst_strnd_bigon.append(curr)
                     if self.is_samevert(curr, half_edge):
                         break
-                    sec_strnd_bigon = self.two_end_strands(
-                        self.sig(half_edge), curr
-                    )
-                    if sec_strnd_bigon:
-                        bigons.append(fst_strnd_bigon + sec_strnd_bigon[::-1])
-                    sec_strnd_bigon = self.two_end_strands(
-                        self.sig.inv(half_edge), curr
-                    )
-                    if sec_strnd_bigon:
-                        bigons.append(fst_strnd_bigon + sec_strnd_bigon[::-1])
+                    for sec_strt in [self.sig(half_edge), self.sig.inv(half_edge)]:
+                        sec_strnd_bigon = self.find_strand_between(sec_strt, curr)
+                        if sec_strnd_bigon:
+                            bigons.add(self.canonicalize_bigon(fst_strnd_bigon, sec_strnd_bigon))
                     curr = (self.sig * self.sig)(curr)
-                visited.add(half_edge)
-        return Permutation(bigons)
+        return bigons

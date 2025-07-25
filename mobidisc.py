@@ -52,7 +52,7 @@ def compute_mobidiscs(multiloop: Multiloop) -> list[int]:
     monogons = multiloop.find_monogons()
     bigons = multiloop.find_bigons()
 
-    return {"monogons": monogons.cycles, "bigons": bigons.cycles}
+    return {"monogons": monogons, "bigons": bigons}
 
 
 # Helper functions, intended for internal use only
