@@ -20,12 +20,31 @@ def preprocess_multiloop(multiloop: perm.Multiloop):
         sequences_of_coor.append(
             [pcir_to_coordinates[j] for j in loop_to_circles.sequences[i]["circle_ids"]]
         )
+        
+    
+    monogons = multiloop.find_monogons()
+    monogons_to_circles = loop_to_circles.build_sequences(monogons)
+    sequences_monogons_coor = []
+    for i in range(len(monogons_to_circles)):
+        sequences_monogons_coor.append(
+            [pcir_to_coordinates[j] for j in monogons_to_circles[i]["circle_ids"]]
+        )
+    filtered_monogon_coors = []
+    filtered_monogon_circles = []
+    for i in range(len(sequences_monogons_coor)):
+        if is_self_overlapping(sequences_monogons_coor[i]):
+            filtered_monogon_coors.append(sequences_monogons_coor[i])
+            filtered_monogon_circles.append(monogons_to_circles[i])
+    print("filtered_monogon_coors: ", filtered_monogon_coors)
+    print("filtered_monogon_circles: ", filtered_monogon_circles)
     return {
         "PackedCircles": packed_circles,
         "SequencesOfCircles": loop_to_circles.sequences,
         "SequencesOfCoordinations": sequences_of_coor,
+        "SequencesOfMonogons": filtered_monogon_circles,
+        "SequencesOfMonogonsCoordinations": filtered_monogon_coors,
     }
-
+    
 
 def main():
     logger = setup_logger(
@@ -49,14 +68,23 @@ def main():
     logger.info(
         f"Drawing the loop with sequence {proccessed_loop['SequencesOfCircles']}"
     )
-    drawloop.drawloop(
+    drawloop.DrawLoop(
         sequences=proccessed_loop["SequencesOfCircles"],
         circle_dict=proccessed_loop["PackedCircles"],
         showCircLabels=True,
         filename="loops/loop.svg",
     )
-
-    logger.info(f"Mobidiscs: {compute_mobidiscs(example_loop)}")
+    drawloop.DrawLoop(
+        sequences=proccessed_loop["SequencesOfMonogons"],
+        circle_dict=proccessed_loop["PackedCircles"],
+        showCircLabels=True,
+        showEdgeLabels=False,
+        filename="loops/loop_monogons.svg",
+    )
+    mobidiscs = compute_mobidiscs(example_loop)
+    logger.info(f"Mobidiscs: {mobidiscs}")
+    
+    
 
 if __name__ == "__main__":
     main()

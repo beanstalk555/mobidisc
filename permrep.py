@@ -147,12 +147,10 @@ class Multiloop:
         this_strand = []
         curr = start
         while True:
-            this_strand.append(curr)
-            curr = self.eps(curr)
+            curr = self.tau(curr)
             this_strand.append(curr)
             if self.is_samevert(end, curr) or self.is_samevert(start, curr):
                 break
-            curr = (self.sig * self.sig)(curr)
         return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
     
     def canonicalize_strand(self, strand):
@@ -169,8 +167,8 @@ class Multiloop:
 
     def find_monogons(self) -> list[tuple[int]]:
         monogons = []
-        for cycle in self.sig.cycles:
-            visited = set()
+        visited = set()
+        for cycle in self.tau.cycles:
             for half_edge in cycle:
                 if half_edge in visited:
                     continue

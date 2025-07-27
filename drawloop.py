@@ -205,173 +205,202 @@ class CircleAdjacency:
         # }
 
 
-def drawloop(
-    sequences,
-    circle_dict,
-    filename,
-    showCircLabels=False,
-    showEdgeLabels=True,
-    showCirc=True,
-    scale=200,
-    padding=50,
-):
-    if not isinstance(filename, (str, bytes, os.PathLike)):
-        raise TypeError(f"Filename must be a string or path, got {type(filename)}")
+class DrawLoop:
+    def __init__(
+        self,
+        sequences,
+        circle_dict,
+        filename,
+        showCircLabels=False,
+        showEdgeLabels=True,
+        showCirc=True,
+        scale=200,
+        padding=50,
+    ):
+        self.sequences = sequences
+        self.circle_dict = circle_dict
+        self.filename = filename
+        self.showCircLabels = showCircLabels
+        self.showEdgeLabels = showEdgeLabels
+        self.showCirc = showCirc
+        self.scale = scale
+        self.padding = padding
+        self.dwg = None
+        self.to_svg_coords = None
 
-    # Determine bounds
-    dwg, to_svg_coords = setup_canvas(circle_dict, filename, scale, padding)
+        if not isinstance(filename, (str, bytes, os.PathLike)):
+            raise TypeError(f"Filename must be a string or path, got {type(filename)}")
 
-    # Draw circles
-    if showCirc:
-        drawcircles(dwg, scale, circle_dict, showCircLabels, to_svg_coords)
+        # Determine bounds
+        self.dwg = self.setup_canvas()
 
-    # Draw sequences
-    drawsequences(dwg, scale, sequences, circle_dict, to_svg_coords, showEdgeLabels)
+        # Draw circles
+        if showCirc:
+            self.drawcircles()
 
-    dwg.save()
+        # Draw sequences
+        self.drawsequences()
 
+        self.dwg.save()
 
-def setup_canvas(circle_dict, filename, scale, padding):
-    """Sets up the canvas for drawing."""
-    min_x = min(z.real - r for z, r in circle_dict.values())
-    max_x = max(z.real + r for z, r in circle_dict.values())
-    min_y = min(z.imag - r for z, r in circle_dict.values())
-    max_y = max(z.imag + r for z, r in circle_dict.values())
+    def setup_canvas(self):
+        """Sets up the canvas for drawing."""
+        min_x = min(z.real - r for z, r in self.circle_dict.values())
+        max_x = max(z.real + r for z, r in self.circle_dict.values())
+        min_y = min(z.imag - r for z, r in self.circle_dict.values())
+        max_y = max(z.imag + r for z, r in self.circle_dict.values())
 
-    width = (max_x - min_x) * scale + 2 * padding
-    height = (max_y - min_y) * scale + 2 * padding
+        width = (max_x - min_x) * self.scale + 2 * self.padding
+        height = (max_y - min_y) * self.scale + 2 * self.padding
 
-    dwg = svgwrite.Drawing(filename, size=(width, height))
-    dwg.viewbox(0, 0, width, height)
+        dwg = svgwrite.Drawing(self.filename, size=(width, height))
+        dwg.viewbox(0, 0, width, height)
 
-    # Add white background
-    dwg.add(dwg.rect(insert=(0, 0), size=(width, height), fill="white"))
+        # Add white background
+        dwg.add(dwg.rect(insert=(0, 0), size=(width, height), fill="white"))
 
-    def to_svg_coords(center):
-        cx = (center.real - min_x) * scale + padding
-        cy = (max_y - center.imag) * scale + padding
-        return (cx, cy)
+        def to_svg_coords(center):
+            cx = (center.real - min_x) * self.scale + self.padding
+            cy = (max_y - center.imag) * self.scale + self.padding
+            return (cx, cy)
 
-    return dwg, to_svg_coords
+        self.to_svg_coords = to_svg_coords
 
+        return dwg
 
-def drawcircles(dwg, scale, circle_dict, showCircLabels, to_svg_coords):
-    for name, (center, radius) in circle_dict.items():
-        cx, cy = to_svg_coords(center)
-        r = radius * scale
-        dwg.add(
-            dwg.circle(
-                center=(cx, cy), r=r, fill="none", stroke="black", stroke_width=radius
+    def drawcircles(self):
+        for name, (center, radius) in self.circle_dict.items():
+            cx, cy = self.to_svg_coords(center)
+            r = radius * self.scale
+            self.dwg.add(
+                self.dwg.circle(
+                    center=(cx, cy),
+                    r=r,
+                    fill="none",
+                    stroke="black",
+                    stroke_width=radius,
+                )
             )
-        )
-        dwg.add(
-            dwg.circle(
-                center=(cx, cy),
-                r=(radius),
-                fill="black",
-                stroke="black",
-                stroke_width=30 * radius,
-            )
-        )
-        if showCircLabels:
-            dwg.add(
-                dwg.text(
-                    str(name),
-                    insert=(cx + r * 0.1, cy),
+            self.dwg.add(
+                self.dwg.circle(
+                    center=(cx, cy),
+                    r=(radius),
                     fill="black",
-                    font_size=f"{45*radius+10}px",
-                    text_anchor="middle",
+                    stroke="black",
+                    stroke_width=30 * radius,
                 )
             )
-
-
-def drawsequences(dwg, scale, sequences, circle_dict, to_svg_coords, showEdgeLabels):
-    tolerance = 1e-6  # how accurately to approximate things
-    for sequence in sequences:
-        circle_ids = sequence["circle_ids"]
-        for i in range(0, len(circle_ids)):
-            startcirc_center = circle_dict[circle_ids[i]][0]
-            startcirc_r = circle_dict[circle_ids[i]][1] * scale
-            targetcirc_center = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][0]
-            targetcirc_r = circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1] * scale
-
-            endcirc_center = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][0]
-            endcirc_r = circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1] * scale
-
-            def find_intersection(c1, r1, c2, r2):
-                x1 = c1[0]
-                x2 = c2[0]
-                y1 = c1[1]
-                y2 = c2[1]
-                d = r1 + r2
-                return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
-
-            start = to_svg_coords(startcirc_center)
-            target = to_svg_coords(targetcirc_center)
-            end = to_svg_coords(endcirc_center)
-            s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
-            e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
-            if showEdgeLabels:
-                curr_circ = circle_ids[(i + 1) % len(circle_ids)]
-                if sequence["half_edges"] and curr_circ == sequence["half_edges"][0][0]:
-                    dwg.add(
-                        dwg.text(
-                            str(sequence["half_edges"][0][1]),
-                            insert=s_curve,
-                            fill="red",
-                            font_size="10px",
-                            text_anchor="middle",
-                        )
+            if self.showCircLabels:
+                self.dwg.add(
+                    self.dwg.text(
+                        str(name),
+                        insert=(cx + r * 0.1, cy),
+                        fill="black",
+                        font_size=f"{45*radius+10}px",
+                        text_anchor="middle",
                     )
-                    sequence["half_edges"].pop(0)
-
-            try:
-                d_bet_se = sqrt(
-                    (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
                 )
 
-                if (
-                    abs((d_bet_se / 2) - targetcirc_r) < tolerance
-                ):  # In case 3 circles are on the same line.
-                    dwg.add(
-                        dwg.line(
-                            start=s_curve,
-                            end=e_curve,
-                            stroke="blue",
-                            stroke_width=1,
+    def drawsequences(self):
+        tolerance = 1e-6  # how accurately to approximate things
+        for sequence in self.sequences:
+            circle_ids = sequence["circle_ids"]
+            for i in range(0, len(circle_ids)):
+                startcirc_center = self.circle_dict[circle_ids[i]][0]
+                startcirc_r = self.circle_dict[circle_ids[i]][1] * self.scale
+                targetcirc_center = self.circle_dict[
+                    circle_ids[(i + 1) % len(circle_ids)]
+                ][0]
+                targetcirc_r = (
+                    self.circle_dict[circle_ids[(i + 1) % len(circle_ids)]][1]
+                    * self.scale
+                )
+
+                endcirc_center = self.circle_dict[
+                    circle_ids[(i + 2) % len(circle_ids)]
+                ][0]
+                endcirc_r = (
+                    self.circle_dict[circle_ids[(i + 2) % len(circle_ids)]][1]
+                    * self.scale
+                )
+
+                def find_intersection(c1, r1, c2, r2):
+                    x1 = c1[0]
+                    x2 = c2[0]
+                    y1 = c1[1]
+                    y2 = c2[1]
+                    d = r1 + r2
+                    return ((x1 + (r1 * (x2 - x1)) / d), (y1 + (r1 * (y2 - y1)) / d))
+
+                start = self.to_svg_coords(startcirc_center)
+                target = self.to_svg_coords(targetcirc_center)
+                end = self.to_svg_coords(endcirc_center)
+                s_curve = find_intersection(start, startcirc_r, target, targetcirc_r)
+                e_curve = find_intersection(target, targetcirc_r, end, endcirc_r)
+                if self.showEdgeLabels:
+                    curr_circ = circle_ids[(i + 1) % len(circle_ids)]
+                    if (
+                        sequence["half_edges"]
+                        and curr_circ == sequence["half_edges"][0][0]
+                    ):
+                        self.dwg.add(
+                            self.dwg.text(
+                                str(sequence["half_edges"][0][1]),
+                                insert=s_curve,
+                                fill="red",
+                                font_size="10px",
+                                text_anchor="middle",
+                            )
                         )
+                        sequence["half_edges"].pop(0)
+
+                try:
+                    d_bet_se = sqrt(
+                        (s_curve[0] - e_curve[0]) ** 2 + (s_curve[1] - e_curve[1]) ** 2
                     )
-                    continue
-                r_curve = sqrt(
-                    ((d_bet_se / 2) ** 2 * targetcirc_r**2)
-                    / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
+
+                    if (
+                        abs((d_bet_se / 2) - targetcirc_r) < tolerance
+                    ):  # In case 3 circles are on the same line.
+                        self.dwg.add(
+                            self.dwg.line(
+                                start=s_curve,
+                                end=e_curve,
+                                stroke="blue",
+                                stroke_width=1,
+                            )
+                        )
+                        continue
+                    r_curve = sqrt(
+                        ((d_bet_se / 2) ** 2 * targetcirc_r**2)
+                        / (targetcirc_r**2 - (d_bet_se / 2) ** 2)
+                    )
+
+                except ValueError:
+                    raise ValueError(
+                        f"Error finding the curve between start {s_curve} and end {e_curve} points. Half of the distance between them is {d_bet_se/2}, target circle radius is {targetcirc_r}."
+                    )
+                arc_path = svgwrite.path.Path(
+                    d=f"M {s_curve[0]},{s_curve[1]}",
+                    fill="none",
+                    stroke="blue",
+                    stroke_width=1,
                 )
 
-            except ValueError:
-                raise ValueError(
-                    f"Error finding the curve between start {s_curve} and end {e_curve} points. Half of the distance between them is {d_bet_se/2}, target circle radius is {targetcirc_r}."
+                # Use the 'A' command for a circular arc
+                arc_path.push_arc(
+                    target=e_curve,  # End point of the arc
+                    rotation=0,  # No rotation
+                    r=r_curve,  # Radius of the arc
+                    large_arc=False,  # Large arc flag (False because we want a minor arc)
+                    angle_dir=(
+                        "+"
+                        if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
+                        - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
+                        > 0
+                        else "-"
+                    ),  # Sweep direction, use cross product to determine
+                    absolute=True,  # Absolute coordinates
                 )
-            arc_path = svgwrite.path.Path(
-                d=f"M {s_curve[0]},{s_curve[1]}",
-                fill="none",
-                stroke="blue",
-                stroke_width=1,
-            )
 
-            # Use the 'A' command for a circular arc
-            arc_path.push_arc(
-                target=e_curve,  # End point of the arc
-                rotation=0,  # No rotation
-                r=r_curve,  # Radius of the arc
-                large_arc=False,  # Large arc flag (False because we want a minor arc)
-                angle_dir=(
-                    "+"
-                    if (s_curve[0] - e_curve[0]) * (target[1] - e_curve[1])
-                    - (s_curve[1] - e_curve[1]) * (target[0] - e_curve[0])
-                    > 0
-                    else "-"
-                ),  # Sweep direction, use cross product to determine
-                absolute=True,  # Absolute coordinates
-            )
-
-            dwg.add(arc_path)
+                self.dwg.add(arc_path)
