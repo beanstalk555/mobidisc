@@ -1,5 +1,6 @@
 from typing import Iterable
 from collections import deque
+from xml.etree.ElementTree import canonicalize
 
 
 # data structure for storing a multiloop as a permutation representation
@@ -140,3 +141,49 @@ class Multiloop:
                 return True
             edge1 = self.sig(edge1)
         return False
+
+    def find_strand_between(self, start, end) -> list[int]:
+        """Finds strands that is between two ends."""
+        this_strand = []
+        curr = start
+        while True:
+            curr = self.tau(curr)
+            this_strand.append(curr)
+            if self.is_samevert(end, curr) or self.is_samevert(start, curr):
+                break
+        return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
+    
+    def canonicalize_strand(self, strand):
+        n = len(strand)
+        min_idx = min(range(n), key=lambda i: strand[i])
+        rotated = strand[min_idx:] + strand[:min_idx]
+        reversed_rotated = rotated[::-1]
+        return tuple(min(rotated, reversed_rotated))
+
+    def find_monogons(self) -> list[tuple[int]]:
+        monogons = set()
+        for cycle in self.tau.cycles:
+            for half_edge in cycle:
+                this_monogon = self.find_strand_between(half_edge, half_edge)
+                if not this_monogon:
+                    continue
+                monogons.add(self.canonicalize_strand(this_monogon))
+        return monogons
+
+    def find_bigons(self) -> list[tuple[int]]:
+        bigons = set()
+        for cycle in self.sig.cycles:
+            for half_edge in cycle:
+                fst_strnd_bigon = []
+                sec_strnd_bigon = []
+                curr = half_edge
+                while True:
+                    curr = self.tau(curr)
+                    fst_strnd_bigon.append(curr)
+                    if self.is_samevert(curr, half_edge):
+                        break 
+                    for sec_strt in [self.sig(curr), self.sig.inv(curr)]:
+                        sec_strnd_bigon = self.find_strand_between(sec_strt, half_edge)
+                        if sec_strnd_bigon:
+                            bigons.add(self.canonicalize_strand(fst_strnd_bigon + sec_strnd_bigon))
+        return bigons
