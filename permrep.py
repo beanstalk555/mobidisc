@@ -160,26 +160,14 @@ class Multiloop:
         reversed_rotated = rotated[::-1]
         return tuple(min(rotated, reversed_rotated))
 
-    def canonicalize_bigon(self, strand1, strand2):
-        canon1 = self.canonicalize_strand(strand1)
-        canon2 = self.canonicalize_strand(strand2)
-        return tuple(sorted([canon1, canon2]))
-
     def find_monogons(self) -> list[tuple[int]]:
-        monogons = []
-        visited = set()
+        monogons = set()
         for cycle in self.tau.cycles:
             for half_edge in cycle:
-                if half_edge in visited:
-                    continue
-                this_monogon = []
-                curr = half_edge
-                this_monogon = self.find_strand_between(curr, half_edge)
+                this_monogon = self.find_strand_between(half_edge, half_edge)
                 if not this_monogon:
                     continue
-                last = this_monogon[-1]
-                visited.add(last)
-                monogons.append(this_monogon)
+                monogons.add(self.canonicalize_strand(this_monogon))
         return monogons
 
     def find_bigons(self) -> list[tuple[tuple[int], tuple[int]]]:
@@ -190,14 +178,12 @@ class Multiloop:
                 sec_strnd_bigon = []
                 curr = half_edge
                 while True:
-                    fst_strnd_bigon.append(curr)
-                    curr = self.eps(curr)
+                    curr = self.tau(curr)
                     fst_strnd_bigon.append(curr)
                     if self.is_samevert(curr, half_edge):
-                        break
-                    for sec_strt in [self.sig(half_edge), self.sig.inv(half_edge)]:
-                        sec_strnd_bigon = self.find_strand_between(sec_strt, curr)
+                        break 
+                    for sec_strt in [self.sig(curr), self.sig.inv(curr)]:
+                        sec_strnd_bigon = self.find_strand_between(sec_strt, half_edge)
                         if sec_strnd_bigon:
-                            bigons.add(self.canonicalize_bigon(fst_strnd_bigon, sec_strnd_bigon))
-                    curr = (self.sig * self.sig)(curr)
+                            bigons.add(self.canonicalize_strand(fst_strnd_bigon + sec_strnd_bigon))
         return bigons
