@@ -170,7 +170,7 @@ class Multiloop:
                 monogons.add(self.canonicalize_strand(this_monogon))
         return monogons
 
-    def find_bigons(self) -> list[tuple[tuple[int], tuple[int]]]:
+    def find_bigons(self) -> list[tuple[int]]:
         bigons = set()
         for cycle in self.sig.cycles:
             for half_edge in cycle:

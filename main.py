@@ -7,58 +7,51 @@ import logging
 from logging_utils.logger import setup_logger
 
 
-def preprocess_multiloop(multiloop: perm.Multiloop):
-    """Preprocess the multiloop to draw and check for self-overlapping."""
-    loop_to_circles = drawloop.CircleAdjacency(multiloop)
-    packed_circles = CirclePack(loop_to_circles.internal, loop_to_circles.external)
-    pcir_to_coordinates = {}
-    for circle_id, (center, radius) in packed_circles.items():
-        pcir_to_coordinates[circle_id] = (center.real, center.imag)
-    sequences_of_coor = []
-
-    for i in range(len(loop_to_circles.sequences)):
-        sequences_of_coor.append(
-            [pcir_to_coordinates[j] for j in loop_to_circles.sequences[i]["circle_ids"]]
+class MobidiscProcessor:
+    def __init__(self, multiloop: perm.Multiloop):
+        self.multiloop = multiloop
+        self.loop_to_circles = drawloop.CircleAdjacency(self.multiloop)
+        self.packed_circles = CirclePack(
+            self.loop_to_circles.internal, self.loop_to_circles.external
         )
+        self.circle_coord = self.build_circle_coord()
 
-    monogons = multiloop.find_monogons()
-    monogons_to_circles = loop_to_circles.build_sequences(monogons)
-    sequences_monogons_coor = []
-    for i in range(len(monogons_to_circles)):
-        sequences_monogons_coor.append(
-            [pcir_to_coordinates[j] for j in monogons_to_circles[i]["circle_ids"]]
-        )
-    filtered_monogon_coors = []
-    filtered_monogon_circles = []
-    for i in range(len(sequences_monogons_coor)):
-        if is_self_overlapping(sequences_monogons_coor[i]):
-            filtered_monogon_coors.append(sequences_monogons_coor[i])
-            filtered_monogon_circles.append(monogons_to_circles[i])
+        self.main_sequence = self.loop_to_circles.sequences
+        self.main_sequence_coord = self.sequences_to_coord(self.main_sequence)
 
-    bigons = multiloop.find_bigons()
-    bigons_to_circles = loop_to_circles.build_sequences(bigons)
-    sequences_bigons_coor = []
-    for i in range(len(bigons_to_circles)):
-        sequences_bigons_coor.append(
-            [pcir_to_coordinates[j] for j in bigons_to_circles[i]["circle_ids"]]
+        self.monogons = self.multiloop.find_monogons()
+        self.monogons_circles, self.monogons_coord = self.filter_mobidiscs(
+            self.monogons
         )
-    filtered_bigon_coors = []
-    filtered_bigon_circles = []
-    for i in range(len(sequences_bigons_coor)):
-        if is_self_overlapping(sequences_bigons_coor[i]):
-            filtered_bigon_coors.append(sequences_bigons_coor[i])
-            filtered_bigon_circles.append(bigons_to_circles[i])
-    
-    
-    return {
-        "PackedCircles": packed_circles,
-        "SequencesOfCircles": loop_to_circles.sequences,
-        "SequencesOfCoordinations": sequences_of_coor,
-        "SequencesOfMonogons": filtered_monogon_circles,
-        "SequencesOfMonogonsCoordinations": filtered_monogon_coors,
-        "SequencesOfBigons": filtered_bigon_circles,
-        "SequencesOfBigonsCoordinations": filtered_bigon_coors,
-    }
+        self.bigons = self.multiloop.find_bigons()
+        self.bigons_circles, self.bigons_coord = self.filter_mobidiscs(self.bigons)
+
+    def build_circle_coord(self):
+        pcir_to_coordinates = {}
+        for circle_id, (center, radius) in self.packed_circles.items():
+            pcir_to_coordinates[circle_id] = (center.real, center.imag)
+        return pcir_to_coordinates
+
+    def sequences_to_coord(self, sequences):
+        res = []
+        for i in range(len(sequences)):
+            res.append([self.circle_coord[j] for j in sequences[i]["circle_ids"]])
+        return res
+
+    def filter_mobidiscs(self, mobidiscs: list[tuple[int]]) -> list[tuple[int]]:
+        mobidiscs_circles = self.loop_to_circles.build_sequences(mobidiscs)
+        mobidiscs_coord = []
+        for i in range(len(mobidiscs_circles)):
+            mobidiscs_coord.append(
+                [self.circle_coord[j] for j in mobidiscs_circles[i]["circle_ids"]]
+            )
+        filtered_mobidiscs_coords = []
+        filtered_mobidiscs_circles = []
+        for i in range(len(mobidiscs_coord)):
+            if is_self_overlapping(mobidiscs_coord[i]):
+                filtered_mobidiscs_coords.append(mobidiscs_coord[i])
+                filtered_mobidiscs_circles.append(mobidiscs_circles[i])
+        return filtered_mobidiscs_circles, filtered_mobidiscs_coords
 
 
 def main():
@@ -74,40 +67,36 @@ def main():
     # )
     logger.info(f"Generated multiloop: {example_loop}")
 
-    proccessed_loop = preprocess_multiloop(example_loop)
+    proccessed_loop = MobidiscProcessor(example_loop)
     logger.debug(f"Processed info from the loop: {proccessed_loop}")
 
     strand_no = 0
-    sequence_of_coordinations = proccessed_loop["SequencesOfCoordinations"][strand_no]
+    sequence_of_coordinations = proccessed_loop.main_sequence_coord[strand_no]
     logger.info(
         f"Is the sequence of coordinations self-overlapping?: {is_self_overlapping(sequence_of_coordinations)}"
     )
 
-    logger.info(
-        f"Drawing the loop with sequence {proccessed_loop['SequencesOfCircles']}"
-    )
+    logger.info(f"Drawing the loop with sequence {proccessed_loop.main_sequence}")
     drawloop.DrawLoop(
-        sequences=proccessed_loop["SequencesOfCircles"],
-        circle_dict=proccessed_loop["PackedCircles"],
+        sequences=proccessed_loop.main_sequence,
+        circle_dict=proccessed_loop.packed_circles,
         showCircLabels=True,
         filename="loops/loop.svg",
     )
     drawloop.DrawLoop(
-        sequences=proccessed_loop["SequencesOfMonogons"],
-        circle_dict=proccessed_loop["PackedCircles"],
+        sequences=proccessed_loop.monogons_circles,
+        circle_dict=proccessed_loop.packed_circles,
         showCircLabels=True,
         showEdgeLabels=False,
         filename="loops/loop_monogons.svg",
     )
     drawloop.DrawLoop(
-        sequences=proccessed_loop["SequencesOfBigons"],
-        circle_dict=proccessed_loop["PackedCircles"],
+        sequences=proccessed_loop.bigons_circles,
+        circle_dict=proccessed_loop.packed_circles,
         showCircLabels=True,
         showEdgeLabels=False,
         filename="loops/loop_bigons.svg",
     )
-    mobidiscs = compute_mobidiscs(example_loop)
-    logger.info(f"Mobidiscs: {mobidiscs}")
 
 
 if __name__ == "__main__":
