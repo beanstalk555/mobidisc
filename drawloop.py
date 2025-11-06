@@ -1,4 +1,5 @@
-# draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm
+"""draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm"""
+
 import svgwrite.path
 from permrep import Multiloop
 import matplotlib.pyplot as plt

@@ -49,13 +49,55 @@ def is_self_overlapping(sequence: list[tuple]) -> bool:
 def compute_mobidiscs(multiloop: Multiloop) -> list[int]:
     """Compute all mobidiscs for a given multiloop."""
     logger.info(f"Computing mobidiscs for multiloop: {multiloop}")
-    monogons = multiloop.find_monogons()
-    bigons = multiloop.find_bigons()
+    monogons = find_monogons(multiloop)
+    bigons = find_bigons(multiloop)
 
     return {"monogons": monogons, "bigons": bigons}
 
 
+def compute_mobidiscs_cnf(multiloop: Multiloop) -> list[tuple[int]]:
+    mobidiscs = compute_mobidiscs(multiloop)
+    print("Monogons:", mobidiscs["monogons"])
+    print("Bigons:", mobidiscs["bigons"])
+
+
 # Helper functions, intended for internal use only
+
+
+def find_monogons(multiloop: Multiloop) -> list[tuple[int]]:
+    monogons = set()
+    for cycle in multiloop.tau.cycles:
+        for half_edge in cycle:
+            this_monogon = multiloop.find_strand_between(half_edge, half_edge)
+            if not this_monogon:
+                continue
+            monogons.add(multiloop.canonicalize_strand(this_monogon))
+    return monogons
+
+
+def find_bigons(multiloop: Multiloop) -> list[tuple[int]]:
+    bigons = set()
+    for cycle in multiloop.sig.cycles:
+        for half_edge in cycle:
+            fst_strnd_bigon = []
+            sec_strnd_bigon = []
+            curr = half_edge
+            while True:
+                curr = multiloop.tau(curr)
+                fst_strnd_bigon.append(curr)
+                if multiloop.is_samevert(curr, half_edge):
+                    break
+                for sec_strt in [multiloop.sig(curr), multiloop.sig.inv(curr)]:
+                    sec_strnd_bigon = multiloop.find_strand_between(sec_strt, half_edge)
+                    if sec_strnd_bigon:
+                        bigons.add(
+                            multiloop.canonicalize_strand(
+                                fst_strnd_bigon + sec_strnd_bigon
+                            )
+                        )
+    return bigons
+
+
 def remove_collinear_points(
     sequence: list[tuple], tolerance: float = 1e-16
 ) -> list[tuple]:
