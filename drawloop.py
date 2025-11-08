@@ -172,7 +172,8 @@ class CircleAdjacency:
 
         for strand in tau_cycles:
             sequence = {"circle_ids": [], "half_edges": []}
-            for he in strand:
+            for i in range(len(strand)):
+                he = strand[i]
                 edge_circle = self.edges_circles[he]
                 opposite_edge_circle = self.edges_circles[-he]
                 vertex_circle = self.vertices_circles[he]

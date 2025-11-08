@@ -6,6 +6,7 @@ import logging
 import numpy as np
 from logging_utils.logger import setup_logger
 from permrep import Multiloop
+import drawloop
 
 logger = setup_logger(
     "mobidisc_logger",
@@ -55,13 +56,96 @@ def compute_mobidiscs(multiloop: Multiloop) -> list[int]:
     return {"monogons": monogons, "bigons": bigons}
 
 
-def compute_mobidiscs_cnf(multiloop: Multiloop) -> list[tuple[int]]:
-    mobidiscs = compute_mobidiscs(multiloop)
-    print("Monogons:", mobidiscs["monogons"])
-    print("Bigons:", mobidiscs["bigons"])
+def compute_mobidiscs_cnf(
+    multiloop: Multiloop,
+    loop_to_circles: drawloop.CircleAdjacency,
+    monogons_he,
+    bigons_he,
+) -> list[tuple[int]]:
+    cnf = set()
+    for monogon in monogons_he:
+        clause = set()
+        for face_he in loop_to_circles.faces_circles:
+            if face_he in multiloop.inf_face:
+                continue
+            if is_in_mobidisc(multiloop, face_he, multiloop.inf_face, 0, monogon):
+                clause.add(loop_to_circles.faces_circles[face_he])
+        cnf.add(frozenset(clause))
+    for bigon in bigons_he:
+        clause = set()
+        for face_he in loop_to_circles.faces_circles:
+            if face_he in multiloop.inf_face:
+                continue
+            if is_in_mobidisc(multiloop, face_he, multiloop.inf_face, 0, bigon):
+                clause.add(loop_to_circles.faces_circles[face_he])
+        cnf.add(frozenset(clause))
+    return filter_cnf(cnf)
 
 
 # Helper functions, intended for internal use only
+def filter_cnf(mobidiscs_cnf: set[frozenset[int]]) -> set[frozenset[int]]:
+    filtered_cnf = set()
+    mobidiscs_cnf = list(mobidiscs_cnf)
+    for i in range(len(mobidiscs_cnf)):
+        for j in range(len(mobidiscs_cnf)):
+            if i == j:
+                continue
+            if mobidiscs_cnf[j] - mobidiscs_cnf[i] == set():
+                break
+        else:
+            filtered_cnf.add(mobidiscs_cnf[i])
+    return filtered_cnf
+
+
+def is_in_mobidisc(
+    multiloop: Multiloop,
+    start_halfedge: int,
+    targets: list[int],
+    special_number: int,
+    rotation: tuple[int],
+    visited: set[int] = None,
+) -> bool:
+    """Check if a half-edge is in the mobidisc by running DFS."""
+
+    # TODO: Find correct name for special_number
+    def rotation_check(
+        start_halfedge: int, end_halfedge: int, rotation: tuple[int]
+    ) -> int:
+        if start_halfedge in rotation:
+            if len(rotation) <= 2:
+                return 1 if rotation[0] == start_halfedge else -1
+            start_index = rotation.index(start_halfedge)
+            if rotation[(start_index + 1) % len(rotation)] == end_halfedge:
+                return 1
+            if rotation[(start_index - 1) % len(rotation)] == end_halfedge:
+                return -1
+        return 0
+
+    if visited is None:
+        visited = set()
+
+    visited.add(start_halfedge)
+    curr = start_halfedge
+    neighbors = [curr]
+    while multiloop.phi(curr) != start_halfedge:
+        curr = multiloop.phi(curr)
+        neighbors.append(curr)
+
+    for neighbor in neighbors:
+        if neighbor in targets:
+            return special_number != 0
+        next_halfedge = multiloop.eps(neighbor)
+        if next_halfedge not in visited:
+            if is_in_mobidisc(
+                multiloop,
+                next_halfedge,
+                targets,
+                special_number + rotation_check(neighbor, next_halfedge, rotation),
+                rotation,
+                visited,
+            ):
+                return True
+    return False
 
 
 def find_monogons(multiloop: Multiloop) -> list[tuple[int]]:
@@ -83,7 +167,9 @@ def find_bigons(multiloop: Multiloop) -> list[tuple[int]]:
             sec_strnd_bigon = []
             curr = half_edge
             while True:
-                curr = multiloop.tau(curr)
+                curr = (multiloop.sig * multiloop.sig)(curr)
+                fst_strnd_bigon.append(curr)
+                curr = multiloop.eps(curr)
                 fst_strnd_bigon.append(curr)
                 if multiloop.is_samevert(curr, half_edge):
                     break

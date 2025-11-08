@@ -21,11 +21,21 @@ class MobidiscProcessor:
 
         self.mobidiscs = compute_mobidiscs(self.multiloop)
         self.monogons = self.mobidiscs["monogons"]
-        self.monogons_circles, self.monogons_coord = self.filter_mobidiscs(
-            self.monogons
+
+        self.monogons_circles, self.monogons_coord, self.monogons_he = (
+            self.filter_mobidiscs(self.monogons)
         )
         self.bigons = self.mobidiscs["bigons"]
-        self.bigons_circles, self.bigons_coord = self.filter_mobidiscs(self.bigons)
+        self.bigons_circles, self.bigons_coord, self.bigons_he = self.filter_mobidiscs(
+            self.bigons
+        )
+        self.mobidiscs_cnf = compute_mobidiscs_cnf(
+            self.multiloop,
+            self.loop_to_circles,
+            self.monogons_he,
+            self.bigons_he,
+        )
+        print(f"Mobidisc CNF: {self.mobidiscs_cnf}")
 
     def build_circle_coord(self):
         pcir_to_coordinates = {}
@@ -39,8 +49,26 @@ class MobidiscProcessor:
             res.append([self.circle_coord[j] for j in sequences[i]["circle_ids"]])
         return res
 
-    def filter_mobidiscs(self, mobidiscs: list[tuple[int]]) -> list[tuple[int]]:
-        mobidiscs_circles = self.loop_to_circles.build_sequences(mobidiscs)
+    def mobidiscs_to_tau_cycles(self, mobidiscs: list[tuple[int]]):
+        tau_cycles = []
+        for mobidisc in mobidiscs:
+            tau_cycle = []
+            if len(mobidisc) <= 2:
+                tau_cycles.append([mobidisc[1]])
+                continue
+            for i in range(len(mobidisc)):
+                half_edge = mobidisc[i]
+                if half_edge == -mobidisc[(i + 1) % len(mobidisc)]:
+                    continue
+                tau_cycle.append(half_edge)
+            tau_cycles.append(tau_cycle)
+        return tau_cycles
+
+    def filter_mobidiscs(self, mobidiscs: list[tuple[int]]):
+        mobidiscs = list(mobidiscs)
+        mobidiscs_circles = self.loop_to_circles.build_sequences(
+            self.mobidiscs_to_tau_cycles(mobidiscs)
+        )
         mobidiscs_coord = []
         for i in range(len(mobidiscs_circles)):
             mobidiscs_coord.append(
@@ -48,11 +76,17 @@ class MobidiscProcessor:
             )
         filtered_mobidiscs_coords = []
         filtered_mobidiscs_circles = []
+        filtered_mobidiscs_he = []
         for i in range(len(mobidiscs_coord)):
             if is_self_overlapping(mobidiscs_coord[i]):
                 filtered_mobidiscs_coords.append(mobidiscs_coord[i])
                 filtered_mobidiscs_circles.append(mobidiscs_circles[i])
-        return filtered_mobidiscs_circles, filtered_mobidiscs_coords
+                filtered_mobidiscs_he.append(mobidiscs[i])
+        return (
+            filtered_mobidiscs_circles,
+            filtered_mobidiscs_coords,
+            filtered_mobidiscs_he,
+        )
 
 
 def main():
@@ -62,22 +96,26 @@ def main():
         level=logging.INFO,
     )
 
-    # example_loop = ranloop.generate_planar(3)
+    # example_loop = ranloop.generate_planar(4)
     # example_loop = perm.Multiloop(
     #     [[6, -5, -2, 2], [1, -6, 3, -1], [-3, -4, 4, 5]], [-2]
     # )
     example_loop = perm.Multiloop(
         [
-            (6, 1, -7, -2),
-            (4, 9, -5, -10),
-            (10, 5, -1, -6),
-            (2, 7, -3, -8),
-            (8, 3, -9, -4),
+            (13, 2, -14, -3),
+            (1, 4, -2, -5),
+            (12, 5, -13, -6),
+            (19, 6, -20, -7),
+            (10, 7, -11, -8),
+            (8, 17, -9, -18),
+            (18, 9, -19, -10),
+            (3, 14, -4, -15),
+            (20, 15, -1, -16),
+            (11, 16, -12, -17),
         ],
-        (-2, -8, -4, -10, -6),
+        (-3, -15, 20, 6, -13),
     )
     logger.info(f"Generated multiloop: {example_loop}")
-    compute_mobidiscs_cnf(example_loop)
 
     proccessed_loop = MobidiscProcessor(example_loop)
     logger.debug(f"Processed info from the loop: {proccessed_loop}")
@@ -85,7 +123,9 @@ def main():
     drawloop.DrawLoop(
         sequences=proccessed_loop.main_sequence,
         circle_dict=proccessed_loop.packed_circles,
-        showCircLabels=True,
+        showCircLabels=False,
+        showEdgeLabels=False,
+        showCirc=False,
         filename="loops/loop.svg",
     )
     drawloop.DrawLoop(

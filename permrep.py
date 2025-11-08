@@ -147,16 +147,37 @@ class Multiloop:
         this_strand = []
         curr = start
         while True:
-            curr = self.tau(curr)
+            curr = (self.sig * self.sig)(curr)
+            this_strand.append(curr)
+            curr = self.eps(curr)
             this_strand.append(curr)
             if self.is_samevert(end, curr) or self.is_samevert(start, curr):
                 break
         return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
-    
+
     def canonicalize_strand(self, strand):
+        """
+        Returns a canonical representation of a strand that is invariant under:
+        - Rotation (cyclic shifts)
+        - Reversal (flipping the sequence)
+
+        The canonical form is the lexicographically smallest representation
+        among all rotations of both the original and reversed strand.
+        """
+        if not strand:
+            return tuple()
+
         n = len(strand)
-        min_idx = min(range(n), key=lambda i: strand[i])
-        rotated = strand[min_idx:] + strand[:min_idx]
-        reversed_rotated = rotated[::-1]
-        return tuple(min(rotated, reversed_rotated))
- 
+        # Generate all rotations of the original strand
+        rotations = [strand[i:] + strand[:i] for i in range(n)]
+        # Generate all rotations of the reversed strand
+        reversed_strand = strand[::-1]
+        reversed_rotations = [
+            reversed_strand[i:] + reversed_strand[:i] for i in range(n)
+        ]
+
+        # Combine all possibilities and find the lexicographically smallest
+        all_forms = rotations + reversed_rotations
+        canonical = min(all_forms)
+
+        return tuple(canonical)
