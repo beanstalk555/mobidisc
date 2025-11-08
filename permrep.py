@@ -147,43 +147,37 @@ class Multiloop:
         this_strand = []
         curr = start
         while True:
-            curr = self.tau(curr)
+            curr = (self.sig * self.sig)(curr)
+            this_strand.append(curr)
+            curr = self.eps(curr)
             this_strand.append(curr)
             if self.is_samevert(end, curr) or self.is_samevert(start, curr):
                 break
         return this_strand if self.sig(curr) == end or self.sig(end) == curr else []
-    
+
     def canonicalize_strand(self, strand):
+        """
+        Returns a canonical representation of a strand that is invariant under:
+        - Rotation (cyclic shifts)
+        - Reversal (flipping the sequence)
+
+        The canonical form is the lexicographically smallest representation
+        among all rotations of both the original and reversed strand.
+        """
+        if not strand:
+            return tuple()
+
         n = len(strand)
-        min_idx = min(range(n), key=lambda i: strand[i])
-        rotated = strand[min_idx:] + strand[:min_idx]
-        reversed_rotated = rotated[::-1]
-        return tuple(min(rotated, reversed_rotated))
+        # Generate all rotations of the original strand
+        rotations = [strand[i:] + strand[:i] for i in range(n)]
+        # Generate all rotations of the reversed strand
+        reversed_strand = strand[::-1]
+        reversed_rotations = [
+            reversed_strand[i:] + reversed_strand[:i] for i in range(n)
+        ]
 
-    def find_monogons(self) -> list[tuple[int]]:
-        monogons = set()
-        for cycle in self.tau.cycles:
-            for half_edge in cycle:
-                this_monogon = self.find_strand_between(half_edge, half_edge)
-                if not this_monogon:
-                    continue
-                monogons.add(self.canonicalize_strand(this_monogon))
-        return monogons
+        # Combine all possibilities and find the lexicographically smallest
+        all_forms = rotations + reversed_rotations
+        canonical = min(all_forms)
 
-    def find_bigons(self) -> list[tuple[int]]:
-        bigons = set()
-        for cycle in self.sig.cycles:
-            for half_edge in cycle:
-                fst_strnd_bigon = []
-                sec_strnd_bigon = []
-                curr = half_edge
-                while True:
-                    curr = self.tau(curr)
-                    fst_strnd_bigon.append(curr)
-                    if self.is_samevert(curr, half_edge):
-                        break 
-                    for sec_strt in [self.sig(curr), self.sig.inv(curr)]:
-                        sec_strnd_bigon = self.find_strand_between(sec_strt, half_edge)
-                        if sec_strnd_bigon:
-                            bigons.add(self.canonicalize_strand(fst_strnd_bigon + sec_strnd_bigon))
-        return bigons
+        return tuple(canonical)

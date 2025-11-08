@@ -1,4 +1,5 @@
-# draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm
+"""draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm"""
+
 import svgwrite.path
 from permrep import Multiloop
 import matplotlib.pyplot as plt
@@ -171,7 +172,8 @@ class CircleAdjacency:
 
         for strand in tau_cycles:
             sequence = {"circle_ids": [], "half_edges": []}
-            for he in strand:
+            for i in range(len(strand)):
+                he = strand[i]
                 edge_circle = self.edges_circles[he]
                 opposite_edge_circle = self.edges_circles[-he]
                 vertex_circle = self.vertices_circles[he]
