@@ -20,9 +20,9 @@ class CircleAdjacency:
         self.edges_circles: dict[int, int] = {}
         self.faces_circles: dict[int, int] = {}
         self.circle_id = 1
+        self.assign_face_circles(multiloop.phi.cycles)
         self.assign_vertex_circles(multiloop.sig.cycles)
         self.assign_edge_circles(multiloop.eps.cycles, multiloop)
-        self.assign_face_circles(multiloop.phi.cycles)
 
         self.internal: dict[int, list[int]] = {}
         self._initialize_internal_dict()
@@ -58,7 +58,11 @@ class CircleAdjacency:
 
     def assign_face_circles(self, cycles: list[list[int]]) -> None:
         """Assigns circle IDs incrementally to faces."""
-        for cycle in cycles:
+        # Sort faces by sum(2**he) for deterministic ordering, but place the infinite face last if present.
+        sort_key = lambda cycle: sum(2 ** abs(he) for he in cycle)
+        sorted_cycles = sorted(cycles, key=sort_key)
+
+        for cycle in sorted_cycles:
             for he in cycle:
                 self.faces_circles[he] = self.circle_id
             self.circle_id += 1
@@ -169,7 +173,7 @@ class CircleAdjacency:
     def build_sequences(self, tau_cycles: list[list[int]]) -> list[list[int]]:
         """Builds sequences of circle assignments for the given strands (tau) cycles."""
         sequences = []
-
+        visited = set()
         for strand in tau_cycles:
             sequence = {"circle_ids": [], "half_edges": []}
             for i in range(len(strand)):
@@ -185,8 +189,10 @@ class CircleAdjacency:
 
                 sequence["circle_ids"].append(vertex_circle)
                 sequence["half_edges"].append((vertex_circle, he))
-
-            sequences.append(sequence)
+            sequence["circle_ids"] = self.multiloop.canonicalize_strand(sequence["circle_ids"])
+            if sequence["circle_ids"] not in visited:
+                sequences.append(sequence)
+                visited.add(sequence["circle_ids"])
         return sequences
 
     def build_circle_adjacency(self):
@@ -214,19 +220,56 @@ class DrawLoop:
         circle_dict,
         filename,
         showCircLabels=False,
-        showEdgeLabels=True,
-        showCirc=True,
+        showEdgeLabels=False,
+        showCirc=False,
         scale=200,
         padding=50,
+        circle_color="blue",
+        circle_stroke_weight=1.0,
+        sequence_colors=[
+            "red",
+            "blue",
+            "green",
+            "cyan",
+            "magenta",
+            "orange",
+            "darkgreen",
+            "brown",
+            "pink",
+            "navy",
+            "purple",
+        ],
+        sequence_stroke_width=10,
+        circle_label_font_scale=300,
+        edge_label_font_size=10,
+        cnf_data=None,
+        cnf_font_size=50,
+        infCircLabel=None,
     ):
         self.sequences = sequences
         self.circle_dict = circle_dict
         self.filename = filename
         self.showCircLabels = showCircLabels
         self.showEdgeLabels = showEdgeLabels
+        self.infCircLabel = infCircLabel
         self.showCirc = showCirc
         self.scale = scale
         self.padding = padding
+        
+        # CNF display
+        self.cnf_data = cnf_data
+        self.cnf_font_size = cnf_font_size
+
+        # Color and style configuration
+        self.circle_color = circle_color
+        self.circle_stroke_weight = circle_stroke_weight
+        self.sequence_colors = sequence_colors
+        self.sequence_stroke_width = sequence_stroke_width
+
+        # Font size configuration
+        self.circle_label_font_scale = circle_label_font_scale
+        self.edge_label_font_size = edge_label_font_size
+
         self.dwg = None
         self.to_svg_coords = None
 
@@ -236,12 +279,19 @@ class DrawLoop:
         # Determine bounds
         self.dwg = self.setup_canvas()
 
-        # Draw circles
-        if showCirc:
+        # Draw circles (and labels if requested)
+        if self.showCirc:
             self.drawcircles()
+        if self.showCircLabels:
+            # Draw labels even when circles are hidden
+            self.drawlabels()
 
         # Draw sequences
         self.drawsequences()
+
+        # Draw CNF if provided
+        if self.cnf_data:
+            self.draw_cnf()
 
         self.dwg.save()
 
@@ -252,8 +302,26 @@ class DrawLoop:
         min_y = min(z.imag - r for z, r in self.circle_dict.values())
         max_y = max(z.imag + r for z, r in self.circle_dict.values())
 
-        width = (max_x - min_x) * self.scale + 2 * self.padding
-        height = (max_y - min_y) * self.scale + 2 * self.padding
+        span_x = (max_x - min_x) * self.scale
+        span_y = (max_y - min_y) * self.scale
+
+        # Reserve space for CNF at bottom-right
+        self.cnf_lines = []
+        if self.cnf_data:
+            self.cnf_lines = [
+                "(" + " ∨ ".join(str(lit) for lit in clause) + ")"
+                for clause in self.cnf_data
+            ]
+        cnf_margin = 8
+        cnf_block_height = (
+            (len(self.cnf_lines)) * self.cnf_font_size * 1.1 + cnf_margin
+            if self.cnf_lines
+            else 0
+        )
+        cnf_block_width = cnf_margin  # small horizontal margin; text is right-aligned
+
+        width = span_x + cnf_block_width
+        height = span_y + cnf_block_height
 
         dwg = svgwrite.Drawing(self.filename, size=(width, height))
         dwg.viewbox(0, 0, width, height)
@@ -262,12 +330,17 @@ class DrawLoop:
         dwg.add(dwg.rect(insert=(0, 0), size=(width, height), fill="white"))
 
         def to_svg_coords(center):
-            cx = (center.real - min_x) * self.scale + self.padding
-            cy = (max_y - center.imag) * self.scale + self.padding
+            cx = (center.real - min_x) * self.scale
+            cy = (max_y - center.imag) * self.scale
             return (cx, cy)
 
+        # stash for CNF placement
+        self._canvas_width = width
+        self._canvas_height = height
+        self._cnf_margin = cnf_margin
         self.to_svg_coords = to_svg_coords
-
+        self._min_x = min_x
+        self._max_y = max_y
         return dwg
 
     def drawcircles(self):
@@ -279,33 +352,82 @@ class DrawLoop:
                     center=(cx, cy),
                     r=r,
                     fill="none",
-                    stroke="black",
-                    stroke_width=radius,
+                    stroke=self.circle_color,
+                    stroke_width=radius * self.circle_stroke_weight,
                 )
             )
             self.dwg.add(
                 self.dwg.circle(
                     center=(cx, cy),
                     r=(radius),
-                    fill="black",
-                    stroke="black",
-                    stroke_width=30 * radius,
+                    fill=self.circle_color,
+                    stroke=self.circle_color,
+                    stroke_width=30 * radius * self.circle_stroke_weight,
                 )
             )
-            if self.showCircLabels:
-                self.dwg.add(
-                    self.dwg.text(
-                        str(name),
-                        insert=(cx + r * 0.1, cy),
-                        fill="black",
-                        font_size=f"{45*radius+10}px",
-                        text_anchor="middle",
-                    )
+
+    def drawlabels(self):
+        if self.infCircLabel is not None:
+            self.circle_dict[self.infCircLabel] = (
+                complex(
+                    (self._min_x + 1),
+                    (self._max_y - 1),
+                ),
+                0.5,
+            )
+        for name, (center, radius) in self.circle_dict.items():
+            if (
+                isinstance(self.showCircLabels, (list, set, tuple))
+                and name not in self.showCircLabels
+            ):
+                continue
+            cx, cy = self.to_svg_coords(center)
+            self.dwg.add(
+                self.dwg.text(
+                    str(name),
+                    insert=(cx, cy),
+                    fill="black",
+                    font_size=f"{self.circle_label_font_scale*radius}px",
+                    text_anchor="middle",
+                    alignment_baseline="central",
                 )
+            )
+        
+
+    def draw_cnf(self):
+        """Renders CNF formula at bottom-right corner of the SVG."""
+        if not self.cnf_data:
+            return
+
+        width = self._canvas_width
+        height = self._canvas_height
+
+        margin = self._cnf_margin
+        x_pos = width - margin
+        # stack from bottom up with spacing
+        total_height = (len(self.cnf_lines)) * self.cnf_font_size * 1.1
+        y_start = height - margin - total_height
+
+        # Clauses with ∧ between
+        for i, line in enumerate(self.cnf_lines):
+            y_pos = y_start + (i + 1) * self.cnf_font_size * 1.1
+            self.dwg.add(
+                self.dwg.text(
+                    line + (" ∧" if i < len(self.cnf_lines) - 1 else ""),
+                    insert=(x_pos, y_pos),
+                    fill="black",
+                    font_size=f"{self.cnf_font_size}px",
+                    text_anchor="end",
+                    font_family="monospace",
+                )
+            )
 
     def drawsequences(self):
-        tolerance = 1e-6  # how accurately to approximate things
-        for sequence in self.sequences:
+        tolerance = 1e-2  # how accurately to approximate things
+        for seq_index, sequence in enumerate(self.sequences):
+            # Get color for this sequence (repeats if more sequences than colors)
+            sequence_color = self.sequence_colors[seq_index % len(self.sequence_colors)]
+
             circle_ids = sequence["circle_ids"]
             for i in range(0, len(circle_ids)):
                 startcirc_center = self.circle_dict[circle_ids[i]][0]
@@ -350,8 +472,9 @@ class DrawLoop:
                                 str(sequence["half_edges"][0][1]),
                                 insert=s_curve,
                                 fill="red",
-                                font_size="10px",
+                                font_size=f"{self.edge_label_font_size}px",
                                 text_anchor="middle",
+                                alignment_baseline="middle",
                             )
                         )
                         sequence["half_edges"].pop(0)
@@ -368,8 +491,8 @@ class DrawLoop:
                             self.dwg.line(
                                 start=s_curve,
                                 end=e_curve,
-                                stroke="blue",
-                                stroke_width=1,
+                                stroke=sequence_color,
+                                stroke_width=self.sequence_stroke_width,
                             )
                         )
                         continue
@@ -385,8 +508,8 @@ class DrawLoop:
                 arc_path = svgwrite.path.Path(
                     d=f"M {s_curve[0]},{s_curve[1]}",
                     fill="none",
-                    stroke="blue",
-                    stroke_width=1,
+                    stroke=sequence_color,
+                    stroke_width=self.sequence_stroke_width,
                 )
 
                 # Use the 'A' command for a circular arc

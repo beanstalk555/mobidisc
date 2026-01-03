@@ -72,12 +72,12 @@ class Multiloop:
         # Vertices: σ
         self.sig = Permutation(cycles)
         # Edges: ε
-        self.eps = Permutation(self.generate_epsilon(cycles))
+        self.eps = self.generate_epsilon(cycles)
         # Faces: (σ ∘ ε)⁻¹
-        self.phi = self.generate_area()
+        self.phi = self.generate_phi()
         self.inf_face = self.phi[0] if inf_face == None else inf_face
         # Strands: σ² ∘ ε
-        self.tau = self.generate_strands()
+        self.tau = self.generate_tau()
         # Euler Characteristic V - E + F
         self.chi = self.cal_eulerchar()
 
@@ -91,14 +91,14 @@ class Multiloop:
             for half_edge in cycle:
                 if half_edge > 0:
                     eps_cycles.append([half_edge, -half_edge])
-        return eps_cycles
+        return Permutation(eps_cycles)
 
-    def generate_area(self) -> "Permutation":
+    def generate_phi(self) -> "Permutation":
         # φ = ε ∘ σ⁻¹
         areas = self.eps * self.sig.inv
         return areas
 
-    def generate_strands(self) -> "Permutation":
+    def generate_tau(self) -> "Permutation":
         # τ = σ² ∘ ε
         strands = (self.sig * self.sig) * self.eps
         return strands
