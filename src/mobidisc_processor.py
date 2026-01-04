@@ -1,8 +1,8 @@
 import datetime
-import permrep as perm
-import drawloop
-from circlepack import CirclePack
-from mobidisc import (
+import src.permrep as perm
+import src.drawloop as drawloop
+from src.circlepack import CirclePack
+from src.mobidisc import (
     filter_cnf,
     is_self_overlapping,
     compute_mobidiscs,
@@ -47,7 +47,6 @@ class MobidiscProcessor:
                 )
             )
         self.mobidiscs_cnf = filter_cnf(self.mobidiscs_cnf)
-        self.mobidiscs_cnf = sorted(self.mobidiscs_cnf, key=lambda clause: (len(clause), clause))
 
     def build_circle_coord(self):
         pcir_to_coordinates = {}
@@ -81,11 +80,7 @@ class MobidiscProcessor:
         mobidiscs_circles = self.loop_to_circles.build_sequences(
             self.mobidiscs_to_tau_cycles(mobidiscs)
         )
-        mobidiscs_coord = []
-        for i in range(len(mobidiscs_circles)):
-            mobidiscs_coord.append(
-                [self.circle_coord[j] for j in mobidiscs_circles[i]["circle_ids"]]
-            )
+        mobidiscs_coord = self.sequences_to_coord(mobidiscs_circles)
         filtered_mobidiscs_coords = []
         filtered_mobidiscs_circles = []
         filtered_mobidiscs_he = []

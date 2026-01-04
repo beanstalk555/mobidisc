@@ -1,5 +1,5 @@
 import random
-from permrep import *
+from src.permrep import *
 
 
 def generate(n: int) -> "Multiloop":

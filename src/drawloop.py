@@ -1,13 +1,13 @@
 """draws a planar multiloop from a permutation representation with given unbounded region using the circle packing algorithm"""
 
 import svgwrite.path
-from permrep import Multiloop
+from src.permrep import Multiloop
 import matplotlib.pyplot as plt
 import numpy as np
 import svgwrite
 from math import sqrt
 import os
-from circlepack import CirclePack
+from src.circlepack import CirclePack
 
 
 class CircleAdjacency:
