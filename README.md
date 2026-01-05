@@ -15,7 +15,7 @@ pip install -r requirements.txt
 After installing the dependencies, you can run the main application using:
 
 ```bash
-python src/main.py
+python main.py
 ```
 
 ## Contributing

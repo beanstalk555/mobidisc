@@ -57,8 +57,8 @@ class SHDWrapper:
                 line = line.strip()
                 if line:
                     hitting_set = [int(x) for x in line.split()]
-                    hitting_sets.append(hitting_set)
-        return hitting_sets
+                    hitting_sets.append(sorted(hitting_set))
+        return sorted(hitting_sets, key=lambda x: (len(x), x))
     
     def find_minimal_hitting_sets(
         self,
