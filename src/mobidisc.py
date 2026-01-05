@@ -6,8 +6,8 @@
 import numpy as np
 
 # from logging_utils.logger import setup_logger
-from src.permrep import Multiloop
-import src.drawloop as drawloop
+from permrep import Multiloop
+import drawloop as drawloop
 
 # # logger = setup_logger(
 # "mobidisc_logger",
