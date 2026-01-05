@@ -1,16 +1,18 @@
 import datetime
-import src.permrep as perm
-import src.ranloop as ranloop
-import src.drawloop as drawloop
-from src.mobidisc_processor import MobidiscProcessor
+import permrep as perm
+import ranloop as ranloop
+import drawloop as drawloop
+from mobidisc_processor import MobidiscProcessor
 import pandas as pd
 import re
 
+
 def display_to_tuple(display_str: str) -> tuple[tuple[int, ...], ...]:
     return [
-            tuple(map(int, match.group(1).split(",")))
-            for match in re.finditer(r"\(([^)]+)\)", display_str)
-        ]
+        tuple(map(int, match.group(1).split(",")))
+        for match in re.finditer(r"\(([^)]+)\)", display_str)
+    ]
+
 
 def main():
 
@@ -44,12 +46,27 @@ def main():
     cnf_data = {
         "id": loops_data.iloc[loop_index]["id"],
         "name": loops_data.iloc[loop_index]["name"],
-        "mobidiscs_cnf": processed_loop.mobidiscs_cnf
+        "mobidiscs_cnf": processed_loop.mobidiscs_cnf,
     }
 
+
+import subprocess
+
 if __name__ == "__main__":
-    start_time = datetime.datetime.now()
-    main()
-    end_time = datetime.datetime.now()
-    duration = end_time - start_time
-    print(f"Execution time: {duration}")
+    # start_time = datetime.datetime.now()
+    # main()
+    # end_time = datetime.datetime.now()
+    # duration = end_time - start_time
+    # print(f"Execution time: {duration}")
+    try:
+        result = subprocess.run(
+            ["wsl", "./bin/shd/linux_x86_64/shd", "0", "./data/test.dat"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        print(result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("EXIT CODE:", e.returncode)
+        print("STDOUT:\n", e.stdout)
+        print("STDERR:\n", e.stderr)
