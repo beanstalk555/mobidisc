@@ -1,8 +1,8 @@
 import datetime
-import permrep as perm
-import drawloop as drawloop
-from circlepack import CirclePack
-from mobidisc import (
+import src.permrep as perm
+import src.drawloop as drawloop
+from src.circlepack import CirclePack
+from src.mobidisc import (
     filter_cnf,
     is_self_overlapping,
     compute_mobidiscs,

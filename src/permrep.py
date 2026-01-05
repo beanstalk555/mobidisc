@@ -1,6 +1,5 @@
 from typing import Iterable
 from collections import deque
-from xml.etree.ElementTree import canonicalize
 
 
 # data structure for storing a multiloop as a permutation representation
