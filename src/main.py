@@ -6,6 +6,8 @@ from mobidisc_processor import MobidiscProcessor
 import pandas as pd
 import re
 
+from shd_wrapper import SHDWrapper
+
 
 def display_to_tuple(display_str: str) -> tuple[tuple[int, ...], ...]:
     return [
@@ -32,7 +34,7 @@ def main():
     #         showCircLabels=processed_loop.face_circles,
     #     )
     loops_data = pd.read_csv("data/loops.txt", sep="\t")
-    loop_index = 0
+    loop_index = 474
     loop = perm.Multiloop(display_to_tuple(loops_data.iloc[loop_index]["sigma"]))
     processed_loop = MobidiscProcessor(loop)
     print(processed_loop.loop_to_circles.faces_circles)
@@ -48,25 +50,17 @@ def main():
         "name": loops_data.iloc[loop_index]["name"],
         "mobidiscs_cnf": processed_loop.mobidiscs_cnf,
     }
+    shd_wrapper = SHDWrapper()
+    print(cnf_data["name"])
+    print(shd_wrapper.find_minimal_hitting_sets(cnf_data["mobidiscs_cnf"]))
+    print("Tested dnf:", loops_data.iloc[loop_index]["refinedPinSetMat"])
 
 
 import subprocess
 
 if __name__ == "__main__":
-    # start_time = datetime.datetime.now()
-    # main()
-    # end_time = datetime.datetime.now()
-    # duration = end_time - start_time
-    # print(f"Execution time: {duration}")
-    try:
-        result = subprocess.run(
-            ["wsl", "./bin/shd/linux_x86_64/shd", "0", "./data/test.dat"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        print("EXIT CODE:", e.returncode)
-        print("STDOUT:\n", e.stdout)
-        print("STDERR:\n", e.stderr)
+    start_time = datetime.datetime.now()
+    main()
+    end_time = datetime.datetime.now()
+    duration = end_time - start_time
+    print(f"Execution time: {duration}")
