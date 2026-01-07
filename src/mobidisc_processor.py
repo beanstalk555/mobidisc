@@ -1,4 +1,3 @@
-import datetime
 import src.permrep as perm
 import src.drawloop as drawloop
 from src.circlepack import CirclePack
