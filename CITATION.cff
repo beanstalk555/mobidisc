@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite as below."
+authors:
+- family-names: "Pham"
+  given-names: "Ryan"
+- family-names: "Simon"
+  given-names: "Christopher-Lloyd"
+  orcid: "https://orcid.org/0000-0002-8195-2550"
+- family-names: "Stucky"
+  given-names: "Ben"
+  orcid: "https://orcid.org/0000-0003-4293-6475"
+title: "Computing mobidisc formulae of planar loops: An implementation of an extension of the Shor--Van Wyk algorithm to compute mobidisc CNFs encoding the pinning problem."
+version: 0.0.1
+doi: none
+date-released: 2026-01-29
+url: "https://github.com/beanstalk555/mobidisc"
